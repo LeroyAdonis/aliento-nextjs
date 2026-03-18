@@ -8,9 +8,10 @@
   <ellipse cx="200" cy="500" rx="200" ry="150" fill="#fde68a" opacity="0.3"/>
   <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#a67c52" opacity="0.1"/></pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
-  <circle cx="200" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
-  <circle cx="200" cy="115" r="12" stroke="white" stroke-width="3" fill="none"/>
-  <path d="M188 105 Q188 85 200 80 Q212 85 212 105" stroke="white" stroke-width="3" fill="none"/>
+  <!-- Stethoscope - center area -->
+  <circle cx="300" cy="310" r="30" stroke="url(#accent)" stroke-width="5" fill="none" opacity="0.5"/>
+  <path d="M270 290 Q270 230 300 215 Q330 230 330 290" stroke="url(#accent)" stroke-width="5" fill="none" opacity="0.5"/>
+  <line x1="300" y1="215" x2="300" y2="190" stroke="url(#accent)" stroke-width="5" opacity="0.5"/>
   <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#a67c52" font-weight="600" opacity="0.6">MEDICAL INSIGHTS</text>
   <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
 </svg>

@@ -8,8 +8,10 @@
   <ellipse cx="150" cy="500" rx="200" ry="150" fill="#dbeafe" opacity="0.4"/>
   <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#0d9488" opacity="0.1"/></pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
-  <circle cx="200" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
-  <path d="M185 100 L195 100 L195 85 L205 85 L205 100 L215 100 L215 110 L205 110 L205 125 L195 125 L195 110 L185 110 Z" fill="white"/>
+  <!-- Cross - moved down, tag sits above -->
+  <rect x="25" y="30" width="40" height="12" rx="3" fill="url(#accent)" opacity="0.15"/>
+  <rect x="20" y="130" width="14" height="50" rx="3" fill="url(#accent)" opacity="0.8"/>
+  <rect x="10" y="145" width="34" height="14" rx="3" fill="url(#accent)" opacity="0.8"/>
   <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#0d9488" font-weight="600" opacity="0.6">WELLNESS</text>
   <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
 </svg>

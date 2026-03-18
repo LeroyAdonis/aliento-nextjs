@@ -8,9 +8,11 @@
   <ellipse cx="130" cy="480" rx="190" ry="140" fill="#bfdbfe" opacity="0.3"/>
   <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#1a73e8" opacity="0.1"/></pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
-  <circle cx="200" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
-  <path d="M200 85 Q215 85 215 100 Q215 110 208 115 L208 122 L192 122 L192 115 Q185 110 185 100 Q185 85 200 85Z" fill="white" opacity="0.9"/>
-  <line x1="200" y1="125" x2="200" y2="132" stroke="white" stroke-width="2"/>
+  <!-- Lightbulb - center area -->
+  <circle cx="300" cy="270" r="50" fill="url(#accent)" opacity="0.15"/>
+  <path d="M300 245 Q325 245 325 270 Q325 285 313 295 L313 310 L287 310 L287 295 Q275 285 275 270 Q275 245 300 245Z" fill="url(#accent)" opacity="0.5"/>
+  <line x1="300" y1="313" x2="300" y2="325" stroke="url(#accent)" stroke-width="3" opacity="0.5"/>
+  <line x1="287" y1="325" x2="313" y2="325" stroke="url(#accent)" stroke-width="3" opacity="0.5"/>
   <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#1a73e8" font-weight="600" opacity="0.6">TIPS & GUIDES</text>
   <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
 </svg>
