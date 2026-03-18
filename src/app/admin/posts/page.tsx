@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Save, Eye, Send, ArrowLeft } from 'lucide-react'
+import { Save, Send, ArrowLeft, Check } from 'lucide-react'
 import Link from 'next/link'
 
 const categories = ['Chronic Care', 'Wellness', 'Nutrition', 'Mental Health', 'Tips & Guides']
@@ -15,38 +15,48 @@ export default function AdminPostEditor() {
   const [author, setAuthor] = useState('Aliento Medical')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState('')
+
+  const generateSlug = () => {
+    return title.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '')
+  }
 
   const handleSave = async () => {
     setSaving(true)
-    // Generate slug from title
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    setError('')
     
-    // Create MDX content
-    const mdxContent = `---
-title: "${title}"
-date: "${new Date().toISOString().split('T')[0]}"
-excerpt: "${excerpt}"
-category: "${category}"
-tags: [${tags.split(',').map(t => `"${t.trim()}"`).join(', ')}]
-author: "${author}"
----
-
-${content}
-`
+    const slug = generateSlug()
     
-    // In production, this would save via API
-    console.log('MDX Content:', mdxContent)
-    
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          excerpt,
+          content,
+          category,
+          tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+          author,
+          slug
+        })
+      })
+      
+      const data = await res.json()
+      
+      if (res.ok) {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 3000)
+      } else {
+        setError(data.error || 'Failed to save')
+      }
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
       setSaving(false)
-      setSaved(true)
-      setTimeout(() => setSaved(false), 3000)
-    }, 1000)
-  }
-
-  const handlePublish = async () => {
-    // Would trigger GitHub commit + Vercel rebuild
-    alert('In production, this would commit to GitHub and trigger a Vercel rebuild.')
+    }
   }
 
   return (
@@ -69,20 +79,20 @@ ${content}
               disabled={saving || !title}
               className="flex items-center gap-2 px-4 py-2 bg-warm-700 hover:bg-warm-600 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
             >
-              <Save size={16} />
-              {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Draft'}
-            </button>
-            <button
-              onClick={handlePublish}
-              disabled={!title || !content}
-              className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
-            >
-              <Send size={16} />
-              Publish
+              {saved ? <Check size={16} /> : <Save size={16} />}
+              {saving ? 'Saving...' : saved ? 'Saved & Pushed!' : 'Save & Publish'}
             </button>
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="max-w-6xl mx-auto px-6 mt-4">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+            {error}
+          </div>
+        </div>
+      )}
 
       {/* Editor */}
       <div className="max-w-6xl mx-auto px-6 py-8">
@@ -101,7 +111,7 @@ ${content}
 
             <div>
               <textarea
-                placeholder="Write your excerpt here..."
+                placeholder="Brief excerpt for preview and SEO..."
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
                 rows={2}
@@ -122,7 +132,6 @@ ${content}
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Publish settings */}
             <div className="bg-white rounded-2xl border border-warm-200 p-6">
               <h3 className="font-display font-semibold text-warm-900 mb-4">Settings</h3>
               
@@ -174,7 +183,7 @@ ${content}
                   {title || 'Post title'}
                 </p>
                 <p className="text-green-700 text-sm">
-                  alientomedical.com/blog/{title?.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'post-slug'}
+                  alientomedical.com/blog/{generateSlug() || 'post-slug'}
                 </p>
                 <p className="text-warm-500 text-sm line-clamp-2">
                   {excerpt || 'Post excerpt will appear here...'}
