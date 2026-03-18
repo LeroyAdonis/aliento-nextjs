@@ -1,13 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Award, Users, Shield, Clock } from 'lucide-react'
+import { Heart, MapPin, Clock, Phone } from 'lucide-react'
 
 const stats = [
-  { icon: Award, number: '10+', label: 'Years of dedicated care', color: 'text-primary-500' },
-  { icon: Users, number: '5,000+', label: 'Lives we\'ve touched', color: 'text-sage-500' },
-  { icon: Shield, number: '98%', label: 'Patient satisfaction', color: 'text-coral-500' },
-  { icon: Clock, number: '24/7', label: 'Always available', color: 'text-primary-600' },
+  { icon: MapPin, number: 'Cape Town', label: 'Based in South Africa', color: 'text-primary-500' },
+  { icon: Clock, number: 'Mon–Fri', label: '8AM – 5PM', color: 'text-sage-500' },
+  { icon: Phone, number: 'Available', label: 'Appointments & walk-ins', color: 'text-coral-500' },
+  { icon: Heart, number: 'Community', label: 'Focused care', color: 'text-primary-600' },
 ]
 
 export function About() {

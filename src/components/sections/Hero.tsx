@@ -86,24 +86,7 @@ export function Hero() {
             </Link>
           </motion.div>
           
-          {/* Trust indicators */}
-          <motion.div 
-            variants={fadeUp}
-            className="mt-16 pt-8 border-t border-warm-200/60 flex flex-wrap gap-8"
-          >
-            {[
-              { number: '10+', label: 'Years of care' },
-              { number: '5,000+', label: 'Patients helped' },
-              { number: '98%', label: 'Satisfaction' },
-            ].map((stat) => (
-              <div key={stat.label} className="group">
-                <div className="text-3xl font-display font-bold text-warm-900 group-hover:text-primary-600 transition-colors">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-warm-400">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
+
         </motion.div>
       </div>
       
