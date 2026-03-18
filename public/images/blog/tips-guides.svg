@@ -4,13 +4,12 @@
     <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a73e8"/><stop offset="100%" style="stop-color:#084a9c"/></linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <ellipse cx="920" cy="200" rx="270" ry="210" fill="#dbeafe" opacity="0.5"/>
-  <ellipse cx="130" cy="480" rx="190" ry="140" fill="#bfdbfe" opacity="0.3"/>
-  <!-- Lightbulb centered -->
-  <circle cx="600" cy="250" r="60" fill="url(#accent)" opacity="0.1"/>
-  <path d="M600 220 Q630 220 630 250 Q630 270 616 285 L616 305 L584 305 L584 285 Q570 270 570 250 Q570 220 600 220Z" fill="url(#accent)" opacity="0.5"/>
-  <line x1="600" y1="310" x2="600" y2="325" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="584" y1="325" x2="616" y2="325" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
-  <text x="100" y="580" font-family="Arial,sans-serif" font-size="18" fill="#1a73e8" font-weight="600" opacity="0.6">TIPS &amp; GUIDES</text>
-  <text x="1100" y="580" font-family="Arial,sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
+  <ellipse cx="920" cy="200" rx="270" ry="210" fill="#dbeafe" opacity="0.6"/>
+  <!-- Bold lightbulb -->
+  <circle cx="600" cy="270" r="80" fill="url(#accent)" opacity="0.15"/>
+  <path d="M600 210 Q650 210 650 270 Q650 310 628 335 L628 365 L572 365 L572 335 Q550 310 550 270 Q550 210 600 210Z" fill="url(#accent)" opacity="0.7"/>
+  <line x1="600" y1="375" x2="600" y2="395" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  <line x1="575" y1="395" x2="625" y2="395" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  <text x="80" y="590" font-family="Arial,sans-serif" font-size="20" fill="#1a73e8" font-weight="700">TIPS &amp; GUIDES</text>
+  <text x="1120" y="590" font-family="Arial,sans-serif" font-size="16" fill="#78716c" text-anchor="end">aliento.clinic</text>
 </svg>

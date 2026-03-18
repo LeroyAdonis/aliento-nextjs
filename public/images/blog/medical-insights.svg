@@ -4,14 +4,12 @@
     <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#a67c52"/><stop offset="100%" style="stop-color:#c49b6e"/></linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <ellipse cx="880" cy="200" rx="280" ry="230" fill="#fef9c3" opacity="0.4"/>
-  <ellipse cx="200" cy="500" rx="200" ry="150" fill="#fde68a" opacity="0.3"/>
-  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#a67c52" opacity="0.1"/></pattern>
-  <rect width="1200" height="630" fill="url(#dots)"/>
-  <!-- Stethoscope - center area -->
-  <circle cx="300" cy="310" r="30" stroke="url(#accent)" stroke-width="5" fill="none" opacity="0.5"/>
-  <path d="M270 290 Q270 230 300 215 Q330 230 330 290" stroke="url(#accent)" stroke-width="5" fill="none" opacity="0.5"/>
-  <line x1="300" y1="215" x2="300" y2="190" stroke="url(#accent)" stroke-width="5" opacity="0.5"/>
-  <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#a67c52" font-weight="600" opacity="0.6">MEDICAL INSIGHTS</text>
-  <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
+  <ellipse cx="880" cy="200" rx="280" ry="230" fill="#fef9c3" opacity="0.5"/>
+  <!-- Bold stethoscope -->
+  <circle cx="600" cy="330" r="50" stroke="url(#accent)" stroke-width="10" fill="none"/>
+  <path d="M550 300 Q550 220 600 200 Q650 220 650 300" stroke="url(#accent)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <line x1="600" y1="200" x2="600" y2="160" stroke="url(#accent)" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="600" cy="150" r="12" fill="url(#accent)"/>
+  <text x="80" y="590" font-family="Arial,sans-serif" font-size="20" fill="#a67c52" font-weight="700">MEDICAL INSIGHTS</text>
+  <text x="1120" y="590" font-family="Arial,sans-serif" font-size="16" fill="#78716c" text-anchor="end">aliento.clinic</text>
 </svg>

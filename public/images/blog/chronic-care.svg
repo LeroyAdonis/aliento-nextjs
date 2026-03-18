@@ -4,12 +4,10 @@
     <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f97316"/><stop offset="100%" style="stop-color:#ea580c"/></linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <ellipse cx="1000" cy="150" rx="280" ry="220" fill="#ffedd5" opacity="0.5"/>
-  <ellipse cx="200" cy="550" rx="180" ry="130" fill="#fef3c7" opacity="0.4"/>
-  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#f97316" opacity="0.1"/></pattern>
-  <rect width="1200" height="630" fill="url(#dots)"/>
-  <!-- Heart rate line - moved to center area -->
-  <path d="M300 300 L340 300 L350 270 L365 340 L380 280 L395 320 L410 300 L500 300" stroke="url(#accent)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>
-  <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#ea580c" font-weight="600" opacity="0.6">CHRONIC CARE</text>
-  <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
+  <ellipse cx="950" cy="200" rx="280" ry="220" fill="#ffedd5" opacity="0.6"/>
+  <ellipse cx="200" cy="500" rx="180" ry="130" fill="#fef3c7" opacity="0.5"/>
+  <!-- Bold heart rate line -->
+  <path d="M400 315 L480 315 L510 240 L550 390 L590 260 L620 340 L650 315 L800 315" stroke="url(#accent)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="80" y="590" font-family="Arial,sans-serif" font-size="20" fill="#ea580c" font-weight="700">CHRONIC CARE</text>
+  <text x="1120" y="590" font-family="Arial,sans-serif" font-size="16" fill="#78716c" text-anchor="end">aliento.clinic</text>
 </svg>
