@@ -145,6 +145,7 @@ export default function AdminPostEditor() {
                   >
                     <option value="Aliento Medical">Aliento Medical</option>
                     <option value="Dr. Aliento Team">Dr. Aliento Team</option>
+                    <option value="Prof. Leegail Adonis">Prof. Leegail Adonis</option>
                   </select>
                 </div>
 
