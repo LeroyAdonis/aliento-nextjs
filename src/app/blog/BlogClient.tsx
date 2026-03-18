@@ -15,6 +15,18 @@ interface Post {
   author: string
 }
 
+function getCategoryImage(category: string): string {
+  const map: Record<string, string> = {
+    'Wellness': '/images/blog/wellness.svg',
+    'Chronic Care': '/images/blog/chronic-care.svg',
+    'Mental Health': '/images/blog/mental-health.svg',
+    'Nutrition': '/images/blog/nutrition.svg',
+    'Tips & Guides': '/images/blog/tips-guides.svg',
+    'Medical Insights': '/images/blog/medical-insights.svg',
+  }
+  return map[category] || '/images/blog/default.svg'
+}
+
 export default function BlogClient({ posts: initialPosts, categories: initialCategories }: { posts: Post[]; categories: string[] }) {
   const [posts, setPosts] = useState<Post[]>(initialPosts)
   const [categories, setCategories] = useState<string[]>(initialCategories)
@@ -74,7 +86,9 @@ export default function BlogClient({ posts: initialPosts, categories: initialCat
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
               <Link href={`/blog/${featuredPost.slug}`} className="group block">
                 <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                  <div className="aspect-[4/3] rounded-3xl bg-gradient-to-br from-primary-100 via-warm-100 to-sage-100 overflow-hidden flex items-center justify-center text-6xl">📝</div>
+                  <div className="aspect-[4/3] rounded-3xl overflow-hidden">
+                  <img src={getCategoryImage(featuredPost.category)} alt={featuredPost.title} className="w-full h-full object-cover" />
+                </div>
                   <div>
                     <div className="flex items-center gap-3 mb-4">
                       <span className="px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-medium">{featuredPost.category}</span>
@@ -113,9 +127,13 @@ export default function BlogClient({ posts: initialPosts, categories: initialCat
                     <motion.div key={post.slug} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
                       <Link href={`/blog/${post.slug}`} className="group block h-full">
                         <article className="h-full flex flex-col bg-white rounded-3xl border border-warm-200/60 overflow-hidden hover:border-warm-300 hover:shadow-xl transition-all duration-500">
-                          <div className="aspect-[16/10] bg-gradient-to-br from-primary-50 via-warm-50 to-sage-50 relative flex items-center justify-center text-4xl opacity-40">📄</div>
+                          <div className="aspect-[16/10] overflow-hidden relative">
+                            <img src={getCategoryImage(post.category)} alt={post.title} className="w-full h-full object-cover" />
+                            <div className="absolute top-4 left-4">
+                              <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-warm-700 text-xs font-medium shadow-sm">{post.category}</span>
+                            </div>
+                          </div>
                           <div className="flex-1 p-6 lg:p-8 flex flex-col">
-                            <span className="px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-medium w-fit mb-3">{post.category}</span>
                             <h3 className="text-xl font-display font-semibold text-warm-900 mb-3 group-hover:text-primary-700 transition-colors">{post.title}</h3>
                             <p className="text-warm-500 leading-relaxed mb-6 flex-1 line-clamp-3">{post.excerpt}</p>
                             <div className="flex items-center justify-between pt-4 border-t border-warm-100">

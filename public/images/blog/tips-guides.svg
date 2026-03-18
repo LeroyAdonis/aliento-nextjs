@@ -1,0 +1,25 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eff6ff"/>
+      <stop offset="100%" style="stop-color:#faf9f7"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a73e8"/>
+      <stop offset="100%" style="stop-color:#084a9c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="920" cy="200" rx="270" ry="210" fill="#dbeafe" opacity="0.5"/>
+  <ellipse cx="130" cy="480" rx="190" ry="140" fill="#bfdbfe" opacity="0.3"/>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
+    <circle cx="20" cy="20" r="1" fill="#1a73e8" opacity="0.1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <circle cx="100" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
+  <!-- Lightbulb icon -->
+  <path d="M100 85 Q115 85 115 100 Q115 110 108 115 L108 122 L92 122 L92 115 Q85 110 85 100 Q85 85 100 85Z" fill="white" opacity="0.9"/>
+  <line x1="100" y1="125" x2="100" y2="132" stroke="white" stroke-width="2"/>
+  <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#1a73e8" font-weight="600" opacity="0.6">TIPS & GUIDES</text>
+  <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
+</svg>
