@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Plus, Edit3, Calendar, Tag, User, Search, FileText } from 'lucide-react'
+import { ArrowLeft, Plus, Edit3, Calendar, User, Search, FileText, Trash2, AlertTriangle, X } from 'lucide-react'
 
 interface PostMeta {
   slug: string
@@ -19,6 +19,8 @@ export default function AdminPostsList() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
+  const [deleteTarget, setDeleteTarget] = useState<PostMeta | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     fetchPosts()
@@ -30,7 +32,6 @@ export default function AdminPostsList() {
       const data = await res.json()
       
       if (res.ok && data.posts) {
-        // Fetch metadata for each post in parallel
         const postsWithMeta = await Promise.all(
           data.posts.map(async (p: { slug: string; name: string }) => {
             try {
@@ -43,7 +44,6 @@ export default function AdminPostsList() {
             return { ...p, title: p.slug.replace(/-/g, ' ') }
           })
         )
-        // Sort by date descending
         postsWithMeta.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
         setPosts(postsWithMeta)
       } else {
@@ -53,6 +53,27 @@ export default function AdminPostsList() {
       setError(err.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return
+    setDeleting(true)
+
+    try {
+      const res = await fetch(`/api/posts/${deleteTarget.slug}`, { method: 'DELETE' })
+      const data = await res.json()
+
+      if (res.ok) {
+        setPosts(prev => prev.filter(p => p.slug !== deleteTarget.slug))
+        setDeleteTarget(null)
+      } else {
+        setError(data.error || 'Failed to delete post')
+      }
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -77,6 +98,47 @@ export default function AdminPostsList() {
 
   return (
     <div className="min-h-screen bg-warm-50">
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setDeleteTarget(null)} />
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
+            <button
+              onClick={() => setDeleteTarget(null)}
+              className="absolute top-4 right-4 text-warm-400 hover:text-warm-600 transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+              <AlertTriangle size={24} className="text-red-600" />
+            </div>
+            <h3 className="font-display font-bold text-xl text-warm-900 mb-2">Delete Article?</h3>
+            <p className="text-warm-600 mb-2">
+              Are you sure you want to delete <strong>{deleteTarget.title || deleteTarget.slug}</strong>?
+            </p>
+            <p className="text-warm-400 text-sm mb-6">
+              This will remove the file from GitHub. Vercel will rebuild automatically. This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                className="flex-1 px-4 py-2.5 bg-warm-100 hover:bg-warm-200 text-warm-700 rounded-xl font-medium transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="flex-1 px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                <Trash2 size={16} />
+                {deleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-warm-900 text-white py-6">
         <div className="max-w-6xl mx-auto px-6">
@@ -182,13 +244,22 @@ export default function AdminPostsList() {
                     </div>
                   </div>
                   
-                  <Link
-                    href={`/admin/posts/edit/${post.slug}`}
-                    className="flex items-center gap-2 px-4 py-2 bg-warm-50 hover:bg-primary-50 text-warm-600 hover:text-primary-700 rounded-lg text-sm font-medium transition-colors border border-warm-200 hover:border-primary-200"
-                  >
-                    <Edit3 size={14} />
-                    Edit
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/admin/posts/edit/${post.slug}`}
+                      className="flex items-center gap-2 px-4 py-2 bg-warm-50 hover:bg-primary-50 text-warm-600 hover:text-primary-700 rounded-lg text-sm font-medium transition-colors border border-warm-200 hover:border-primary-200"
+                    >
+                      <Edit3 size={14} />
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => setDeleteTarget(post)}
+                      className="flex items-center gap-2 px-3 py-2 bg-warm-50 hover:bg-red-50 text-warm-400 hover:text-red-600 rounded-lg text-sm transition-colors border border-warm-200 hover:border-red-200"
+                      title="Delete post"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
