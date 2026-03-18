@@ -8,10 +8,22 @@ export default function ContactPage() {
   const [formState, setFormState] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Would send to API
+    setSubmitting(true)
+    try {
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState)
+      })
+    } catch (err) {
+      console.error('Submit error:', err)
+    }
     setSubmitted(true)
+    setSubmitting(false)
   }
 
   return (
@@ -105,10 +117,11 @@ export default function ContactPage() {
                   
                   <button
                     type="submit"
-                    className="w-full sm:w-auto bg-warm-900 text-white px-8 py-4 rounded-full font-medium hover:bg-warm-800 transition-all flex items-center justify-center gap-2 group"
+                    disabled={submitting}
+                    className="w-full sm:w-auto bg-warm-900 text-white px-8 py-4 rounded-full font-medium hover:bg-warm-800 transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Send Message
-                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                    {submitting ? 'Sending...' : 'Send Message'}
+                    {!submitting && <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />}
                   </button>
                 </form>
               )}
