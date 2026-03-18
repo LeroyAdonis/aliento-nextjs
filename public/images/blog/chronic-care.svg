@@ -1,24 +1,15 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#fff7ed"/>
-      <stop offset="100%" style="stop-color:#faf9f7"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f97316"/>
-      <stop offset="100%" style="stop-color:#ea580c"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#fff7ed"/><stop offset="100%" style="stop-color:#faf9f7"/></linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f97316"/><stop offset="100%" style="stop-color:#ea580c"/></linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <ellipse cx="1000" cy="150" rx="280" ry="220" fill="#ffedd5" opacity="0.5"/>
   <ellipse cx="200" cy="550" rx="180" ry="130" fill="#fef3c7" opacity="0.4"/>
-  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
-    <circle cx="20" cy="20" r="1" fill="#f97316" opacity="0.1"/>
-  </pattern>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#f97316" opacity="0.1"/></pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
-  <circle cx="100" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
-  <!-- Heart monitor icon -->
-  <path d="M80 100 L90 100 L95 85 L105 115 L110 95 L120 100" stroke="white" stroke-width="3" fill="none"/>
+  <circle cx="200" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
+  <path d="M180 100 L190 100 L195 85 L205 115 L210 95 L220 100" stroke="white" stroke-width="3" fill="none"/>
   <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#ea580c" font-weight="600" opacity="0.6">CHRONIC CARE</text>
   <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
 </svg>

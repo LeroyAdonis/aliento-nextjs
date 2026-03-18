@@ -68,7 +68,7 @@ export default function BlogPostPage() {
             <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
             Back to Blog
           </Link>
-          <span className="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 text-sm font-medium">{post.category}</span>
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 text-sm font-medium mt-4 ml-2">{post.category}</span>
           <h1 className="text-3xl lg:text-5xl font-display font-bold text-warm-900 mt-4 mb-6">{post.title}</h1>
           <p className="text-xl text-warm-500 mb-8">{post.excerpt}</p>
           <div className="flex flex-wrap items-center gap-6 text-sm text-warm-400 pb-8 border-b border-warm-200/60">

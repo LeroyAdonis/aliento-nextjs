@@ -1,24 +1,15 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#faf5ff"/>
-      <stop offset="100%" style="stop-color:#f5f3f0"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#8b5cf6"/>
-      <stop offset="100%" style="stop-color:#a855f7"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#faf5ff"/><stop offset="100%" style="stop-color:#f5f3f0"/></linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#a855f7"/></linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <ellipse cx="900" cy="200" rx="300" ry="250" fill="#f3e8ff" opacity="0.5"/>
   <ellipse cx="100" cy="400" rx="200" ry="180" fill="#ede9fe" opacity="0.4"/>
-  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
-    <circle cx="20" cy="20" r="1" fill="#8b5cf6" opacity="0.1"/>
-  </pattern>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#8b5cf6" opacity="0.1"/></pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
-  <circle cx="100" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
-  <!-- Brain icon -->
-  <path d="M90 95 Q100 80 110 95 Q120 85 115 100 Q125 105 110 110 Q115 120 100 115 Q85 120 90 110 Q75 105 85 100 Q80 85 90 95Z" fill="white" opacity="0.9"/>
+  <circle cx="200" cy="100" r="40" fill="url(#accent)" opacity="0.9"/>
+  <path d="M190 95 Q200 80 210 95 Q220 85 215 100 Q225 105 210 110 Q215 120 200 115 Q185 120 190 110 Q175 105 185 100 Q180 85 190 95Z" fill="white" opacity="0.9"/>
   <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#8b5cf6" font-weight="600" opacity="0.6">MENTAL HEALTH</text>
   <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
 </svg>
