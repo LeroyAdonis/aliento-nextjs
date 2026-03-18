@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, Phone, Mail } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -27,49 +26,48 @@ export function Header() {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-primary-500 text-white py-2.5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-sm">
+      <div className="bg-warm-900 text-warm-200 py-2">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center text-sm">
           <div className="flex items-center gap-4">
-            <a href="tel:+27762367921" className="flex items-center gap-1.5 hover:text-white/80 transition font-medium">
+            <a href="tel:+27762367921" className="flex items-center gap-2 hover:text-white transition">
               <Phone size={14} />
-              +27762367921
+              +27 76 236 7921
             </a>
-            <span className="hidden sm:inline text-white/40">|</span>
-            <a href="mailto:info@alientomedical.com" className="hidden sm:flex items-center gap-1.5 hover:text-white/80 transition font-medium">
+            <span className="hidden sm:inline text-warm-600">|</span>
+            <a href="mailto:info@alientomedical.com" className="hidden sm:flex items-center gap-2 hover:text-white transition">
               <Mail size={14} />
               info@alientomedical.com
             </a>
           </div>
-          <span className="hidden md:inline text-white/70 text-xs tracking-wide uppercase">
+          <span className="hidden md:inline text-warm-500 text-xs tracking-wider uppercase">
             Empowering Personal Health
           </span>
         </div>
       </div>
 
-      {/* Main nav — glassmorphism on scroll */}
-      <nav className={cn(
-        'sticky top-0 z-50 transition-all duration-500',
-        scrolled
-          ? 'bg-white/80 backdrop-blur-xl shadow-sm border-b border-neutral-200/50'
-          : 'bg-white border-b border-neutral-100'
-      )}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Main nav */}
+      <nav className={`sticky top-0 z-50 transition-all duration-500 ${
+        scrolled 
+          ? 'bg-warm-50/80 backdrop-blur-xl border-b border-warm-200/50 shadow-sm' 
+          : 'bg-warm-50 border-b border-warm-100'
+      }`}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
+            {/* Single Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative w-10 h-10 md:w-12 md:h-12 transition-transform duration-300 group-hover:scale-105">
                 <Image
-                  src="/images/aliento-logo.svg"
+                  src="/images/aliento-icon.svg"
                   alt="Aliento"
                   fill
                   className="object-contain"
                 />
               </div>
-              <div>
-                <span className="text-2xl md:text-3xl font-heading font-bold text-primary-500 tracking-tight">
+              <div className="flex flex-col">
+                <span className="text-2xl md:text-3xl font-display font-bold text-warm-900 tracking-tight leading-none">
                   Aliento
                 </span>
-                <span className="hidden sm:block text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium -mt-1">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-warm-400 font-medium">
                   Medical
                 </span>
               </div>
@@ -81,14 +79,14 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg transition-all duration-200"
+                  className="px-4 py-2 text-sm font-medium text-warm-600 hover:text-warm-900 hover:bg-warm-100/80 rounded-full transition-all duration-200"
                 >
                   {item.label}
                 </Link>
               ))}
               <Link
                 href="/contact"
-                className="ml-4 bg-primary-500 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary-600 active:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                className="ml-4 bg-warm-900 text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-warm-800 transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5"
               >
                 Book Appointment
               </Link>
@@ -96,21 +94,21 @@ export function Header() {
 
             {/* Mobile menu button */}
             <button
-              className="lg:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-warm-100 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={24} className="text-warm-700" /> : <Menu size={24} className="text-warm-700" />}
             </button>
           </div>
 
           {/* Mobile nav */}
           {mobileMenuOpen && (
-            <div className="lg:hidden pb-6 border-t border-neutral-100 pt-4 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="lg:hidden pb-6 border-t border-warm-200/60 pt-4">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block py-3 px-4 text-neutral-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium transition-all"
+                  className="block py-3 px-4 text-warm-600 hover:text-warm-900 hover:bg-warm-100 rounded-xl font-medium transition-all"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.label}
@@ -118,7 +116,7 @@ export function Header() {
               ))}
               <Link
                 href="/contact"
-                className="block mt-4 bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold text-center hover:bg-primary-600 transition-all shadow-md"
+                className="block mt-4 bg-warm-900 text-white px-6 py-3 rounded-full font-semibold text-center hover:bg-warm-800 transition-all shadow-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Book Appointment
