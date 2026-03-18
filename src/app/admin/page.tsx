@@ -25,10 +25,10 @@ export default function AdminDashboard() {
             className="group bg-white rounded-2xl border border-warm-200 p-8 hover:border-primary-200 hover:shadow-lg transition-all duration-300"
           >
             <div className="w-14 h-14 rounded-2xl bg-primary-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Plus size={24} className="text-primary-600" />
+              <FileText size={24} className="text-primary-600" />
             </div>
-            <h3 className="font-display font-semibold text-warm-900 text-xl mb-2">New Post</h3>
-            <p className="text-warm-500">Create and publish a new blog article</p>
+            <h3 className="font-display font-semibold text-warm-900 text-xl mb-2">Articles</h3>
+            <p className="text-warm-500">View, edit, and manage all blog posts</p>
           </Link>
 
           <Link
