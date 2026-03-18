@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Save, ArrowLeft, Check, AlertCircle, Eye, X } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
+import TiptapEditor from '@/components/editor/TiptapEditor'
 
 const categories = ['Chronic Care', 'Wellness', 'Nutrition', 'Mental Health', 'Tips & Guides', 'Medical Insights']
 
@@ -264,12 +265,10 @@ export default function EditPostPage() {
             </div>
 
             <div>
-              <textarea
-                placeholder="Write your content here... (Markdown supported)"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                rows={24}
-                className="w-full bg-white rounded-xl border border-warm-200 p-6 text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 resize-none font-mono text-sm leading-relaxed"
+              <TiptapEditor
+                content={content}
+                onChange={setContent}
+                placeholder="Write your article here..."
               />
             </div>
           </div>
