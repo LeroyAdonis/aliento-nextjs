@@ -1,9 +1,6 @@
-import { getAllPosts, getAllCategories } from '@/lib/blog'
 import BlogClient from './BlogClient'
 
 export default function BlogPage() {
-  const posts = getAllPosts()
-  const categories = getAllCategories()
-
-  return <BlogClient posts={posts} categories={categories} />
+  // Pass empty arrays - BlogClient will fetch from /blog-data.json
+  return <BlogClient posts={[]} categories={[]} />
 }

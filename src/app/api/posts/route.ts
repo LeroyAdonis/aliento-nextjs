@@ -1,14 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { exec } from 'child_process'
-import { promisify } from 'util'
-import fs from 'fs'
-import path from 'path'
 
-const execAsync = promisify(exec)
-
-const BLOG_DIR = path.join(process.cwd(), 'content/blog')
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || ''
-const REPO_URL = 'https://github.com/LeroyAdonis/aliento-nextjs'
+const REPO_OWNER = 'LeroyAdonis'
+const REPO_NAME = 'aliento-nextjs'
+const BLOG_PATH = 'content/blog'
+
+async function commitToGitHub(slug: string, content: string) {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${BLOG_PATH}/${slug}.mdx`
+  
+  // Check if file exists (to get SHA for update)
+  let sha: string | undefined
+  try {
+    const existing = await fetch(url, {
+      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, 'User-Agent': 'Aliento-CMS' }
+    })
+    if (existing.ok) {
+      const data = await existing.json()
+      sha = data.sha
+    }
+  } catch {}
+
+  // Create or update file
+  const body: any = {
+    message: `feat(blog): ${sha ? 'update' : 'add'} ${slug}`,
+    content: Buffer.from(content).toString('base64'),
+    branch: 'main'
+  }
+  if (sha) body.sha = sha
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      'User-Agent': 'Aliento-CMS',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.message || 'GitHub API error')
+  }
+
+  return res.json()
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,8 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Title, content, and slug are required' }, { status: 400 })
     }
 
-    // Create MDX frontmatter
-    const frontmatter = `---
+    const mdxContent = `---
 title: "${title}"
 date: "${new Date().toISOString().split('T')[0]}"
 excerpt: "${excerpt || title}"
@@ -31,27 +66,12 @@ author: "${author || 'Aliento Medical'}"
 ${content}
 `
 
-    // Write the MDX file
-    const filePath = path.join(BLOG_DIR, `${slug}.mdx`)
-    fs.writeFileSync(filePath, frontmatter)
-
-    // Git commit and push
-    const remoteUrl = `https://${GITHUB_TOKEN}@github.com/LeroyAdonis/aliento-nextjs.git`
-    
-    await execAsync(`cd ${process.cwd()} && git config user.email "admin@alientomedical.com"`)
-    await execAsync(`cd ${process.cwd()} && git config user.name "Aliento Admin"`)
-    await execAsync(`cd ${process.cwd()} && git add content/blog/${slug}.mdx`)
-    await execAsync(`cd ${process.cwd()} && git commit -m "feat(blog): add ${slug}"`)
-    await execAsync(`cd ${process.cwd()} && git remote set-url origin ${remoteUrl}`)
-    await execAsync(`cd ${process.cwd()} && git push origin main`)
-
-    // Trigger Vercel rebuild via webhook (optional)
-    // This happens automatically on push if GitHub integration is connected
+    await commitToGitHub(slug, mdxContent)
 
     return NextResponse.json({ 
       success: true, 
       slug,
-      message: 'Post saved and pushed to GitHub'
+      message: 'Post saved to GitHub! Vercel will rebuild automatically.'
     })
   } catch (error: any) {
     console.error('Error saving post:', error)
@@ -59,27 +79,23 @@ ${content}
   }
 }
 
-// Get all posts
+// Get posts list (read-only, no filesystem needed on Vercel)
 export async function GET() {
   try {
-    const files = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.mdx'))
-    const posts = files.map(filename => {
-      const slug = filename.replace('.mdx', '')
-      const content = fs.readFileSync(path.join(BLOG_DIR, filename), 'utf-8')
-      const match = content.match(/---\n([\s\S]*?)\n---/)
-      const frontmatter = match ? match[1] : ''
-      
-      const titleMatch = frontmatter.match(/title:\s*"?([^"\n]+)"?/)
-      const dateMatch = frontmatter.match(/date:\s*"?([^"\n]+)"?/)
-      const categoryMatch = frontmatter.match(/category:\s*"?([^"\n]+)"?/)
-      
-      return {
-        slug,
-        title: titleMatch ? titleMatch[1] : slug,
-        date: dateMatch ? dateMatch[1] : '',
-        category: categoryMatch ? categoryMatch[1] : 'General'
-      }
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${BLOG_PATH}`
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, 'User-Agent': 'Aliento-CMS' }
     })
+    
+    if (!res.ok) throw new Error('Failed to fetch from GitHub')
+    
+    const files = await res.json()
+    const posts = files
+      .filter((f: any) => f.name.endsWith('.mdx'))
+      .map((f: any) => ({
+        slug: f.name.replace('.mdx', ''),
+        name: f.name
+      }))
     
     return NextResponse.json({ posts })
   } catch (error: any) {
