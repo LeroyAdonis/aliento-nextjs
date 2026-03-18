@@ -40,9 +40,9 @@ export function Header() {
               +27 76 236 7921
             </a>
             <span className="hidden sm:inline text-warm-600">|</span>
-            <a href="mailto:info@alientomedical.com" className="hidden sm:flex items-center gap-2 hover:text-white transition">
+            <a href="mailto:info@alientomd.com" className="hidden sm:flex items-center gap-2 hover:text-white transition">
               <Mail size={14} />
-              info@alientomedical.com
+              info@alientomd.com
             </a>
           </div>
           <span className="hidden md:inline text-warm-500 text-xs tracking-wider uppercase">

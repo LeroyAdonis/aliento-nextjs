@@ -184,7 +184,7 @@ export default function AdminPostEditor() {
                   {title || 'Post title'}
                 </p>
                 <p className="text-green-700 text-sm">
-                  alientomedical.com/blog/{generateSlug() || 'post-slug'}
+                  alientomd.com/blog/{generateSlug() || 'post-slug'}
                 </p>
                 <p className="text-warm-500 text-sm line-clamp-2">
                   {excerpt || 'Post excerpt will appear here...'}

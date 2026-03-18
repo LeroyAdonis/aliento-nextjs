@@ -68,11 +68,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:info@alientomedical.com" className="flex items-center gap-3 text-warm-400 hover:text-white transition-colors group">
+                <a href="mailto:info@alientomd.com" className="flex items-center gap-3 text-warm-400 hover:text-white transition-colors group">
                   <div className="w-10 h-10 rounded-full bg-warm-800 flex items-center justify-center group-hover:bg-warm-700 transition-colors">
                     <Mail size={16} />
                   </div>
-                  <span>info@alientomedical.com</span>
+                  <span>info@alientomd.com</span>
                 </a>
               </li>
               <li className="flex items-center gap-3 text-warm-400">

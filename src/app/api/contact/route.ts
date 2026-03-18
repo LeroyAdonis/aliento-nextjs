@@ -32,8 +32,8 @@ export async function POST(request: NextRequest) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'Aliento <noreply@alientomedical.com>',
-            to: ['info@alientomedical.com'],
+            from: 'Aliento <noreply@alientomd.com>',
+            to: ['info@alientomd.com'],
             subject: `New Contact: ${name}`,
             html: `
               <h2>New Contact Form Submission</h2>

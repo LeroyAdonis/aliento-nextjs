@@ -142,13 +142,13 @@ export default function ContactPage() {
                     </div>
                   </a>
                   
-                  <a href="mailto:info@alientomedical.com" className="flex items-start gap-4 group">
+                  <a href="mailto:info@alientomd.com" className="flex items-start gap-4 group">
                     <div className="w-12 h-12 rounded-2xl bg-sage-100 flex items-center justify-center flex-shrink-0 group-hover:bg-sage-200 transition-colors">
                       <Mail size={20} className="text-sage-600" />
                     </div>
                     <div>
                       <p className="font-medium text-warm-900">Email</p>
-                      <p className="text-warm-500">info@alientomedical.com</p>
+                      <p className="text-warm-500">info@alientomd.com</p>
                     </div>
                   </a>
                   
