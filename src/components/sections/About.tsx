@@ -4,10 +4,10 @@ import { motion } from 'framer-motion'
 import { Heart, MapPin, Clock, Phone } from 'lucide-react'
 
 const stats = [
-  { icon: MapPin, number: 'Cape Town', label: 'Based in South Africa', color: 'text-primary-500' },
+  { icon: MapPin, number: 'Johannesburg', label: 'Based in South Africa', color: 'text-primary-500' },
   { icon: Clock, number: 'Mon–Fri', label: '8AM – 5PM', color: 'text-sage-500' },
-  { icon: Phone, number: 'Available', label: 'Appointments & walk-ins', color: 'text-coral-500' },
-  { icon: Heart, number: 'Community', label: 'Focused care', color: 'text-primary-600' },
+  { icon: Phone, number: 'Call Us', label: 'Appointments & walk-ins', color: 'text-coral-500' },
+  { icon: Heart, number: 'Patient', label: 'Centred care', color: 'text-primary-600' },
 ]
 
 export function About() {
