@@ -6,13 +6,11 @@
   <rect width="1200" height="630" fill="url(#bg)"/>
   <ellipse cx="920" cy="200" rx="270" ry="210" fill="#dbeafe" opacity="0.5"/>
   <ellipse cx="130" cy="480" rx="190" ry="140" fill="#bfdbfe" opacity="0.3"/>
-  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#1a73e8" opacity="0.1"/></pattern>
-  <rect width="1200" height="630" fill="url(#dots)"/>
-  <!-- Lightbulb - center area -->
-  <circle cx="300" cy="270" r="50" fill="url(#accent)" opacity="0.15"/>
-  <path d="M300 245 Q325 245 325 270 Q325 285 313 295 L313 310 L287 310 L287 295 Q275 285 275 270 Q275 245 300 245Z" fill="url(#accent)" opacity="0.5"/>
-  <line x1="300" y1="313" x2="300" y2="325" stroke="url(#accent)" stroke-width="3" opacity="0.5"/>
-  <line x1="287" y1="325" x2="313" y2="325" stroke="url(#accent)" stroke-width="3" opacity="0.5"/>
-  <text x="100" y="580" font-family="sans-serif" font-size="18" fill="#1a73e8" font-weight="600" opacity="0.6">TIPS & GUIDES</text>
-  <text x="1100" y="580" font-family="sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
+  <!-- Lightbulb centered -->
+  <circle cx="600" cy="250" r="60" fill="url(#accent)" opacity="0.1"/>
+  <path d="M600 220 Q630 220 630 250 Q630 270 616 285 L616 305 L584 305 L584 285 Q570 270 570 250 Q570 220 600 220Z" fill="url(#accent)" opacity="0.5"/>
+  <line x1="600" y1="310" x2="600" y2="325" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+  <line x1="584" y1="325" x2="616" y2="325" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+  <text x="100" y="580" font-family="Arial,sans-serif" font-size="18" fill="#1a73e8" font-weight="600" opacity="0.6">TIPS &amp; GUIDES</text>
+  <text x="1100" y="580" font-family="Arial,sans-serif" font-size="16" fill="#78716c" text-anchor="end" opacity="0.5">aliento.clinic</text>
 </svg>

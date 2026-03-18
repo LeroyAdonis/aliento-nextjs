@@ -17,14 +17,14 @@ interface Post {
 
 function getCategoryImage(category: string): string {
   const map: Record<string, string> = {
-    'Wellness': '/images/blog/wellness.svg',
-    'Chronic Care': '/images/blog/chronic-care.svg',
-    'Mental Health': '/images/blog/mental-health.svg',
-    'Nutrition': '/images/blog/nutrition.svg',
-    'Tips & Guides': '/images/blog/tips-guides.svg',
-    'Medical Insights': '/images/blog/medical-insights.svg',
+    'Wellness': '/images/blog/wellness.png',
+    'Chronic Care': '/images/blog/chronic-care.png',
+    'Mental Health': '/images/blog/mental-health.png',
+    'Nutrition': '/images/blog/nutrition.png',
+    'Tips & Guides': '/images/blog/tips-guides.png',
+    'Medical Insights': '/images/blog/medical-insights.png',
   }
-  return map[category] || '/images/blog/default.svg'
+  return map[category] || '/images/blog/default.png'
 }
 
 export default function BlogClient({ posts: initialPosts, categories: initialCategories }: { posts: Post[]; categories: string[] }) {
