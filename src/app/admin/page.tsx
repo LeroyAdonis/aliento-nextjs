@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FileText, Plus, Settings, BarChart3, ArrowLeft } from 'lucide-react'
+import { FileText, BarChart3, ArrowLeft } from 'lucide-react'
 
 export default function AdminDashboard() {
   return (
@@ -19,16 +19,16 @@ export default function AdminDashboard() {
 
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Quick actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link
             href="/admin/posts"
             className="group bg-white rounded-2xl border border-warm-200 p-8 hover:border-primary-200 hover:shadow-lg transition-all duration-300"
           >
             <div className="w-14 h-14 rounded-2xl bg-primary-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Plus size={24} className="text-primary-600" />
+              <FileText size={24} className="text-primary-600" />
             </div>
-            <h3 className="font-display font-semibold text-warm-900 text-xl mb-2">New Post</h3>
-            <p className="text-warm-500">Create and publish a new blog article</p>
+            <h3 className="font-display font-semibold text-warm-900 text-xl mb-2">Articles</h3>
+            <p className="text-warm-500">View, edit, and manage all blog posts</p>
           </Link>
 
           <Link
@@ -49,32 +49,6 @@ export default function AdminDashboard() {
             <h3 className="font-display font-semibold text-warm-900 text-xl mb-2">Analytics</h3>
             <p className="text-warm-500">Coming soon — track page views</p>
           </div>
-        </div>
-
-        {/* Info box */}
-        <div className="bg-primary-50 border border-primary-200 rounded-2xl p-6">
-          <h3 className="font-display font-semibold text-primary-900 mb-2">📝 Admin Dashboard</h3>
-          <p className="text-primary-700">
-            This is the basic admin interface. In the next phase, we'll add:
-          </p>
-          <ul className="mt-4 space-y-2 text-primary-700">
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500" />
-              Better Auth login (secure access)
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500" />
-              Tiptap rich text editor
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500" />
-              Image uploads (Cloudflare R2)
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500" />
-              GitHub auto-commit on publish
-            </li>
-          </ul>
         </div>
       </div>
     </div>
