@@ -31,8 +31,6 @@ export default function EditPostPage() {
   const [category, setCategory] = useState(categories[0])
   const [tags, setTags] = useState('')
   const [author, setAuthor] = useState('Aliento Medical')
-  const [sha, setSha] = useState('')
-  
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -55,7 +53,6 @@ export default function EditPostPage() {
         setCategory(data.category || categories[0])
         setTags((data.tags || []).join(', '))
         setAuthor(data.author || 'Aliento Medical')
-        setSha(data.sha || '')
       } else {
         setError(data.error || 'Failed to load post')
       }
@@ -83,7 +80,6 @@ export default function EditPostPage() {
           tags: tags.split(',').map(t => t.trim()).filter(Boolean),
           author,
           slug,
-          sha
         })
       })
 
@@ -91,7 +87,6 @@ export default function EditPostPage() {
 
       if (res.ok) {
         setSaved(true)
-        if (data.sha) setSha(data.sha)
         setTimeout(() => setSaved(false), 3000)
       } else {
         setError(data.error || 'Failed to save')
@@ -234,7 +229,7 @@ export default function EditPostPage() {
         <div className="max-w-6xl mx-auto px-6 mt-4">
           <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center gap-2">
             <Check size={18} />
-            Published! Vercel will rebuild automatically.
+            Saved to Sanity!
           </div>
         </div>
       )}

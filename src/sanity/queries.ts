@@ -8,6 +8,7 @@ export const postBySlugQuery = groq`
     "slug": slug.current,
     excerpt,
     body,
+    htmlBody,
     category,
     tags,
     author,

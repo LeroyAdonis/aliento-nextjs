@@ -199,8 +199,7 @@ export default function NewPostPage() {
           <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center gap-2">
             <Check size={18} />
             Published! Redirecting to editor...
-          </div>
-        </div>
+          </div>        </div>
       )}
 
       {/* Editor */}

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PortableText } from '@portabletext/react'
 import type { PortableTextBlock } from '@portabletext/types'
+import DOMPurify from 'isomorphic-dompurify'
 import { Calendar, ArrowLeft, Tag, Clock } from 'lucide-react'
 import { getPostBySlugUnified, getAllPostSlugs } from '@/lib/blog-unified'
 import type { UnifiedPost } from '@/lib/blog-unified'
@@ -74,6 +75,16 @@ function LegacyContent({ content }: { content: string }) {
   return <div dangerouslySetInnerHTML={{ __html: `<p class="mb-5 leading-relaxed text-warm-700">${html}</p>` }} />
 }
 
+function HtmlContent({ html }: { html: string }) {
+  const clean = DOMPurify.sanitize(html)
+  return (
+    <div
+      className="prose prose-warm max-w-none text-warm-700 leading-relaxed"
+      dangerouslySetInnerHTML={{ __html: clean }}
+    />
+  )
+}
+
 function estimateReadTime(post: UnifiedPost): number {
   const wpm = 200
   if (post.body) {
@@ -126,7 +137,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       <article className="max-w-4xl mx-auto px-6 lg:px-12 pb-24">
         <div className="max-w-2xl mx-auto">
-          {post.source === 'sanity' && post.body
+          {post.source === 'sanity' && post.htmlBody
+            ? <HtmlContent html={post.htmlBody} />
+            : post.source === 'sanity' && post.body
             ? <PortableText value={post.body} components={ptComponents as Parameters<typeof PortableText>[0]['components']} />
             : post.content ? <LegacyContent content={post.content} /> : null}
         </div>

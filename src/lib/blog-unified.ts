@@ -30,6 +30,7 @@ export type UnifiedPost = {
   mainImage?: string
   // Sanity-specific (undefined for MDX posts)
   body?: SanityPost['body']
+  htmlBody?: string
   relatedPosts?: SanityPost['relatedPosts']
   // MDX-specific
   content?: string
@@ -47,6 +48,7 @@ function sanityToUnified(p: SanityPost): UnifiedPost {
     author: p.author ?? 'Aliento Health',
     mainImage: p.mainImage?.url,
     body: p.body,
+    htmlBody: p.htmlBody,
     relatedPosts: p.relatedPosts,
     source: 'sanity',
   }

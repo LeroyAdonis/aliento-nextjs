@@ -134,6 +134,12 @@ export const postType = defineType({
       ],
     }),
     defineField({
+      name: 'htmlBody',
+      title: 'HTML Body (Admin Editor)',
+      description: 'Rich-text HTML written via the admin TipTap editor. When present this is used for rendering instead of the Portable-Text body field.',
+      type: 'text',
+    }),
+    defineField({
       name: 'relatedPosts',
       title: 'Related Posts',
       description: 'Up to 3 posts to show at the bottom as "Read more"',

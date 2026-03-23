@@ -6,6 +6,7 @@ export interface SanityPost {
   slug: string
   excerpt: string
   body?: PortableTextBlock[]
+  htmlBody?: string
   category: string
   tags: string[]
   author: string

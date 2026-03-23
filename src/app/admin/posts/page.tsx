@@ -117,7 +117,7 @@ export default function AdminPostsList() {
               Are you sure you want to delete <strong>{deleteTarget.title || deleteTarget.slug}</strong>?
             </p>
             <p className="text-warm-400 text-sm mb-6">
-              This will remove the file from GitHub. Vercel will rebuild automatically. This action cannot be undone.
+              This will permanently remove the post from Sanity. This action cannot be undone.
             </p>
             <div className="flex gap-3">
               <button
