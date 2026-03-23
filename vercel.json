@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "env": {
+    "NEXT_PUBLIC_SANITY_PROJECT_ID": "kygbgd7",
+    "NEXT_PUBLIC_SANITY_DATASET": "production",
+    "NEXT_PUBLIC_SANITY_API_VERSION": "2026-03-23"
+  }
+}
+
