@@ -14,6 +14,8 @@ const navItems = [
   { label: 'Contact', href: '/contact' },
 ]
 
+const ctaItem = { label: 'Book Consultation', href: '/consult' }
+
 export function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -46,7 +48,7 @@ export function Header() {
             </a>
           </div>
           <span className="hidden md:inline text-warm-500 text-xs tracking-wider uppercase">
-            Empowering Personal Health
+            Breathe · Screen · Live
           </span>
         </div>
       </div>
@@ -85,15 +87,15 @@ export function Header() {
                 </Link>
               ))}
               <Link
-                href="/contact"
+                href={ctaItem.href}
                 className={cn(
                   'ml-4 px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5',
-                  isActive('/contact')
+                  isActive(ctaItem.href)
                     ? 'bg-primary-600 text-white'
                     : 'bg-warm-900 text-white hover:bg-warm-800'
                 )}
               >
-                Book Appointment
+                {ctaItem.label}
               </Link>
             </div>
 
@@ -123,11 +125,11 @@ export function Header() {
                 </Link>
               ))}
               <Link
-                href="/contact"
+                href={ctaItem.href}
                 className="block mt-4 bg-warm-900 text-white px-6 py-3 rounded-full font-semibold text-center hover:bg-warm-800 transition-all shadow-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Book Appointment
+                {ctaItem.label}
               </Link>
             </div>
           )}

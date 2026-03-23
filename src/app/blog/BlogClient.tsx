@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Search, ArrowRight, Calendar, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -13,38 +13,33 @@ interface Post {
   category: string
   tags: string[]
   author: string
+  mainImage?: string
 }
 
-function getCategoryImage(category: string): string {
+function getCategoryImage(category: string, mainImage?: string): string {
+  if (mainImage) return mainImage
   const map: Record<string, string> = {
-    'Wellness': '/images/blog/wellness.png',
-    'Chronic Care': '/images/blog/chronic-care.png',
-    'Mental Health': '/images/blog/mental-health.png',
-    'Nutrition': '/images/blog/nutrition.png',
-    'Tips & Guides': '/images/blog/tips-guides.png',
-    'Medical Insights': '/images/blog/medical-insights.png',
+    // Canonical 7
+    'Wellness':           '/images/blog/wellness.png',
+    'Mental Health':      '/images/blog/mental-health.png',
+    'Nutrition':          '/images/blog/nutrition.png',
+    'Screening':          '/images/blog/tips-guides.png',
+    'Medical Conditions': '/images/blog/chronic-care.png',
+    'Research':           '/images/blog/medical-insights.png',
+    'Novel Techniques':   '/images/blog/medical-insights.png',
+    // Legacy fallbacks
+    'Chronic Care':       '/images/blog/chronic-care.png',
+    'Tips & Guides':      '/images/blog/tips-guides.png',
+    'Medical Insights':   '/images/blog/medical-insights.png',
   }
   return map[category] || '/images/blog/default.png'
 }
 
 export default function BlogClient({ posts: initialPosts, categories: initialCategories }: { posts: Post[]; categories: string[] }) {
-  const [posts, setPosts] = useState<Post[]>(initialPosts)
-  const [categories, setCategories] = useState<string[]>(initialCategories)
+  const [posts] = useState<Post[]>(initialPosts)
+  const [categories] = useState<string[]>(initialCategories)
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
-
-  useEffect(() => {
-    // Re-fetch from public JSON to ensure fresh data
-    fetch('/blog-data.json')
-      .then(r => r.json())
-      .then((data: Post[]) => {
-        if (data.length > 0) {
-          setPosts(data)
-          setCategories([...new Set(data.map(p => p.category))])
-        }
-      })
-      .catch(() => {})
-  }, [])
 
   const filteredPosts = posts.filter(post => {
     const matchesCategory = activeCategory === 'All' || post.category === activeCategory
@@ -87,7 +82,7 @@ export default function BlogClient({ posts: initialPosts, categories: initialCat
               <Link href={`/blog/${featuredPost.slug}`} className="group block">
                 <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                   <div className="aspect-[4/3] rounded-3xl overflow-hidden">
-                  <img src={getCategoryImage(featuredPost.category)} alt={featuredPost.title} className="w-full h-full object-cover" />
+                  <img src={getCategoryImage(featuredPost.category, featuredPost.mainImage)} alt={featuredPost.title} className="w-full h-full object-cover" />
                 </div>
                   <div>
                     <div className="flex items-center gap-3 mb-4">
@@ -128,7 +123,7 @@ export default function BlogClient({ posts: initialPosts, categories: initialCat
                       <Link href={`/blog/${post.slug}`} className="group block h-full">
                         <article className="h-full flex flex-col bg-white rounded-3xl border border-warm-200/60 overflow-hidden hover:border-warm-300 hover:shadow-xl transition-all duration-500">
                           <div className="aspect-[16/10] overflow-hidden relative">
-                            <img src={getCategoryImage(post.category)} alt={post.title} className="w-full h-full object-cover" />
+                            <img src={getCategoryImage(post.category, post.mainImage)} alt={post.title} className="w-full h-full object-cover" />
                             <div className="absolute top-4 left-4">
                               <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-warm-700 text-xs font-medium shadow-sm">{post.category}</span>
                             </div>
