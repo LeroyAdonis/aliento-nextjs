@@ -1,19 +1,19 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=clash-display@400,500,600,700&display=swap");
 @import "tailwindcss";
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=clash-display@400,500,600,700&display=swap');
 
 @theme {
-  /* Deep Ocean Palette — Aliento = breath */
-  --color-primary-50: #f0f7ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #7db8f7;
-  --color-primary-400: #3d8ef0;
-  --color-primary-500: #0a5dc2;
-  --color-primary-600: #084a9c;
-  --color-primary-700: #063a7a;
-  --color-primary-800: #042a58;
-  --color-primary-900: #021a36;
-  
+  /* Soft Pastel Teal — Warm, modern wellness */
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #115e59;
+  --color-primary-900: #134e4a;
+
   /* Warm Sand — contrast warmth */
   --color-sand-50: #fdf8f3;
   --color-sand-100: #f5ebe0;
@@ -21,7 +21,7 @@
   --color-sand-300: #d4b896;
   --color-sand-400: #c49b6e;
   --color-sand-500: #a67c52;
-  
+
   /* Sage — organic calm */
   --color-sage-50: #f4f8f4;
   --color-sage-100: #e0ebe0;
@@ -29,7 +29,7 @@
   --color-sage-300: #8fbd8f;
   --color-sage-400: #67a667;
   --color-sage-500: #3d8a3d;
-  
+
   /* Coral — accent warmth */
   --color-coral-50: #fff5f2;
   --color-coral-100: #ffe4dd;
@@ -37,7 +37,7 @@
   --color-coral-300: #ff8c6a;
   --color-coral-400: #ff6033;
   --color-coral-500: #e63d15;
-  
+
   /* Neutrals — warm gray */
   --color-warm-50: #faf9f7;
   --color-warm-100: #f3f1ed;
@@ -49,11 +49,11 @@
   --color-warm-700: #433e34;
   --color-warm-800: #29251e;
   --color-warm-900: #1a1712;
-  
+
   /* Fonts — distinctive, NOT generic */
-  --font-display: 'Clash Display', sans-serif;
-  --font-body: 'Satoshi', sans-serif;
-  
+  --font-display: "Clash Display", sans-serif;
+  --font-body: "Satoshi", sans-serif;
+
   /* Spacing rhythm — 4px base */
   --space-1: 4px;
   --space-2: 8px;
@@ -79,19 +79,24 @@
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     font-weight: 600;
     color: var(--color-warm-900);
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
-  
+
   * {
     border-color: var(--color-warm-200);
   }
-  
+
   ::selection {
     background: var(--color-primary-200);
     color: var(--color-primary-900);
@@ -99,21 +104,29 @@
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { 
-  background: var(--color-warm-300); 
-  border-radius: 999px; 
+::-webkit-scrollbar {
+  width: 6px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--color-warm-400); }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-warm-300);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-warm-400);
+}
 
 /* Smooth scroll */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 /* Focus */
-:focus-visible { 
-  outline: 2px solid var(--color-primary-500); 
-  outline-offset: 2px; 
+:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
 }
 
 /* ============================================
@@ -123,63 +136,134 @@ html { scroll-behavior: smooth; }
 
 /* Organic breathing pulse */
 @keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.08); opacity: 0.9; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
 }
 
 @keyframes breathe-slow {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.05) rotate(2deg); }
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-15px) rotate(1deg); }
-  66% { transform: translateY(5px) rotate(-1deg); }
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-15px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(-1deg);
+  }
 }
 
 @keyframes drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(20px, -30px) scale(1.1); }
-  50% { transform: translate(-10px, -50px) scale(1); }
-  75% { transform: translate(-30px, -20px) scale(0.95); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(20px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-10px, -50px) scale(1);
+  }
+  75% {
+    transform: translate(-30px, -20px) scale(0.95);
+  }
 }
 
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @keyframes reveal-up {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes reveal-scale {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Utility classes */
-.animate-breathe { animation: breathe 6s ease-in-out infinite; }
-.animate-breathe-slow { animation: breathe-slow 10s ease-in-out infinite; }
-.animate-float { animation: float 8s ease-in-out infinite; }
-.animate-drift { animation: drift 20s ease-in-out infinite; }
-.animate-gradient { 
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease-in-out infinite; 
+.animate-breathe {
+  animation: breathe 6s ease-in-out infinite;
 }
-.animate-reveal { animation: reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-breathe-slow {
+  animation: breathe-slow 10s ease-in-out infinite;
+}
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+.animate-drift {
+  animation: drift 20s ease-in-out infinite;
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+.animate-reveal {
+  animation: reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
 /* Staggered delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
-.delay-700 { animation-delay: 700ms; }
-.delay-800 { animation-delay: 800ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+.delay-600 {
+  animation-delay: 600ms;
+}
+.delay-700 {
+  animation-delay: 700ms;
+}
+.delay-800 {
+  animation-delay: 800ms;
+}
 
 /* ============================================
    COMPONENT STYLES
@@ -192,10 +276,10 @@ html { scroll-behavior: smooth; }
   -webkit-backdrop-filter: blur(20px) saturate(1.8);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
-  box-shadow: 
-    0 4px 6px rgba(0,0,0,0.02),
-    0 12px 24px rgba(0,0,0,0.04),
-    inset 0 1px 0 rgba(255,255,255,0.6);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.02),
+    0 12px 24px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Organic blob shape */
@@ -205,7 +289,11 @@ html { scroll-behavior: smooth; }
 
 /* Text gradient */
 .text-gradient-primary {
-  background: linear-gradient(135deg, var(--color-primary-500), var(--color-sage-500));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-500),
+    var(--color-sage-500)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -213,7 +301,7 @@ html { scroll-behavior: smooth; }
 
 /* Grain overlay */
 .grain::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   opacity: 0.03;
@@ -228,13 +316,17 @@ html { scroll-behavior: smooth; }
   padding-left: 2rem;
 }
 .editorial-quote::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(to bottom, var(--color-primary-400), var(--color-coral-400));
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary-400),
+    var(--color-coral-400)
+  );
   border-radius: 2px;
 }
 
@@ -243,7 +335,7 @@ html { scroll-behavior: smooth; }
   position: relative;
 }
 .hover-underline::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;

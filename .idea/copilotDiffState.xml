@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/src/sanity/env.ts">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/sanity/env.ts" />
+              <option name="originalContent" value="export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!&#10;export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'&#10;export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? '2026-03-23'&#10;" />
+              <option name="updatedContent" value="export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? ''&#10;export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'&#10;export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? '2026-03-23'" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/vercel.json">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/vercel.json" />
+              <option name="updatedContent" value="{&#10;  &quot;buildCommand&quot;: &quot;npm run build&quot;,&#10;  &quot;env&quot;: {&#10;    &quot;NEXT_PUBLIC_SANITY_PROJECT_ID&quot;: &quot;kygbgd7&quot;,&#10;    &quot;NEXT_PUBLIC_SANITY_DATASET&quot;: &quot;production&quot;,&#10;    &quot;NEXT_PUBLIC_SANITY_API_VERSION&quot;: &quot;2026-03-23&quot;&#10;  }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

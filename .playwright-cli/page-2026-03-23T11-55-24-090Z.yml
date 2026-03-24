@@ -1,0 +1,18 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e2]
+  - generic [ref=e3]:
+    - heading "This Page Cannot Be Displayed" [level=1] [ref=e4]
+    - paragraph [ref=e5]: Based on your organization's access policies, access to this web site ( https://vercel.com/sso-api?url=https%3A%2F%2Faliento-nextjs-3p8aqydmo-leroy-adonis-projects.vercel.app%2F&nonce=64bf71889361dfe908d431c0776923298bdef93328cca6e591656d5890df725c ) has been blocked.
+    - paragraph [ref=e6]:
+      - text: If you have questions, please contact your organization's network administrator (
+      - link "proxyadmins11@fnb.co.za" [ref=e7] [cursor=pointer]:
+        - /url: mailto:proxyadmins11@fnb.co.za
+      - text: ) and provide the codes shown below.
+  - paragraph [ref=e9]:
+    - text: "Date: Mon, 23 Mar 2026 13:55:23 SAST"
+    - text: "Username: FNBJNB01\\f5267390@FNBJNB01"
+    - text: "Source IP: 10.7.174.232"
+    - text: "URL: GET https://vercel.com/sso-api?url=https%3A%2F%2Faliento-nextjs-3p8aqydmo-leroy-adonis-projects.vercel.app%2F&nonce=64bf71889361dfe908d431c0776923298bdef93328cca6e591656d5890df725c"
+    - text: "Category: SOC Json Sites to be blocked"
+    - text: "Reason: BLOCK-DEST"
+    - text: "Notification: BLOCK_DEST"

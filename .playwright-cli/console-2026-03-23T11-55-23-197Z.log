@@ -1,0 +1,3 @@
+[     514ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ https://aliento-nextjs-3p8aqydmo-leroy-adonis-projects.vercel.app/:0
+[     753ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ https://vercel.com/sso-api?url=https%3A%2F%2Faliento-nextjs-3p8aqydmo-leroy-adonis-projects.vercel.app%2F&nonce=64bf71889361dfe908d431c0776923298bdef93328cca6e591656d5890df725c:0
+[    1074ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ https://vercel.com/favicon.ico:0

@@ -1,2 +1,9 @@
-export { getAllPosts, getPostBySlug, getAllCategories } from './blog-generated'
-export type { BlogPost } from './blog-generated'
+export {
+  getAllPosts,
+  getPostBySlug,
+  getAllCategories,
+  getPostsByCategory,
+  urlFor,
+} from './sanity'
+
+export type { SanityPost, SanityCategory } from './sanity'

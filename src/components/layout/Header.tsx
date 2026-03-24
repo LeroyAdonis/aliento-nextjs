@@ -54,8 +54,8 @@ export function Header() {
       <nav className={cn(
         'sticky top-0 z-50 transition-all duration-500',
         scrolled
-          ? 'bg-warm-50/80 backdrop-blur-xl border-b border-warm-200/50 shadow-sm'
-          : 'bg-warm-50 border-b border-warm-100'
+          ? 'bg-white/90 backdrop-blur-xl border-b border-warm-200/50 shadow-sm py-1'
+          : 'bg-transparent border-transparent py-3'
       )}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 md:h-20">
