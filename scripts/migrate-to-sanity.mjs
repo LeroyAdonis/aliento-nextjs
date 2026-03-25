@@ -62,7 +62,6 @@ function nextKey(prefix = 'k') {
 function parseInline(text, blockKey) {
   const spans    = []
   const markDefs = []
-  let linkIdx    = 0
 
   // Regex: **bold**, *italic*, [text](url)
   // Order: bold before italic so ** is not eaten by *
@@ -94,7 +93,6 @@ function parseInline(text, blockKey) {
     }
 
     lastIndex = match.index + match[0].length
-    linkIdx++
   }
 
   if (lastIndex < text.length) {
