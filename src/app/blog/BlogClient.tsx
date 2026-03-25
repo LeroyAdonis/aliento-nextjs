@@ -10,6 +10,7 @@ import type { SanityPost } from '@/lib/sanity'
 interface BlogClientProps {
   posts: SanityPost[]
   categories: string[]
+  basePath?: string
 }
 
 function getPostImage(post: SanityPost): string | null {
@@ -49,7 +50,7 @@ function getCategoryGradient(category: string): string {
   return gradients[category] || 'from-warm-50 to-warm-100'
 }
 
-export default function BlogClient({ posts, categories }: BlogClientProps) {
+export default function BlogClient({ posts, categories, basePath = '/health-topics' }: BlogClientProps) {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -107,7 +108,7 @@ export default function BlogClient({ posts, categories }: BlogClientProps) {
         <section className="py-12 lg:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <Link href={`/blog/${featuredPost.slug?.current || featuredPost.slug}`} className="group block">
+              <Link href={`${basePath}/${featuredPost.slug?.current || featuredPost.slug}`} className="group block">
                 <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                   <div className={`aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br ${getCategoryGradient(featuredCatTitle)} flex items-center justify-center`}>
                     {featuredPost.coverImage ? (
@@ -200,7 +201,7 @@ export default function BlogClient({ posts, categories }: BlogClientProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                       >
-                        <Link href={`/blog/${slug}`} className="group block h-full">
+                        <Link href={`${basePath}/${slug}`} className="group block h-full">
                           <article className="h-full flex flex-col bg-white rounded-3xl border border-warm-200/60 overflow-hidden hover:border-warm-300 hover:shadow-xl transition-all duration-500">
                             <div className={`aspect-[16/10] overflow-hidden relative bg-gradient-to-br ${getCategoryGradient(catTitle)}`}>
                               {post.coverImage ? (
