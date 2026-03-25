@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
@@ -9,6 +9,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-};
+  async redirects() {
+    return [
+      {
+        source: '/blog',
+        destination: '/health-topics',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug',
+        destination: '/health-topics/:slug',
+        permanent: true,
+      },
+      {
+        source: '/services',
+        destination: '/',
+        permanent: false,
+      },
+    ]
+  },
+}
 
-export default nextConfig;
+export default nextConfig
