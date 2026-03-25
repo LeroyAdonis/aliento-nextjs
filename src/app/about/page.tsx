@@ -3,7 +3,8 @@ import { About } from '@/components/sections/About'
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Learn about Aliento Medical — your partner in personalised healthcare.',
+  description:
+    'Aliento is a health promotion platform built by a medical professional. Learn our story, our values, and what we cover.',
 }
 
 export default function AboutPage() {

@@ -1,96 +1,160 @@
-'use client'
+import Link from 'next/link'
+import { ArrowRight, BookOpen, Heart, Users } from 'lucide-react'
 
-import { motion } from 'framer-motion'
-import { Heart, MapPin, Clock, Phone } from 'lucide-react'
-
-const stats = [
-  { icon: MapPin, number: 'JHB', label: 'South Africa', color: 'text-primary-500' },
-  { icon: Clock, number: 'Mon–Fri', label: '8AM – 5PM', color: 'text-sage-500' },
-  { icon: Phone, number: 'Call Us', label: 'Appointments & walk-ins', color: 'text-coral-500' },
-  { icon: Heart, number: 'Patient', label: 'Centred care', color: 'text-primary-600' },
+const values = [
+  {
+    icon: BookOpen,
+    title: 'Education First',
+    body: 'Every article is evidence-based and written to be understood, not just impressed. We translate medicine into language that empowers you to act.',
+  },
+  {
+    icon: Heart,
+    title: 'Warm & Approachable',
+    body: 'Healthcare should feel human. We ditch the jargon and the clipboard stare. Think of us as the medically qualified friend you\'ve always wanted.',
+  },
+  {
+    icon: Users,
+    title: 'Built for South Africans',
+    body: 'Our content reflects South African realities — from public health challenges to the lifestyle pressures that shape our wellbeing every day.',
+  },
 ]
 
 export function About() {
   return (
-    <section className="py-24 lg:py-32 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-warm-50 via-primary-50/20 to-warm-50" />
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] organic-blob bg-sage-100/30 animate-breathe-slow" />
-      
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 as const }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-[2px] bg-primary-500" />
-              <span className="text-xs font-medium tracking-[0.2em] uppercase text-warm-400">About Us</span>
+    <div className="bg-cream-100">
+
+      {/* Hero */}
+      <section className="py-20 lg:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-sage-50/60 to-cream-100 pointer-events-none" />
+        <div className="relative max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="w-8 h-px bg-sage-400" />
+            <span className="text-xs font-body font-semibold tracking-[0.2em] uppercase text-sage-500">
+              About Aliento
+            </span>
+            <div className="w-8 h-px bg-sage-400" />
+          </div>
+          <h1 className="text-4xl lg:text-6xl font-display font-semibold text-warm-900 mb-7 leading-tight">
+            We believe everyone deserves
+            <br />
+            <span className="text-gradient-primary italic">to understand their health.</span>
+          </h1>
+          <p className="text-xl text-warm-500 max-w-2xl mx-auto leading-relaxed">
+            Aliento is a health promotion platform created by a medical professional
+            who got tired of watching people suffer from conditions that could have been
+            prevented — or at least better understood.
+          </p>
+        </div>
+      </section>
+
+      {/* Story */}
+      <section className="py-16 lg:py-20 bg-white/60">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            {/* Photo placeholder */}
+            <div className="rounded-2xl bg-gradient-to-br from-sage-100 to-sage-200/70 aspect-[4/5] max-w-sm mx-auto flex items-center justify-center">
+              <span className="text-9xl opacity-25 select-none">👩‍⚕️</span>
             </div>
-            
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-warm-900 mb-8 leading-[1.1]">
-              Healthcare that<br />
-              <span className="text-gradient-primary">actually</span> cares<br />
-              about you.
-            </h2>
-            
-            <div className="space-y-6 text-warm-600 text-lg leading-relaxed">
-              <p>
-                At Aliento, we believe healthcare should be more than just treating symptoms — 
-                it's about understanding you as a person. Our patient-centred approach combines 
-                cutting-edge medical technology with genuine human compassion.
-              </p>
-              <div className="editorial-quote">
-                <p className="text-warm-700 italic text-lg">
-                  "We don't just treat conditions — we partner with you on your health journey."
+
+            <div>
+              <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-6">
+                Why &quot;Aliento&quot;?
+              </h2>
+              <div className="space-y-4 text-warm-600 leading-relaxed">
+                <p>
+                  <em>Aliento</em> means &quot;breath&quot; in Spanish. We chose it because breath is the most fundamental
+                  act of being alive — and because we want health to feel that natural and effortless.
+                  Not a burden. Not a medical bill waiting to happen.
+                </p>
+                <p>
+                  The name also captures our mission: to give people the information they need to
+                  breathe easier about their health. To feel less anxious, more informed, and more
+                  in control of their own bodies.
+                </p>
+                <p>
+                  We cover everything from preventive screenings and chronic disease management to
+                  mental health, nutrition, and the latest in medical research — all in plain language
+                  that makes sense on a Tuesday morning.
                 </p>
               </div>
-              <p>
-                With over a decade of experience, our team is dedicated to providing 
-                personalised care that empowers you to take control of your wellbeing.
-              </p>
+              <blockquote className="editorial-quote mt-8 text-warm-700">
+                <p>&quot;Breathe, Screen, Live — it&apos;s not just a tagline. It&apos;s a philosophy.&quot;</p>
+              </blockquote>
             </div>
-          </motion.div>
-          
-          {/* Visual — Stats grid with floating elements */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.2 as const }}
-            className="relative"
-          >
-            {/* Decorative circle */}
-            <div className="absolute -top-8 -right-8 w-64 h-64 rounded-full border border-primary-200/40 animate-breathe-slow" />
-            
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 gap-4 relative z-10">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 * index, duration: 0.5 }}
-                  className="group bg-white rounded-3xl border border-warm-200/60 p-6 lg:p-8 hover:border-primary-200 hover:shadow-lg transition-all duration-300"
-                >
-                  <stat.icon className={`${stat.color} mb-4 transition-transform duration-300 group-hover:scale-110`} size={28} />
-                  <div className="text-4xl lg:text-5xl font-display font-bold text-warm-900 mb-1">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-warm-500">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* Floating accent */}
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 organic-blob bg-gradient-to-br from-coral-200/60 to-coral-300/40 animate-float" />
-          </motion.div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Values */}
+      <section className="py-20 bg-cream-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-10 text-center">
+            What we stand for
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {values.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="rounded-2xl bg-white/70 border border-warm-200/50 p-8">
+                <div className="w-12 h-12 rounded-xl bg-sage-50 flex items-center justify-center mb-5">
+                  <Icon size={22} className="text-sage-500" />
+                </div>
+                <h3 className="font-display text-lg font-semibold text-warm-900 mb-3">{title}</h3>
+                <p className="text-warm-500 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* What we cover */}
+      <section className="py-16 bg-sage-50/50">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-5">
+            What Aliento covers
+          </h2>
+          <p className="text-warm-500 mb-8 leading-relaxed max-w-2xl mx-auto">
+            This is an informational and educational platform. We do not replace your doctor or offer
+            in-person care. We do offer clarity, context, and — when you need it — a virtual consultation
+            with a qualified medical professional.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {['Health Promotion','Preventive Screening','Medical Conditions','Mental Wellness',
+              'Nutrition','Novel Research','Chronic Care','Virtual Consultations'].map((tag) => (
+              <span key={tag} className="text-sm font-body font-medium bg-sage-100 text-sage-700 px-4 py-2 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-cream-100">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-5">
+            Ready to take control of your health?
+          </h2>
+          <p className="text-warm-500 mb-8">
+            Start with our Health Topics library — or book a virtual consultation to speak
+            directly with a doctor.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/health-topics"
+              className="group inline-flex items-center gap-2 bg-sage-400 text-white px-7 py-3.5 rounded-full font-body font-medium text-sm hover:bg-sage-500 transition-all shadow-sm"
+            >
+              Explore Health Topics <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/consult"
+              className="inline-flex items-center justify-center gap-2 border border-warm-300 text-warm-700 px-7 py-3.5 rounded-full font-body font-medium text-sm hover:border-blush-500 hover:text-blush-700 transition-all"
+            >
+              Book a Consult
+            </Link>
+          </div>
+        </div>
+      </section>
+
+    </div>
   )
 }
