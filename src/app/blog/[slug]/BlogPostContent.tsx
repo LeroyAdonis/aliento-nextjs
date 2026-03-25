@@ -104,7 +104,7 @@ export default function BlogPostContent({ post }: { post: SanityPost }) {
               <PortableText value={post.body} components={portableTextComponents} />
             </div>
           ) : (
-            <p className="text-warm-500 text-lg italic">This post's content will be available once published in Sanity CMS.</p>
+            <p className="text-warm-500 text-lg italic">This post&apos;s content will be available once published in Sanity CMS.</p>
           )}
 
           {/* Tags */}

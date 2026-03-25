@@ -1,5 +1,5 @@
 import { getPostBySlug, getAllPosts } from '@/lib/sanity'
-import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import BlogPostContent from './BlogPostContent'
 
 export async function generateStaticParams() {
@@ -41,9 +41,9 @@ function BlogPostFallback({ slug }: { slug: string }) {
         <p className="text-warm-400 text-sm mb-8">
           Content is managed via Sanity CMS. Visit /admin to create and publish posts.
         </p>
-        <a href="/blog" className="text-primary-600 font-medium hover:underline">
+        <Link href="/blog" className="text-primary-600 font-medium hover:underline">
           ← Back to Blog
-        </a>
+        </Link>
       </div>
     </div>
   )

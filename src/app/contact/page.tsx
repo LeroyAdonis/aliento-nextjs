@@ -124,7 +124,7 @@ export default function ContactPage() {
               {activeTab === 'message' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
                   <h2 className="text-2xl font-display font-bold text-warm-900 mb-4">Send Us a Message</h2>
-                  <p className="text-warm-500 mb-8">Have a question? We'll get back to you within 24 hours.</p>
+                  <p className="text-warm-500 mb-8">Have a question? We&apos;ll get back to you within 24 hours.</p>
 
                   {submitted ? (
                     <div className="bg-sage-50 border border-sage-200 rounded-3xl p-8 text-center">
@@ -132,7 +132,7 @@ export default function ContactPage() {
                         <Send size={28} className="text-sage-600" />
                       </div>
                       <h3 className="text-2xl font-display font-bold text-warm-900 mb-2">Message sent!</h3>
-                      <p className="text-warm-500">We'll get back to you within 24 hours.</p>
+                      <p className="text-warm-500">We&apos;ll get back to you within 24 hours.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-6">

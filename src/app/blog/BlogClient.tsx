@@ -13,14 +13,6 @@ interface BlogClientProps {
   basePath?: string
 }
 
-function getPostImage(post: SanityPost): string | null {
-  if (post.coverImage) {
-    // Dynamic import would be needed for urlFor, use category fallback for now
-    return null
-  }
-  return null
-}
-
 function getCategoryColor(category: string): string {
   const colors: Record<string, string> = {
     'Nutrition': 'bg-sage-100 text-sage-700',
