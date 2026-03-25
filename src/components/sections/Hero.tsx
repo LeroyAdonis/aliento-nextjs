@@ -8,27 +8,26 @@ const stagger = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.3 }
-  }
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+  },
 }
-
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8 as const } }
+  hidden: { opacity: 0, y: 28 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.75 } },
 }
 
 export function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden grain pt-20">
-      {/* Soft warm pastel background layer */}
-      <div className="absolute inset-0 bg-gradient-to-b from-warm-50 via-warm-100/50 to-warm-50" />
-      
-      {/* Background blobs — very soft pastels */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] organic-blob bg-gradient-to-br from-coral-100/40 to-sand-200/40 animate-drift opacity-60" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] organic-blob bg-gradient-to-br from-primary-100/50 to-sage-100/50 animate-breathe-slow opacity-60" />
-      
-      <div className="relative max-w-5xl mx-auto px-6 lg:px-12 py-24 text-center z-10">
-        <motion.div 
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden grain pt-16">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cream-100 via-sage-50/40 to-cream-100" />
+
+      {/* Organic blobs */}
+      <div className="absolute top-1/4 right-1/3 w-[560px] h-[560px] organic-blob bg-gradient-to-br from-sage-100/50 to-sage-200/30 animate-drift opacity-70" />
+      <div className="absolute bottom-1/4 left-1/4 w-[420px] h-[420px] organic-blob bg-gradient-to-br from-blush-100/40 to-blush-200/30 animate-breathe-slow opacity-60" />
+
+      <div className="relative max-w-4xl mx-auto px-6 lg:px-12 py-24 text-center z-10">
+        <motion.div
           variants={stagger}
           initial="hidden"
           animate="show"
@@ -36,57 +35,77 @@ export function Hero() {
         >
           {/* Eyebrow */}
           <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-[1px] bg-warm-400" />
-            <span className="text-xs font-medium tracking-[0.2em] uppercase text-warm-500">
-              Aliento Medical
+            <div className="w-8 h-px bg-sage-400" />
+            <span className="text-xs font-body font-semibold tracking-[0.22em] uppercase text-sage-500">
+              Health Promotion & Education
             </span>
-            <div className="w-8 h-[1px] bg-warm-400" />
+            <div className="w-8 h-px bg-sage-400" />
           </motion.div>
-          
-          {/* Headline - Centered, emotional, clean */}
-          <motion.h1 
+
+          {/* Headline */}
+          <motion.h1
             variants={fadeUp}
-            className="text-5xl sm:text-7xl lg:text-[5.5rem] font-display font-bold leading-[1.05] tracking-tight mb-8 text-warm-900"
+            className="text-5xl sm:text-6xl lg:text-[5rem] font-display font-semibold leading-[1.08] tracking-tight mb-7 text-warm-900"
           >
-            Breathe, Screen, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-coral-400 to-primary-500">Live.</span>
+            Your health,
+            <br />
+            <span className="text-gradient-primary italic">explained clearly.</span>
           </motion.h1>
-          
-          {/* Supporting text */}
-          <motion.p 
+
+          {/* Payoff line */}
+          <motion.p
             variants={fadeUp}
-            className="text-xl lg:text-2xl text-warm-600 max-w-2xl leading-relaxed mb-12 font-light"
+            className="text-lg sm:text-xl text-sage-600 font-body font-medium tracking-wide mb-5 italic"
           >
-            Health promotion, education, and virtual consultations. Expert-backed care that feels less like a clinic, and more like a conversation.
+            &quot;Breathe, Screen, Live&quot;
           </motion.p>
-          
+
+          {/* Supporting text */}
+          <motion.p
+            variants={fadeUp}
+            className="text-lg lg:text-xl text-warm-500 max-w-2xl leading-relaxed mb-12 font-light"
+          >
+            Expert-backed health articles, preventive guidance, and virtual consultations
+            — like having a knowledgeable friend who happens to be a doctor.
+          </motion.p>
+
           {/* CTAs */}
-          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col sm:flex-row gap-4"
+          >
             <Link
-              href="/contact"
-              className="group relative bg-warm-900 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-warm-800 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden shadow-lg hover:shadow-xl"
+              href="/health-topics"
+              className="group relative bg-sage-400 text-white px-8 py-4 rounded-full font-body font-medium text-base hover:bg-sage-500 transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5"
             >
-              <span className="relative z-10">Book a Consultation</span>
-              <ArrowRight size={20} className="relative z-10 transition-transform group-hover:translate-x-1" />
+              Explore Health Topics
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              href="/blog"
-              className="group bg-white border border-warm-200 text-warm-800 px-8 py-4 rounded-full font-medium text-lg hover:border-warm-300 hover:bg-warm-50 transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+              href="/consult"
+              className="border border-warm-300 text-warm-700 bg-white/70 px-8 py-4 rounded-full font-body font-medium text-base hover:border-sage-400 hover:text-sage-600 hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm"
             >
-              Read the Blog
+              Book a Virtual Consult
             </Link>
           </motion.div>
-          
-          <motion.div variants={fadeUp} className="mt-12 flex flex-wrap justify-center gap-6 sm:gap-12">
-            {[ 
-              { label: 'Virtual Consultations', icon: '💻' },
-              { label: 'Health Education', icon: '📚' },
-              { label: 'Preventive Screening', icon: '🩺' }
-            ].map((feature, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm font-medium text-warm-600 bg-white/60 px-4 py-2 rounded-full border border-warm-200/50 backdrop-blur-sm">
-                <span>{feature.icon}</span>
-                <span>{feature.label}</span>
-              </div>
+
+          {/* Trust pills */}
+          <motion.div
+            variants={fadeUp}
+            className="mt-12 flex flex-wrap justify-center gap-3"
+          >
+            {[
+              { icon: '🌿', label: 'Evidence-based' },
+              { icon: '💻', label: 'Virtual consultations' },
+              { icon: '🇿🇦', label: 'South African context' },
+            ].map((item) => (
+              <span
+                key={item.label}
+                className="flex items-center gap-2 text-sm font-body font-medium text-warm-600 bg-white/60 px-4 py-2 rounded-full border border-warm-200/60 backdrop-blur-sm"
+              >
+                <span>{item.icon}</span>
+                {item.label}
+              </span>
             ))}
           </motion.div>
         </motion.div>
