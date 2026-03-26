@@ -33,18 +33,10 @@ export default function AdminPostsList() {
       const data = await res.json()
       
       if (res.ok && data.posts) {
-        const postsWithMeta = await Promise.all(
-          data.posts.map(async (p: { slug: string; name: string }) => {
-            try {
-              const metaRes = await fetch(`/api/posts/${p.slug}`)
-              if (metaRes.ok) {
-                const meta = await metaRes.json()
-                return { ...p, ...meta }
-              }
-            } catch {}
-            return { ...p, title: p.slug.replace(/-/g, ' ') }
-          })
-        )
+        const postsWithMeta: PostMeta[] = data.posts.map((p: any) => ({
+          ...p,
+          title: p.title || p.slug.replace(/-/g, ' '),
+        }))
         postsWithMeta.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
         setPosts(postsWithMeta)
       } else {
