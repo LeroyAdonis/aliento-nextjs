@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+/* eslint-disable react/no-unescaped-entities */
 import Link from 'next/link'
 import { Phone, Mail, Clock, ArrowUpRight } from 'lucide-react'
 

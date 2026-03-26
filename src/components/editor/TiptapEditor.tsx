@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'

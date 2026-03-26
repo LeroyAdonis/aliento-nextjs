@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+ 
 'use client'
 
 import { useState, useEffect } from 'react'
