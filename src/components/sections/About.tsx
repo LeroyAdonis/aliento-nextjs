@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import { motion } from 'framer-motion'
@@ -41,12 +40,12 @@ export function About() {
             <div className="space-y-6 text-warm-600 text-lg leading-relaxed">
               <p>
                 At Aliento, we believe healthcare should be more than just treating symptoms — 
-                it's about understanding you as a person. Our patient-centred approach combines 
+                it&apos;s about understanding you as a person. Our patient-centred approach combines 
                 cutting-edge medical technology with genuine human compassion.
               </p>
               <div className="editorial-quote">
                 <p className="text-warm-700 italic text-lg">
-                  "We don't just treat conditions — we partner with you on your health journey."
+                  &quot;We don&apos;t just treat conditions — we partner with you on your health journey.&quot;
                 </p>
               </div>
               <p>
