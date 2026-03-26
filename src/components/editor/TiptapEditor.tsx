@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'
@@ -83,7 +83,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-warm max-w-none focus:outline-none min-h-[400px] p-6 text-warm-700 leading-relaxed',
+        class: 'tiptap prose prose-warm max-w-none focus:outline-none min-h-[400px] p-6 text-warm-700 leading-relaxed',
       },
     },
   })
@@ -108,22 +108,46 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
 
       if (res.ok && data.url) {
         // Replace the placeholder with the real URL
+        let replaced = false
         const { state } = editor
-        const pos = state.doc.descendants((node, pos) => {
+        state.doc.descendants((node, pos) => {
+          if (replaced) return false
           if (node.type.name === 'image' && node.attrs.src === placeholderSrc) {
             editor.chain()
               .focus()
               .deleteRange({ from: pos, to: pos + node.nodeSize })
               .setImage({ src: data.url, alt: file.name })
               .run()
+            replaced = true
             return false
           }
         })
       } else {
         // Remove placeholder on error
+        let removed = false
+        const { state } = editor
+        state.doc.descendants((node, pos) => {
+          if (removed) return false
+          if (node.type.name === 'image' && node.attrs.src === placeholderSrc) {
+            editor.chain().focus().deleteRange({ from: pos, to: pos + node.nodeSize }).run()
+            removed = true
+            return false
+          }
+        })
         alert('Image upload failed: ' + (data.error || 'Unknown error'))
       }
     } catch (err: any) {
+      // Remove placeholder on exception
+      let removed = false
+      const { state } = editor
+      state.doc.descendants((node, pos) => {
+        if (removed) return false
+        if (node.type.name === 'image' && node.attrs.src === placeholderSrc) {
+          editor.chain().focus().deleteRange({ from: pos, to: pos + node.nodeSize }).run()
+          removed = true
+          return false
+        }
+      })
       alert('Image upload failed: ' + err.message)
     } finally {
       URL.revokeObjectURL(placeholderSrc)

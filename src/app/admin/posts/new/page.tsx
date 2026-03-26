@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState } from 'react'
@@ -6,19 +6,14 @@ import { Save, ArrowLeft, Check, AlertCircle, Eye, X } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import TiptapEditor from '@/components/editor/TiptapEditor'
+import DOMPurify from 'dompurify'
 
 const categories = ['Chronic Care', 'Wellness', 'Nutrition', 'Mental Health', 'Tips & Guides', 'Medical Insights']
 
-function renderPreview(title: string, content: string) {
-  return content
-    .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold mt-8 mb-3 text-warm-900">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold mt-10 mb-4 text-warm-900">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold mt-10 mb-4 text-warm-900">$1</h1>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-warm-800">$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/^- (.*$)/gim, '<li class="ml-4 mb-1">• $1</li>')
-    .replace(/\n\n/g, '</p><p class="mb-4 leading-relaxed">')
-    .replace(/\n/g, '<br />')
+function sanitizePreview(content: string): string {
+  // content is HTML from TipTap; sanitize before rendering in preview
+  if (typeof window === 'undefined') return ''
+  return DOMPurify.sanitize(content)
 }
 
 export default function NewPostPage() {
@@ -134,8 +129,8 @@ export default function NewPostPage() {
               </div>
 
               <div 
-                className="text-warm-700 text-lg leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: renderPreview(title, content) }}
+                className="prose prose-warm max-w-none text-warm-700 text-lg leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: sanitizePreview(content) }}
               />
 
               {tags && (

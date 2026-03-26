@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server'
+import matter from 'gray-matter'
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || ''
 const REPO_OWNER = 'LeroyAdonis'
@@ -32,44 +33,16 @@ export async function GET(
     const file = await res.json()
     const rawContent = Buffer.from(file.content, 'base64').toString('utf-8')
 
-    // Parse frontmatter and content
-    const frontmatterMatch = rawContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-    
-    if (!frontmatterMatch) {
-      return NextResponse.json({ 
-        slug,
-        title: slug.replace(/-/g, ' '),
-        content: rawContent,
-        excerpt: '',
-        category: 'Wellness',
-        tags: [],
-        author: 'Aliento Medical',
-        sha: file.sha
-      })
-    }
-
-    const [, frontmatter, content] = frontmatterMatch
-    
-    // Parse frontmatter fields
-    const getField = (field: string) => {
-      const match = frontmatter.match(new RegExp(`${field}:\\s*"?([^"\\n]+)"?`))
-      return match ? match[1].trim() : ''
-    }
-
-    const getTags = () => {
-      const match = frontmatter.match(/tags:\s*\[(.*?)\]/)
-      if (!match) return []
-      return match[1].split(',').map(t => t.trim().replace(/"/g, '')).filter(Boolean)
-    }
+    const { data: frontmatter, content } = matter(rawContent)
 
     return NextResponse.json({
       slug,
-      title: getField('title'),
-      date: getField('date'),
-      excerpt: getField('excerpt'),
-      category: getField('category'),
-      tags: getTags(),
-      author: getField('author'),
+      title: frontmatter.title || slug.replace(/-/g, ' '),
+      date: frontmatter.date || '',
+      excerpt: frontmatter.excerpt || '',
+      category: frontmatter.category || 'Wellness',
+      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+      author: frontmatter.author || 'Aliento Medical',
       content: content.trim(),
       sha: file.sha
     })

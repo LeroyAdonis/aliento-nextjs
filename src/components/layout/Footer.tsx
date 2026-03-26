@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import Link from 'next/link'
 import { Phone, Mail, Clock, ArrowUpRight } from 'lucide-react'
 
@@ -17,7 +16,7 @@ export function Footer() {
               Empowering personal health through personalised care, 
               cutting-edge technology, and genuine compassion.
             </p>
-            <p className="text-warm-500 text-sm italic">Aliento means "breath" in Spanish.</p>
+            <p className="text-warm-500 text-sm italic">Aliento means &quot;breath&quot; in Spanish.</p>
           </div>
 
           {/* Quick Links */}

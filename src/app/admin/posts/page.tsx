@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -54,7 +54,9 @@ export default function AdminPostsList() {
     setDeleting(true)
 
     try {
-      const res = await fetch(`/api/posts/${deleteTarget.slug}`, { method: 'DELETE' })
+      const res = await fetch(`/api/posts/${deleteTarget.slug}`, {
+        method: 'DELETE',
+      })
       const data = await res.json()
 
       if (res.ok) {
