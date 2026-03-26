@@ -2,7 +2,7 @@ name: Sync Blog MDX to Sanity
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev-aliento]
     paths:
       - 'public/content/blog/**/*.mdx'
   workflow_dispatch:
