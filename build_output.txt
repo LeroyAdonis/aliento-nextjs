@@ -1,0 +1,55 @@
+Generated 11 posts (TS + JSON)
+Generated 11 posts (TS + JSON)
+ΓÜá Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\scratchpad\aliento-nextjs\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\scratchpad\aliento-nextjs\.worktrees\fleet-implement-plan\package-lock.json
+
+Γû▓ Next.js 16.1.7 (Turbopack)
+
+  Creating an optimized production build ...
+Found 1 warning while optimizing generated CSS:
+
+Γöé   }
+Γöé }
+Γöé @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=clash-display@400,500,600,700&display=swap');
+Γöå        ^-- @import rules must precede all rules aside from @charset and @layer statements
+Γöå
+Γöé @layer base {
+Γöé   body {
+
+Γ£ô Compiled successfully in 8.1s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+ΓÜá Using edge runtime on a page currently disables static generation for that page
+  Generating static pages using 11 workers (0/14) ...
+  Generating static pages using 11 workers (3/14) 
+  Generating static pages using 11 workers (6/14) 
+  Generating static pages using 11 workers (10/14) 
+Γ£ô Generating static pages using 11 workers (14/14) in 1016.9ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /about
+Γö£ Γùï /admin
+Γö£ Γùï /admin/posts
+Γö£ ╞Æ /admin/posts/edit/[slug]
+Γö£ Γùï /admin/posts/new
+Γö£ ╞Æ /api/contact
+Γö£ ╞Æ /api/og
+Γö£ ╞Æ /api/posts
+Γö£ ╞Æ /api/posts/[slug]
+Γö£ ╞Æ /api/upload
+Γö£ Γùï /blog
+Γö£ ╞Æ /blog/[slug]
+Γö£ Γùï /contact
+Γöö Γùï /services
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
