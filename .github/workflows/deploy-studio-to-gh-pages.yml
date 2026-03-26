@@ -1,0 +1,41 @@
+name: Deploy Sanity Studio to GitHub Pages
+
+on:
+  push:
+    branches: [main, dev-aliento]
+    paths:
+      - 'studio-aliento/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build studio and publish dist/ to gh-pages
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install studio dependencies
+        working-directory: ./studio-aliento
+        run: npm ci
+
+      - name: Build studio
+        working-directory: ./studio-aliento
+        run: npm run build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_dir: ./studio-aliento/dist
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'chore(studio): deploy to gh-pages [skip ci]'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
