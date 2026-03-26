@@ -40,4 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.worktrees
+# Build/lint output logs
+build_output.txt
+lint_output.txt

@@ -56,26 +56,22 @@ export function About() {
             <div className="rounded-2xl bg-gradient-to-br from-sage-100 to-sage-200/70 aspect-[4/5] max-w-sm mx-auto flex items-center justify-center">
               <span className="text-9xl opacity-25 select-none">👩‍⚕️</span>
             </div>
-
-            <div>
-              <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-6">
-                Why &quot;Aliento&quot;?
-              </h2>
-              <div className="space-y-4 text-warm-600 leading-relaxed">
-                <p>
-                  <em>Aliento</em> means &quot;breath&quot; in Spanish. We chose it because breath is the most fundamental
-                  act of being alive — and because we want health to feel that natural and effortless.
-                  Not a burden. Not a medical bill waiting to happen.
-                </p>
-                <p>
-                  The name also captures our mission: to give people the information they need to
-                  breathe easier about their health. To feel less anxious, more informed, and more
-                  in control of their own bodies.
-                </p>
-                <p>
-                  We cover everything from preventive screenings and chronic disease management to
-                  mental health, nutrition, and the latest in medical research — all in plain language
-                  that makes sense on a Tuesday morning.
+            
+            <h2 className="text-4xl lg:text-5xl font-display font-bold text-warm-900 mb-8 leading-[1.1]">
+              Healthcare that<br />
+              <span className="text-gradient-primary">actually</span> cares<br />
+              about you.
+            </h2>
+            
+            <div className="space-y-6 text-warm-600 text-lg leading-relaxed">
+              <p>
+                At Aliento, we believe healthcare should be more than just treating symptoms — 
+                it&apos;s about understanding you as a person. Our patient-centred approach combines 
+                cutting-edge medical technology with genuine human compassion.
+              </p>
+              <div className="editorial-quote">
+                <p className="text-warm-700 italic text-lg">
+                  &quot;We don&apos;t just treat conditions — we partner with you on your health journey.&quot;
                 </p>
               </div>
               <blockquote className="editorial-quote mt-8 text-warm-700">

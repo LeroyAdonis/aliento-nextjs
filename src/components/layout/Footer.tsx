@@ -41,6 +41,7 @@ export function Footer() {
               Health education, promotion, and expert-backed virtual care —
               available to every South African, wherever you are.
             </p>
+            <p className="text-warm-500 text-sm italic">Aliento means &quot;breath&quot; in Spanish.</p>
           </div>
 
           {/* Explore */}
