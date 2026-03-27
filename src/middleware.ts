@@ -4,7 +4,8 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
 const COOKIE_NAME = 'admin_session'
 
 function isAuthenticated(request: NextRequest): boolean {
-  if (!ADMIN_SECRET) return false
+  // If no ADMIN_SECRET set, allow access (dev mode)
+  if (!ADMIN_SECRET) return true
   const cookie = request.cookies.get(COOKIE_NAME)
   return cookie?.value === ADMIN_SECRET
 }
@@ -12,11 +13,12 @@ function isAuthenticated(request: NextRequest): boolean {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Protect admin UI pages (except login)
+  // Redirect admin UI to Sanity studio (except login)
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
     if (!isAuthenticated(request)) {
-      const loginUrl = new URL('/admin/login', request.url)
-      return NextResponse.redirect(loginUrl)
+      // Use Sanity studio URL
+      const studioUrl = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'kygybgb7'}.sanity.studio`
+      return NextResponse.redirect(studioUrl)
     }
   }
 
