@@ -6,6 +6,27 @@ import { Calendar, ArrowLeft, Clock, Tag, ArrowRight } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import type { SanityPost } from '@/lib/sanity'
 
+function isRawHtmlBody(body: unknown[]): boolean {
+  const first = body[0] as { _type?: string; children?: Array<{ _type?: string; text?: string }> }
+  if (first?._type !== 'block') return false
+  const firstChild = first.children?.[0]
+  if (firstChild?._type !== 'span') return false
+  return typeof firstChild.text === 'string' && firstChild.text.trimStart().startsWith('<')
+}
+
+function extractRawHtml(body: unknown[]): string {
+  return body
+    .filter((b) => (b as { _type?: string })._type === 'block')
+    .map((b) => {
+      const block = b as { children?: Array<{ _type?: string; text?: string }> }
+      return (block.children ?? [])
+        .filter((c) => c._type === 'span')
+        .map((c) => c.text ?? '')
+        .join('')
+    })
+    .join('\n')
+}
+
 const portableTextComponents = {
   types: {
     image: ({ value }: { value: { asset?: { _ref?: string }; caption?: string; alt?: string } }) => {
@@ -99,10 +120,17 @@ export default function BlogPostContent({ post }: { post: SanityPost }) {
       <section className="py-16 lg:py-20">
         <div className="max-w-3xl mx-auto px-6 lg:px-12">
           {post.body ? (
-            <div className="text-warm-700 text-lg leading-relaxed">
-              {/* @ts-expect-error - PortableText components typing */}
-              <PortableText value={post.body} components={portableTextComponents} />
-            </div>
+            isRawHtmlBody(post.body) ? (
+              <div
+                className="text-warm-700 text-lg leading-relaxed [&_p]:mb-5 [&_p]:leading-relaxed [&_h2]:text-2xl [&_h2]:lg:text-3xl [&_h2]:font-bold [&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:text-warm-900 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-10 [&_h3]:mb-4 [&_h3]:text-warm-900 [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:mt-8 [&_h4]:mb-3 [&_h4]:text-warm-900 [&_ul]:list-disc [&_ul]:list-outside [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul]:mb-6 [&_ol]:list-decimal [&_ol]:list-outside [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol]:mb-6 [&_img]:rounded-xl [&_img]:max-w-full [&_img]:h-auto [&_img]:my-6 [&_strong]:font-bold [&_strong]:text-warm-900 [&_a]:text-primary-600 [&_a]:underline [&_a]:hover:text-primary-700 [&_blockquote]:italic [&_blockquote]:text-warm-600 [&_blockquote]:pl-4 [&_blockquote]:border-l-4 [&_blockquote]:border-primary-300"
+                dangerouslySetInnerHTML={{ __html: extractRawHtml(post.body) }}
+              />
+            ) : (
+              <div className="text-warm-700 text-lg leading-relaxed">
+                {/* @ts-expect-error - PortableText components typing */}
+                <PortableText value={post.body} components={portableTextComponents} />
+              </div>
+            )
           ) : (
             <p className="text-warm-500 text-lg italic">This post&apos;s content will be available once published in Sanity CMS.</p>
           )}
