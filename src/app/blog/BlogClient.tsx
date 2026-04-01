@@ -105,7 +105,7 @@ export default function BlogClient({ posts, categories, basePath = '/health-topi
                   <div className={`aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br ${getCategoryGradient(featuredCatTitle)} flex items-center justify-center`}>
                     {featuredPost.coverImage ? (
                       <Image
-                        src={`https://cdn.sanity.io/images/kygbgd7/production/${(featuredPost.coverImage as { asset?: { _ref?: string } })?.asset?._ref?.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`}
+                        src={`https://cdn.sanity.io/images/kygybgb7/production/${(featuredPost.coverImage as { asset?: { _ref?: string } })?.asset?._ref?.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`}
                         alt={featuredPost.title}
                         width={600}
                         height={450}
@@ -198,7 +198,7 @@ export default function BlogClient({ posts, categories, basePath = '/health-topi
                             <div className={`aspect-[16/10] overflow-hidden relative bg-gradient-to-br ${getCategoryGradient(catTitle)}`}>
                               {post.coverImage ? (
                                 <Image
-                                  src={`https://cdn.sanity.io/images/kygbgd7/production/${(post.coverImage as { asset?: { _ref?: string } })?.asset?._ref?.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`}
+                                  src={`https://cdn.sanity.io/images/kygybgb7/production/${(post.coverImage as { asset?: { _ref?: string } })?.asset?._ref?.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`}
                                   alt={post.title}
                                   width={400}
                                   height={250}
