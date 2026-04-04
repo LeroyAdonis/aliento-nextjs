@@ -62,6 +62,9 @@ const portableTextComponents = {
 export default function BlogPostContent({ post }: { post: SanityPost }) {
   const catTitle = typeof post.category === 'string' ? post.category : post.category?.title || ''
 
+
+
+
   return (
     <>
       {/* Header */}

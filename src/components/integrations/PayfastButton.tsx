@@ -44,6 +44,8 @@ export function PayfastButton() {
           packageId: selectedPackage,
           buyerName: formData.name,
           buyerEmail: formData.email,
+          successPath: '/consult/book',
+          cancelPath: '/consult?payment=cancelled',
         }),
       })
 

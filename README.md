@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aliento Next.js
 
-## Getting Started
-
-First, run the development server:
+## Local setup
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Required environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Cal.com
+- `NEXT_PUBLIC_CALCOM_USERNAME` — Cal.com username/org handle
+- `NEXT_PUBLIC_CALCOM_EVENT_SLUG_30` — event slug for 30-minute consult
+- `NEXT_PUBLIC_CALCOM_EVENT_SLUG_60` — event slug for 60-minute consult
+- `CALCOM_API_KEY` — server-side API key (never expose client-side)
+- `CALCOM_WEBHOOK_SECRET` — webhook signing secret for `x-cal-signature-256`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Site
+- `NEXT_PUBLIC_SITE_URL` — public site URL used for callback URLs
 
-## Learn More
+### PayFast
+- `NEXT_PUBLIC_PAYFAST_MERCHANT_ID`
+- `NEXT_PUBLIC_PAYFAST_MERCHANT_KEY`
+- `PAYFAST_PASSPHRASE`
 
-To learn more about Next.js, take a look at the following resources:
+## Consult booking flow
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. User goes to `/consult` and selects 30min or 60min.
+2. User pays via PayFast.
+3. `/api/payment/notify` marks payment as paid.
+4. User is redirected to `/consult/book?paymentId=...`.
+5. Gate waits for paid status, then unlocks Cal.com embed.
+6. Booking confirmation page is `/consult/confirmed/[bookingUid]`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Cal.com webhook endpoint
 
-## Deploy on Vercel
+- URL: `/api/webhooks/calcom`
+- Signature header: `x-cal-signature-256`
+- Current behavior: validates signature + structured logging for lifecycle events.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For local webhook testing, expose your dev server through a tunnel (ngrok/cloudflared) and set webhook URL to `https://<tunnel>/api/webhooks/calcom`.

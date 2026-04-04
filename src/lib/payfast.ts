@@ -52,6 +52,7 @@ export function buildPayfastFormData(params: {
   returnUrl: string
   cancelUrl: string
   notifyUrl: string
+  paymentId?: string
 }): Record<string, string> {
   const pkg = CONSULTATION_PACKAGES.find((p) => p.id === params.packageId)
   if (!pkg) throw new Error(`Invalid package: ${params.packageId}`)
@@ -65,7 +66,7 @@ export function buildPayfastFormData(params: {
     name_first: params.buyerName.split(' ')[0] || '',
     name_last: params.buyerName.split(' ').slice(1).join(' ') || '',
     email_address: params.buyerEmail,
-    m_payment_id: `${pkg.id}-${Date.now()}`,
+    m_payment_id: params.paymentId || `${pkg.id}-${Date.now()}`,
     amount: pkg.amount.toFixed(2),
     item_name: pkg.name,
     item_description: pkg.description,
