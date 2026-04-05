@@ -3,10 +3,25 @@ import Link from 'next/link'
 import { Video, Clock, CreditCard, Monitor, ArrowRight } from 'lucide-react'
 import { ConsultBookingPanel } from '@/components/consult/ConsultBookingPanel'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aliento.africa'
+
 export const metadata: Metadata = {
   title: 'Book a Virtual Consultation',
   description:
     'Book a virtual face-to-face medical consultation via Zoom or Microsoft Teams. R500/hr, 30 min or 1-hour sessions, with visual assessment.',
+  alternates: { canonical: `${SITE_URL}/consult` },
+  openGraph: {
+    type: 'website',
+    url: `${SITE_URL}/consult`,
+    title: 'Book a Virtual Consultation | Aliento Medical',
+    description: 'Book a virtual face-to-face medical consultation via Zoom or Microsoft Teams.',
+    siteName: 'Aliento Medical',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Book a Virtual Consultation | Aliento Medical',
+    description: 'Book a virtual face-to-face medical consultation via Zoom or Microsoft Teams.',
+  },
 }
 
 const steps = [

@@ -2,24 +2,33 @@ import { createClient } from 'next-sanity'
 import { createImageUrlBuilder } from '@sanity/image-url'
 import { z } from 'zod'
 
-// Validate environment variables
+// Validate environment variables — gracefully degrade if missing.
+// The Sanity config files have hardcoded fallbacks, so the app works
+// even without env vars. We warn instead of throwing.
 const sanityEnvSchema = z.object({
- NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().min(1),
- NEXT_PUBLIC_SANITY_DATASET: z.string().min(1),
- NEXT_PUBLIC_SANITY_API_VERSION: z.string().min(1).optional().default('2026-03-23'),
+  NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().min(1).optional(),
+  NEXT_PUBLIC_SANITY_DATASET: z.string().min(1).optional(),
+  NEXT_PUBLIC_SANITY_API_VERSION: z.string().min(1).optional(),
 })
 
 const env = sanityEnvSchema.parse({
- NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
- NEXT_PUBLIC_SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,
- NEXT_PUBLIC_SANITY_API_VERSION: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
+  NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  NEXT_PUBLIC_SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  NEXT_PUBLIC_SANITY_API_VERSION: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
 })
 
+if (!env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+  console.warn(
+    '[Aliento] NEXT_PUBLIC_SANITY_PROJECT_ID is not set. '
+    + 'Sanity client will fail silently — set this var in .env for full functionality.',
+  )
+}
+
 export const client = createClient({
- projectId: env.NEXT_PUBLIC_SANITY_PROJECT_ID,
- dataset: env.NEXT_PUBLIC_SANITY_DATASET,
- apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION,
- useCdn: true,
+  projectId: env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? 'kygybgb7',
+  dataset: env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
+  apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION ?? '2026-03-23',
+  useCdn: true,
 })
 
 const builder = createImageUrlBuilder(client)
