@@ -11,6 +11,7 @@ const navItems = [
   { label: 'Health Topics', href: '/health-topics' },
   { label: 'About',         href: '/about' },
   { label: 'Consult',       href: '/consult' },
+  { label: 'Questionnaire', href: '/questionnaire' },
   { label: 'Contact',       href: '/contact' },
 ]
 

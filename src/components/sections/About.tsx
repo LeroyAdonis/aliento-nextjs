@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, BookOpen, Heart, Users } from 'lucide-react'
 
 const values = [
@@ -35,14 +36,14 @@ export function About() {
             <div className="w-8 h-px bg-sage-400" />
           </div>
           <h1 className="text-4xl lg:text-6xl font-display font-semibold text-warm-900 mb-7 leading-tight">
-            We believe everyone deserves
+            Your health, understood.
             <br />
-            <span className="text-gradient-primary italic">to understand their health.</span>
+            <span className="text-gradient-primary italic">Guided by Dr. Leegale Adonis.</span>
           </h1>
           <p className="text-xl text-warm-500 max-w-2xl mx-auto leading-relaxed">
-            Aliento is a health promotion platform created by a medical professional
+            Aliento is a health promotion platform created by Dr. Leegale Adonis — a public health specialist
             who got tired of watching people suffer from conditions that could have been
-            prevented — or at least better understood.
+            prevented or at least better understood.
           </p>
         </div>
       </section>
@@ -52,12 +53,19 @@ export function About() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-            {/* Photo placeholder */}
-            <div className="rounded-2xl bg-gradient-to-br from-sage-100 to-sage-200/70 aspect-[4/5] max-w-sm mx-auto flex items-center justify-center">
-              <span className="text-9xl opacity-25 select-none">👩‍⚕️</span>
+            {/* Doctor photo */}
+            <div className="rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto bg-gradient-to-br from-sage-100 to-sage-200/70 relative">
+              <Image
+                src="/images/doctor-headshot.webp"
+                alt="Dr. Leegale Franscesca Adonis"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
-            
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-warm-900 mb-8 leading-[1.1]">
+
+            <div>
+              <h2 className="text-4xl lg:text-5xl font-display font-bold text-warm-900 mb-8 leading-[1.1]">
               Healthcare that<br />
               <span className="text-gradient-primary">actually</span> cares<br />
               about you.
@@ -80,7 +88,8 @@ export function About() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Values */}
       <section className="py-20 bg-cream-100">
@@ -98,6 +107,71 @@ export function About() {
                 <p className="text-warm-500 text-sm leading-relaxed">{body}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Doctor credentials section */}
+      <section className="py-20 lg:py-24 bg-sage-50/30">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto bg-gradient-to-br from-sage-100 to-sage-200/70 relative">
+              <Image
+                src="/images/doctor-headshot.webp"
+                alt="Dr. Leegale Franscesca Adonis"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-6 h-px bg-sage-400" />
+                <span className="text-xs font-body font-semibold tracking-[0.2em] uppercase text-sage-500">Your Doctor</span>
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-display font-semibold text-warm-900 mb-4">
+                Dr. Leegale Franscesca Adonis, <span className="text-gradient-primary italic">MBBCH</span>
+              </h2>
+              <p className="text-sage-600 font-medium mb-6">MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD</p>
+              <div className="space-y-4 text-warm-600 leading-relaxed">
+                <p>
+                  Dr. Leegale Franscesca Adonis is a dedicated medical professional with extensive experience in 
+                  community health, public health medicine, and health promotion across South Africa.
+                </p>
+                <p>
+                  She founded Aliento with a mission to make quality health education accessible to every 
+                  South African — breaking down complex medical information into clear, actionable guidance.
+                </p>
+                <p>
+                  Her approach combines clinical expertise with genuine warmth, ensuring every patient 
+                  feels heard, understood, and empowered to take control of their health.
+                </p>
+              </div>
+              <div className="mt-8 space-y-3 bg-white/70 rounded-2xl p-5 border border-warm-200/50">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                  <span className="text-warm-400 font-medium">Full Name</span>
+                  <span className="text-warm-800">Dr. Leegale Franscesca Adonis</span>
+
+                  <span className="text-warm-400 font-medium">Qualifications</span>
+                  <span className="text-warm-800">MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD</span>
+
+                  <span className="text-warm-400 font-medium">Practice No.</span>
+                  <span className="text-warm-800">1181300</span>
+
+                  <span className="text-warm-400 font-medium">HPCSA No.</span>
+                  <span className="text-warm-800">MP0531502</span>
+
+                  <span className="text-warm-400 font-medium">Phone</span>
+                  <span className="text-warm-800">076 236 7921 / 065 747 7524</span>
+
+                  <span className="text-warm-400 font-medium">Email</span>
+                  <span className="text-warm-800">leegale@alientomd.com</span>
+
+                  <span className="text-warm-400 font-medium">Practice Address</span>
+                  <span className="text-warm-800">112A 9th Road, Hyde Park, Johannesburg, 2196</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

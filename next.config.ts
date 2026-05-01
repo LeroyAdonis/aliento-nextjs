@@ -13,10 +13,7 @@ sanityEnvSchema.parse({
 })
 
 const nextConfig: NextConfig = {
- turbopack: {
- root: '/root/.openclaw/workspace/aliento-nextjs',
- },
- images: {
+  images: {
  remotePatterns: [
  {
  protocol: 'https',

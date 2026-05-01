@@ -1,19 +1,19 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Video, Clock, CreditCard, Monitor, ArrowRight } from 'lucide-react'
+import { Video, Clock, CreditCard, Monitor, ArrowRight, FileText } from 'lucide-react'
 import { ConsultBookingPanel } from '@/components/consult/ConsultBookingPanel'
 
 export const metadata: Metadata = {
   title: 'Book a Virtual Consultation',
   description:
-    'Book a virtual face-to-face medical consultation via Zoom or Microsoft Teams. R500/hr, 30 min or 1-hour sessions, with visual assessment.',
+    'Book a virtual face-to-face medical consultation. R250 for 20 min or R500 for 35 min.',
 }
 
 const steps = [
   {
     step: '01',
     title: 'Choose a session',
-    body: 'Pick a 30-minute or 1-hour consultation and complete secure PayFast checkout.',
+    body: 'Pick a 20-minute or 35-minute consultation and complete secure PayFast checkout.',
   },
   {
     step: '02',
@@ -30,8 +30,8 @@ const steps = [
 const included = [
   { icon: Video, label: 'Face-to-face via video', detail: 'Zoom primary, Teams secondary' },
   { icon: Monitor, label: 'Visual assessment', detail: 'Show rashes, lumps, or swelling on camera' },
-  { icon: Clock, label: 'Flexible sessions', detail: '30-minute or 1-hour slots' },
-  { icon: CreditCard, label: 'Transparent pricing', detail: 'R500 per hour, paid upfront' },
+  { icon: Clock, label: 'Flexible sessions', detail: '20-minute or 35-minute slots' },
+  { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 or R500, paid upfront' },
 ]
 
 export default function ConsultPage() {
@@ -54,10 +54,31 @@ export default function ConsultPage() {
               then your booking calendar unlocks securely.
             </p>
             <ul className="text-sm text-warm-600 space-y-2 mb-8">
-              <li>• 30 min consult — R250</li>
-              <li>• 1 hour consult — R500</li>
+              <li>• 20 min consult — R250</li>
+              <li>• 35 min consult — R500</li>
               <li>• No referral needed</li>
             </ul>
+
+            {/* Questionnaire CTA */}
+            <div className="rounded-2xl border border-sage-200 bg-sage-50 p-5 mt-6">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-full bg-sage-100 flex items-center justify-center flex-shrink-0">
+                  <FileText size={16} className="text-sage-600" />
+                </div>
+                <div>
+                  <h3 className="font-display font-semibold text-warm-900 text-sm mb-1">Before your consult</h3>
+                  <p className="text-xs text-warm-500 mb-2 leading-relaxed">
+                    Complete our health questionnaire so Dr. Gaila can prepare for your visit.
+                  </p>
+                  <Link
+                    href="/questionnaire"
+                    className="inline-flex items-center gap-1.5 bg-sage-400 text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-sage-500 transition-all hover:-translate-y-0.5 shadow-sm"
+                  >
+                    Fill in Questionnaire <ArrowRight size={13} />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
 
           <ConsultBookingPanel />

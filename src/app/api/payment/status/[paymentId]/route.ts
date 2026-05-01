@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: Promise<{ paymentId: string }> }
 ) {
   const { paymentId } = await params
-  const record = getPaymentGateRecord(paymentId)
+  const record = await getPaymentGateRecord(paymentId)
 
   if (!record) {
     return NextResponse.json({ error: 'Payment session not found' }, { status: 404 })

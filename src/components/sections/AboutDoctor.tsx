@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 
 export function AboutDoctor() {
@@ -9,8 +10,14 @@ export function AboutDoctor() {
 
           {/* Illustration / photo placeholder */}
           <div className="relative order-2 md:order-1">
-            <div className="rounded-2xl bg-gradient-to-br from-sage-100 to-sage-200/70 aspect-[4/5] max-w-sm mx-auto flex items-center justify-center">
-              <span className="text-8xl opacity-30 select-none">👩‍⚕️</span>
+            <div className="rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto bg-gradient-to-br from-sage-100 to-sage-200/70 relative">
+              <Image
+                src="/images/doctor-headshot.webp"
+                alt="Dr. Leegale Franscesca Adonis"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
             {/* Floating badge */}
             <div className="absolute -bottom-5 -right-2 md:right-8 bg-white rounded-2xl shadow-md p-5 border border-warm-200/60 max-w-[200px]">
@@ -35,6 +42,12 @@ export function AboutDoctor() {
               <br />
               <span className="text-gradient-primary italic">who happens to be a doctor</span>
             </h2>
+
+            <div className="mb-6">
+              <p className="text-xl font-display font-semibold text-warm-900">Dr. Leegale Franscesca Adonis</p>
+              <p className="text-sm text-sage-600">MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD</p>
+              <p className="text-xs text-warm-400 mt-1">General Practitioner | Health Promotion Specialist</p>
+            </div>
 
             <div className="space-y-4 text-warm-600 leading-relaxed">
               <p>
