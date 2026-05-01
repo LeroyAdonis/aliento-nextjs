@@ -1,5 +1,5 @@
-import { db } from '@/db'
-import { payments } from '@/db/schema'
+import { db } from '../db'
+import { payments } from '../db/schema'
 import { eq, and, sql } from 'drizzle-orm'
 
 export type PaymentGateStatus = 'pending' | 'paid' | 'failed'
