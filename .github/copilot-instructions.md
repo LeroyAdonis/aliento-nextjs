@@ -1,46 +1,114 @@
-# Project Guidelines
+# Copilot Instructions for aliento-nextjs
 
-## Code Style
+## Build, lint, and test commands
 
-- Use TypeScript with strict typing (`tsconfig.json` has `strict: true`). Avoid `any` unless unavoidable and justified.
-- Use the `@/*` path alias for imports from `src`.
-- Follow the existing React split:
-  - Server Components by default in `src/app/**`
-  - Add `'use client'` only when hooks/browser APIs are required.
-- Keep styling in Tailwind utility classes, matching existing palette/tokens (`src/lib/design-system.ts`, `src/lib/theme.ts`).
-- Match existing formatting style in touched files (single quotes are common in app/components files; preserve local style when editing).
-
-## Architecture
-
-- Framework: Next.js App Router (`src/app/**`) with route-based pages and API handlers under `src/app/api/**`.
-- Layout composition:
-  - Root metadata/layout in `src/app/layout.tsx`
-  - Shared shell in `src/components/layout/Layout.tsx` (Header + Footer)
-- Blog content pipeline:
-  - Source: `content/blog/*.mdx`
-  - Build-time generation via `scripts/generate-blog-data.js`
-  - Outputs: `src/lib/blog-generated.ts` and `public/blog-data.json`
-  - Consumers: `src/app/blog/page.tsx`, `src/app/blog/BlogClient.tsx`, `src/app/blog/[slug]/page.tsx`
-
-## Build and Validate
-
-- Install dependencies: `npm install`
-- Local development: `npm run dev`
+### Main app (Next.js at repo root)
+- Install: `npm install`
+- Dev server: `npm run dev`
+- Safe dev startup (checks/bootstraps before dev): `npm run dev:safe`
 - Lint: `npm run lint`
 - Production build: `npm run build`
-  - Note: `build` runs `prebuild` first, which regenerates blog metadata from MDX files.
-- Run `npm run lint` and `npm run build` after non-trivial changes before considering work complete.
 
-## Conventions
+### Studio app (`studio-aliento/`)
+- Install: `cd studio-aliento && npm install`
+- Dev server: `cd studio-aliento && npm run dev`
+- Production build: `cd studio-aliento && npm run build`
 
-- Blog posts should use MDX frontmatter keys used by the generator (`title`, `date`, `excerpt`, `category`, `tags`, `author`).
-- If changing blog data behavior, update both generated TypeScript and JSON expectations (build pipeline + runtime fetch usage).
-- Preserve South African localization conventions already present in UI metadata and date formatting (e.g., `en_ZA`, `toLocaleDateString('en-ZA', ...)`).
-- Prefer small, targeted edits; avoid broad refactors unrelated to the task.
+### Tests
+- There is currently no configured automated test runner (`npm test` / `npm run test` do not exist in either package), so there is no single-test command yet.
 
-## Environment and Pitfalls
+## High-level architecture
 
-- API route `src/app/api/posts/route.ts` depends on `GITHUB_TOKEN` for GitHub write/read operations.
-- The posts API currently targets a fixed repository (`LeroyAdonis/aliento-nextjs`) and branch (`main`); do not change this without explicit request.
-- Missing `content/blog` directory is handled gracefully by the prebuild script (no crash, empty generation).
-- Do not add a second workspace instruction file (`AGENTS.md`) unless explicitly migrating to that format.
+- This repo contains two related apps:
+  1. A **Next.js App Router app** in the root (`src/app/**`) that serves the website, API routes, and an embedded Studio route at `/admin`.
+  2. A **standalone Sanity Studio** in `studio-aliento/` used for separate studio builds/deploys (GitHub Pages workflow).
+
+- The root app shell is composed in:
+  - `src/app/layout.tsx` (global metadata + wrapper)
+  - `src/components/layout/Layout.tsx` (Header/Footer around all pages)
+
+- Blog/content rendering is Sanity-first with graceful fallbacks:
+  - Data access: `src/lib/sanity.ts`
+  - Listing pages: `src/app/health-topics/page.tsx` and `src/app/blog/page.tsx` (both can fall back to static in-repo content when CMS content is unavailable)
+  - Detail pages: `src/app/health-topics/[slug]/page.tsx` and `src/app/blog/[slug]/page.tsx`
+  - Reused UI: `src/app/blog/BlogClient.tsx`, `src/app/blog/[slug]/BlogPostContent.tsx`
+  - Route canonicalization is configured in `next.config.ts` (`/blog` and `/blog/:slug` redirect to `/health-topics...`)
+
+- Consult booking flow spans UI, payment, and webhook routes:
+  - Checkout bootstrap: `src/app/api/payment/route.ts`
+  - PayFast ITN status updates: `src/app/api/payment/notify/route.ts`
+  - Booking gate polling endpoint: `src/app/api/payment/status/[paymentId]/route.ts`
+  - Client-side gate + embed unlock: `src/app/consult/book/BookingContent.tsx`
+  - Cal.com embed/webhook helpers: `src/components/integrations/CalEmbed.tsx`, `src/lib/calcom.ts`, `src/app/api/webhooks/calcom/route.ts`
+  - Persistence: Drizzle + Neon (`src/db/schema.ts`, `src/db/index.ts`, `src/lib/payment-gate.ts`)
+
+- Admin editing surfaces currently coexist:
+  - Sanity Studio via `/admin` (`src/app/admin/[[...tool]]/page.tsx`, `sanity.config.ts`)
+  - GitHub-backed MDX CRUD routes under `src/app/api/posts/**` (writes to `content/blog` in `LeroyAdonis/aliento-nextjs` on `main`)
+
+### Architecture graph
+
+```mermaid
+flowchart LR
+  subgraph NextApp["Next.js app (repo root)"]
+    Routes["src/app/** pages + api routes"]
+    Layout["layout.tsx -> components/layout/Layout.tsx"]
+    BlogUI["BlogClient + BlogPostContent"]
+    SanityClient["src/lib/sanity.ts"]
+    PaymentAPI["/api/payment/*"]
+    CalWebhook["/api/webhooks/calcom"]
+    DB["Drizzle + Neon (src/db, src/lib/payment-gate.ts)"]
+    AdminRoute["/admin (next-sanity/studio)"]
+  end
+
+  subgraph Studio["Standalone studio-aliento app"]
+    StudioBuild["sanity dev/build"]
+    GHDeploy["GitHub Pages deploy workflow"]
+  end
+
+  Routes --> Layout
+  Routes --> BlogUI
+  BlogUI --> SanityClient
+  PaymentAPI --> DB
+  CalWebhook --> SanityClient
+  AdminRoute --> SanityClient
+  StudioBuild --> GHDeploy
+```
+
+### Consult booking/payment graph
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant W as /consult UI
+  participant P as /api/payment
+  participant G as payment-gate (Neon)
+  participant PF as PayFast
+  participant N as /api/payment/notify
+  participant S as /api/payment/status/:paymentId
+  participant B as /consult/book (BookingContent)
+  participant C as CalEmbed
+
+  U->>W: Choose package + details
+  W->>P: POST payment request
+  P->>G: create pending record
+  P-->>W: PayFast form payload
+  W->>PF: Submit payment
+  PF->>N: ITN webhook
+  N->>G: mark paid/failed
+  B->>S: Poll payment status
+  S->>G: read status
+  S-->>B: pending/paid/failed
+  B->>C: Render embed only when paid
+```
+
+## Key conventions for this repo
+
+- TypeScript is strict (`tsconfig.json`) and imports should use the `@/*` alias for `src/*`.
+- Keep server/client boundaries explicit:
+  - Server Components by default in `src/app/**`
+  - Add `'use client'` only where hooks/browser APIs are needed.
+- Dynamic App Router params are commonly typed as promises and awaited (e.g., `{ params }: { params: Promise<{ slug: string }> }`).
+- Preserve existing South African localization patterns in metadata and formatting (`en_ZA`, `toLocaleDateString('en-ZA', ...)`).
+- Environment validation is fail-fast in core paths (notably `next.config.ts` and `src/lib/sanity.ts` via `zod`); do not bypass these checks when adding env-dependent features.
+- UI styling follows existing Tailwind tokens/palette patterns from app styles and shared libs (`src/lib/design-system.ts`, `src/lib/theme.ts`).

@@ -32,7 +32,7 @@ const portableTextComponents = {
     image: ({ value }: { value: { asset?: { _ref?: string }; caption?: string; alt?: string } }) => {
       const ref = value?.asset?._ref
       if (!ref) return null
-      const src = `https://cdn.sanity.io/images/kygbgd7/production/${ref.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`
+      const src = `https://cdn.sanity.io/images/kygybgb7/production/${ref.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`
       return (
         <figure className="my-10">
           <Image src={src} alt={value.alt || ''} width={800} height={500} className="rounded-2xl w-full" />
@@ -82,6 +82,9 @@ const portableTextComponents = {
 
 export default function BlogPostContent({ post }: { post: SanityPost }) {
   const catTitle = typeof post.category === 'string' ? post.category : post.category?.title || ''
+
+
+
 
   return (
     <>

@@ -16,17 +16,17 @@ export const PAYFAST_URL = PAYFAST_CONFIG.sandboxMode
 export const CONSULTATION_PACKAGES = [
   {
     id: 'consult-30',
-    name: '30-Minute Consultation',
-    description: 'Virtual face-to-face consultation via Zoom or Teams',
+    name: '20-Minute Consultation',
+    description: 'Quick virtual consultation via Zoom or Teams',
     amount: 250,
-    duration: '30 min',
+    duration: '20 min',
   },
   {
     id: 'consult-60',
-    name: '1-Hour Consultation',
-    description: 'Extended virtual face-to-face consultation via Zoom or Teams',
+    name: '35-Minute Consultation',
+    description: 'Extended virtual consultation via Zoom or Teams',
     amount: 500,
-    duration: '1 hour',
+    duration: '35 min',
   },
 ] as const
 
@@ -52,6 +52,7 @@ export function buildPayfastFormData(params: {
   returnUrl: string
   cancelUrl: string
   notifyUrl: string
+  paymentId?: string
 }): Record<string, string> {
   const pkg = CONSULTATION_PACKAGES.find((p) => p.id === params.packageId)
   if (!pkg) throw new Error(`Invalid package: ${params.packageId}`)
@@ -65,7 +66,7 @@ export function buildPayfastFormData(params: {
     name_first: params.buyerName.split(' ')[0] || '',
     name_last: params.buyerName.split(' ').slice(1).join(' ') || '',
     email_address: params.buyerEmail,
-    m_payment_id: `${pkg.id}-${Date.now()}`,
+    m_payment_id: params.paymentId || `${pkg.id}-${Date.now()}`,
     amount: pkg.amount.toFixed(2),
     item_name: pkg.name,
     item_description: pkg.description,
