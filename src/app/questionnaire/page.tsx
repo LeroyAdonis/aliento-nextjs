@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, Shield, FileText } from 'lucide-react'
+import { ArrowLeft, Shield, Clock } from 'lucide-react'
+import { QuestionnaireWizard } from './QuestionnaireWizard'
 
 export const metadata: Metadata = {
   title: 'Health Questionnaire',
@@ -8,11 +9,18 @@ export const metadata: Metadata = {
     'Complete your pre-consultation health questionnaire. Your information is protected by doctor-patient confidentiality.',
 }
 
-export default function QuestionnairePage() {
+interface Props {
+  searchParams: Promise<{ bookingUid?: string }>
+}
+
+export default async function QuestionnairePage({ searchParams }: Props) {
+  const { bookingUid } = await searchParams
+
   return (
     <div className="bg-cream-100 min-h-screen">
+
       {/* Header */}
-      <section className="relative py-16 lg:py-20 overflow-hidden grain">
+      <section className="relative py-14 lg:py-18 overflow-hidden grain">
         <div className="absolute inset-0 bg-gradient-to-b from-sage-50/60 to-cream-100" />
         <div className="relative max-w-4xl mx-auto px-6 lg:px-12">
           <Link
@@ -31,41 +39,40 @@ export default function QuestionnairePage() {
             <div className="w-8 h-px bg-sage-400" />
           </div>
 
-          <h1 className="text-3xl lg:text-5xl font-display font-semibold text-warm-900 mb-6 leading-tight">
-            Health & Wellness <br />
-            <span className="text-gradient-primary italic">Questionnaire</span>
-          </h1>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+            <h1 className="text-3xl lg:text-5xl font-display font-semibold text-warm-900 leading-tight">
+              Health & Wellness <br />
+              <span className="text-gradient-primary italic">Questionnaire</span>
+            </h1>
+            <div className="flex items-center gap-2 text-sm text-warm-500 bg-white/70 border border-warm-200 rounded-full px-4 py-2 w-fit shrink-0">
+              <Clock size={14} className="text-sage-500" />
+              <span>10 steps · ~10 min</span>
+            </div>
+          </div>
 
-          <p className="text-lg text-warm-500 max-w-2xl leading-relaxed mb-6">
-            Help Dr. Gaila prepare for your consultation by completing this questionnaire.
+          <p className="text-lg text-warm-500 max-w-2xl leading-relaxed mb-8">
+            Help Dr. Leegale Adonis prepare for your consultation by completing this questionnaire.
             Your information is protected and confidential.
           </p>
 
           {/* Confidentiality & Consent notice */}
-          <div className="rounded-2xl border border-sage-200 bg-sage-50 p-6 mb-8">
+          <div className="rounded-2xl border border-sage-200 bg-sage-50/80 p-6">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Shield size={20} className="text-sage-600" />
               </div>
               <div>
                 <h3 className="font-display font-semibold text-warm-900 mb-3 text-lg">
                   Confidentiality & Informed Consent
                 </h3>
-                <div className="text-sm text-warm-600 space-y-3">
+                <div className="text-sm text-warm-600 space-y-2">
                   <p>
-                    All information you provide in this questionnaire is protected by 
-                    <strong> doctor-patient confidentiality</strong> and will be handled in 
-                    accordance with the Protection of Personal Information Act (POPIA).
+                    All information is protected by <strong>doctor-patient confidentiality</strong> and
+                    handled under the Protection of Personal Information Act (POPIA).
                   </p>
                   <p>
-                    Your data is stored securely and will only be used for the purpose of 
-                    your medical consultation. It will not be shared with any third party 
-                    without your explicit written consent.
-                  </p>
-                  <p>
-                    By completing and submitting this form, you acknowledge that you have 
-                    read and understood this confidentiality notice and consent to the 
-                    collection and processing of your health information for your consultation.
+                    By submitting this form you consent to the collection and processing of your
+                    health information for the purpose of your consultation.
                   </p>
                 </div>
               </div>
@@ -74,21 +81,9 @@ export default function QuestionnairePage() {
         </div>
       </section>
 
-      {/* Embedded JotForm */}
-      <section className="pb-20 lg:pb-28">
-        <div className="max-w-4xl mx-auto px-6 lg:px-12">
-          <div className="rounded-3xl border border-warm-200 bg-white overflow-hidden shadow-sm">
-            <iframe
-              src="https://form.jotform.com/251703501661044"
-              title="Aliento Health & Wellness Questionnaire"
-              width="100%"
-              height="6800"
-              className="border-0"
-              allowFullScreen
-              allow="geolocation; microphone; camera; fullscreen"
-            />
-          </div>
-        </div>
+      {/* Wizard */}
+      <section className="pb-20 lg:pb-28 pt-6">
+        <QuestionnaireWizard bookingUid={bookingUid} />
       </section>
     </div>
   )
