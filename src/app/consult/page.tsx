@@ -68,7 +68,7 @@ export default function ConsultPage() {
                 <div>
                   <h3 className="font-display font-semibold text-warm-900 text-sm mb-1">Before your consult</h3>
                   <p className="text-xs text-warm-500 mb-2 leading-relaxed">
-                    Complete our health questionnaire so Dr. Gaila can prepare for your visit.
+                    Complete our health questionnaire so Dr. Leegale Adonis can prepare for your visit.
                   </p>
                   <Link
                     href="/questionnaire"

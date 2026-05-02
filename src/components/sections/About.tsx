@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, BookOpen, Heart, Users } from 'lucide-react'
+import { DoctorIllustration } from '@/components/ui/DoctorIllustration'
 
 const values = [
   {
@@ -38,7 +39,7 @@ export function About() {
           <h1 className="text-4xl lg:text-6xl font-display font-semibold text-warm-900 mb-7 leading-tight">
             Your health, understood.
             <br />
-            <span className="text-gradient-primary italic">Guided by Dr. Leegale Adonis.</span>
+            <span className="text-gradient-primary italic">Guided by Dr.&nbsp;Leegale&nbsp;Adonis.</span>
           </h1>
           <p className="text-xl text-warm-500 max-w-2xl mx-auto leading-relaxed">
             Aliento is a health promotion platform created by Dr. Leegale Adonis — a public health specialist
@@ -53,15 +54,9 @@ export function About() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-            {/* Doctor photo */}
-            <div className="rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto bg-gradient-to-br from-sage-100 to-sage-200/70 relative">
-              <Image
-                src="/images/doctor-headshot.webp"
-                alt="Dr. Leegale Franscesca Adonis"
-                fill
-                className="object-cover"
-                priority
-              />
+            {/* Botanical illustration */}
+            <div className="rounded-2xl overflow-hidden aspect-[4/5] w-full max-w-sm mx-auto">
+              <DoctorIllustration className="w-full h-full" />
             </div>
 
             <div>
@@ -86,9 +81,9 @@ export function About() {
                 <p>&quot;Breathe, Screen, Live — it&apos;s not just a tagline. It&apos;s a philosophy.&quot;</p>
               </blockquote>
             </div>
+            </div>
           </div>
         </div>
-      </div>
     </section>
 
       {/* Values */}
@@ -115,13 +110,13 @@ export function About() {
       <section className="py-20 lg:py-24 bg-sage-50/30">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto bg-gradient-to-br from-sage-100 to-sage-200/70 relative">
+            <div className="rounded-2xl overflow-hidden aspect-[4/5] w-full max-w-sm mx-auto bg-gradient-to-br from-sage-100 to-sage-200/70 relative">
               <Image
-                src="/images/doctor-headshot.webp"
+                src="/images/doctor-headshot.jpg"
                 alt="Dr. Leegale Franscesca Adonis"
                 fill
                 className="object-cover"
-                priority
+                sizes="(max-width: 768px) 100vw, 384px"
               />
             </div>
             <div>
