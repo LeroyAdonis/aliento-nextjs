@@ -12,10 +12,10 @@ const packages = [
     description: 'Focused virtual consultation via Zoom or Teams',
   },
   {
-    id: 'consult-60',
-    name: '1-Hour Consultation',
+    id: 'consult-35',
+    name: '35-Minute Consultation',
     price: 'R500',
-    duration: '1 hour',
+    duration: '35 min',
     description: 'Extended virtual consultation for complex assessments',
     popular: true,
   },

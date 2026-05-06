@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { ArrowRight, Loader2, CreditCard } from 'lucide-react'
 
 const options = [
-  { id: 'consult-30', label: '30 minutes', price: 'R250' },
-  { id: 'consult-60', label: '1 hour', price: 'R500' },
+  { id: 'consult-30', label: '20 minutes', price: 'R250' },
+  { id: 'consult-60', label: '35 minutes', price: 'R500' },
 ] as const
 
 export function ConsultBookingPanel() {

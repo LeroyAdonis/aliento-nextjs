@@ -16,17 +16,17 @@ export const PAYFAST_URL = PAYFAST_CONFIG.sandboxMode
 export const CONSULTATION_PACKAGES = [
   {
     id: 'consult-30',
-    name: '30-Minute Consultation',
-    description: 'Virtual face-to-face consultation via Zoom or Teams',
+    name: '20-Minute Consultation',
+    description: 'Quick virtual consultation via Zoom or Teams',
     amount: 250,
-    duration: '30 min',
+    duration: '20 min',
   },
   {
     id: 'consult-60',
-    name: '1-Hour Consultation',
-    description: 'Extended virtual face-to-face consultation via Zoom or Teams',
+    name: '35-Minute Consultation',
+    description: 'Extended virtual consultation via Zoom or Teams',
     amount: 500,
-    duration: '1 hour',
+    duration: '35 min',
   },
 ] as const
 

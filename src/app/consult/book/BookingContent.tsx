@@ -25,7 +25,7 @@ export function BookingContent() {
 
   useEffect(() => {
     if (!paymentId) {
-      setStatus('failed')
+      setStatus(() => 'failed')
       return
     }
 

@@ -11,6 +11,7 @@
 
 import { createClient } from '@sanity/client'
 import matter from 'gray-matter'
+import { parse as parseHtml } from 'node-html-parser'
 import { readFileSync, readdirSync } from 'fs'
 import { join, basename, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -55,71 +56,199 @@ function nextKey(prefix = 'k') {
   return `${prefix}${++_keyCounter}`
 }
 
-/**
- * Parses inline markdown marks (bold, italic, links) in a text string.
- * Returns { spans, markDefs } suitable for a Portable Text block.
- */
-function parseInline(text, blockKey) {
-  const spans    = []
-  const markDefs = []
-
-  // Regex: **bold**, *italic*, [text](url)
-  // Order: bold before italic so ** is not eaten by *
-  const pattern = /(\*\*(.+?)\*\*|\*([^*]+?)\*|\[([^\]]+)\]\(([^)]+)\))/g
-  let lastIndex = 0
-  let match
-
-  while ((match = pattern.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      spans.push({
-        _type: 'span',
-        _key:  nextKey(`${blockKey}-s`),
-        text:  text.slice(lastIndex, match.index),
-        marks: [],
-      })
-    }
-
-    if (match[2] !== undefined) {
-      // **bold**
-      spans.push({ _type: 'span', _key: nextKey(`${blockKey}-s`), text: match[2], marks: ['strong'] })
-    } else if (match[3] !== undefined) {
-      // *italic*
-      spans.push({ _type: 'span', _key: nextKey(`${blockKey}-s`), text: match[3], marks: ['em'] })
-    } else if (match[4] !== undefined) {
-      // [text](url)
-      const linkKey = nextKey(`link-${blockKey}-`)
-      markDefs.push({ _type: 'link', _key: linkKey, href: match[5] })
-      spans.push({ _type: 'span', _key: nextKey(`${blockKey}-s`), text: match[4], marks: [linkKey] })
-    }
-
-    lastIndex = match.index + match[0].length
-  }
-
-  if (lastIndex < text.length) {
-    spans.push({
-      _type: 'span',
-      _key:  nextKey(`${blockKey}-s`),
-      text:  text.slice(lastIndex),
-      marks: [],
-    })
-  }
-
-  if (spans.length === 0) {
-    spans.push({ _type: 'span', _key: nextKey(`${blockKey}-s`), text, marks: [] })
-  }
-
-  return { spans, markDefs }
+/** Decodes common HTML entities found in the blog content. */
+function decodeEntities(text) {
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
 }
 
-function makeBlock(style, text, listItem, level) {
-  const bKey = nextKey('b')
-  const { spans, markDefs } = parseInline(text, bKey)
+/**
+ * Recursively collects inline content (text, bold, italic, links) from a list
+ * of parsed HTML nodes.  Returns { spans, markDefs } for a Portable Text block.
+ *
+ * @param {import('node-html-parser').Node[]} nodes
+ * @param {{ _type: string; _key: string; text: string; marks: string[] }[]} spans  accumulated spans
+ * @param {{ _type: string; _key: string; href: string }[]} markDefs  accumulated link defs
+ * @param {string[]} inheritedMarks  marks propagated from ancestor elements
+ */
+function walkInline(nodes, spans, markDefs, inheritedMarks) {
+  for (const node of nodes) {
+    // Text node (nodeType 3)
+    if (node.nodeType === 3) {
+      const text = decodeEntities(node.rawText)
+      if (text) {
+        spans.push({ _type: 'span', _key: nextKey('s'), text, marks: [...inheritedMarks] })
+      }
+      continue
+    }
+
+    const tag = node.rawTagName?.toLowerCase()
+
+    switch (tag) {
+      case 'strong':
+      case 'b':
+        walkInline(node.childNodes, spans, markDefs, [...inheritedMarks, 'strong'])
+        break
+      case 'em':
+      case 'i':
+        walkInline(node.childNodes, spans, markDefs, [...inheritedMarks, 'em'])
+        break
+      case 'a': {
+        const href = node.getAttribute('href') || ''
+        const linkKey = nextKey('link')
+        markDefs.push({ _type: 'link', _key: linkKey, href })
+        walkInline(node.childNodes, spans, markDefs, [...inheritedMarks, linkKey])
+        break
+      }
+      case 'br':
+        break  // skip line-breaks
+      default:
+        // Any other inline or container element — recurse into its children
+        if (node.childNodes?.length > 0) {
+          walkInline(node.childNodes, spans, markDefs, inheritedMarks)
+        }
+    }
+  }
+}
+
+/**
+ * Collects inline content from a node list, dropping whitespace-only spans.
+ * Returns { spans, markDefs } or { spans: [], markDefs: [] } if no content.
+ */
+function collectInlineContent(nodes) {
+  const spans    = []
+  const markDefs = []
+  walkInline(nodes, spans, markDefs, [])
+  const meaningful = spans.filter(s => s.text.trim().length > 0)
+  return { spans: meaningful, markDefs }
+}
+
+/**
+ * Walks block-level HTML nodes and appends Portable Text blocks to `blocks`.
+ *
+ * @param {import('node-html-parser').Node[]} nodes
+ * @param {object[]} blocks  output array
+ */
+function walkBlocks(nodes, blocks) {
+  for (const node of nodes) {
+    if (node.nodeType === 3) continue  // bare text nodes at block level — skip
+
+    const tag = node.rawTagName?.toLowerCase()
+
+    switch (tag) {
+      case 'p': {
+        const { spans, markDefs } = collectInlineContent(node.childNodes)
+        if (spans.length > 0) {
+          blocks.push({ _type: 'block', _key: nextKey('b'), style: 'normal', children: spans, markDefs })
+        }
+        break
+      }
+
+      case 'h1':
+      case 'h2':
+      case 'h3':
+      case 'h4': {
+        const { spans, markDefs } = collectInlineContent(node.childNodes)
+        if (spans.length > 0) {
+          // Map h1 → h2 since Sanity Portable Text typically has no h1 style
+          blocks.push({ _type: 'block', _key: nextKey('b'), style: tag === 'h1' ? 'h2' : tag, children: spans, markDefs })
+        }
+        break
+      }
+
+      case 'blockquote': {
+        const { spans, markDefs } = collectInlineContent(node.childNodes)
+        if (spans.length > 0) {
+          blocks.push({ _type: 'block', _key: nextKey('b'), style: 'blockquote', children: spans, markDefs })
+        }
+        break
+      }
+
+      case 'ul': {
+        // Each <li> becomes one bullet block; <li> may wrap inline content in a <p>
+        for (const li of node.querySelectorAll('li')) {
+          const { spans, markDefs } = collectInlineContent(li.childNodes)
+          if (spans.length > 0) {
+            blocks.push({
+              _type: 'block', _key: nextKey('b'), style: 'normal',
+              listItem: 'bullet', level: 1,
+              children: spans, markDefs,
+            })
+          }
+        }
+        break
+      }
+
+      case 'ol': {
+        for (const li of node.querySelectorAll('li')) {
+          const { spans, markDefs } = collectInlineContent(li.childNodes)
+          if (spans.length > 0) {
+            blocks.push({
+              _type: 'block', _key: nextKey('b'), style: 'normal',
+              listItem: 'number', level: 1,
+              children: spans, markDefs,
+            })
+          }
+        }
+        break
+      }
+
+      case 'img': {
+        const src = node.getAttribute('src') || ''
+        const alt = node.getAttribute('alt') || ''
+        if (src) {
+          // Custom image block — the Sanity schema stores external URLs as `url`
+          blocks.push({ _type: 'image', _key: nextKey('img'), url: src, alt })
+        }
+        break
+      }
+
+      case 'hr':
+      case 'br':
+        break  // skip
+
+      default:
+        // Recurse into any unrecognised container element
+        if (node.childNodes?.length > 0) {
+          walkBlocks(node.childNodes, blocks)
+        }
+    }
+  }
+}
+
+/**
+ * Converts an HTML string (the body of an MDX file) into an array of Sanity
+ * Portable Text blocks.  HTML tags are never stored as literal text.
+ *
+ * To re-run the live migration after adding SANITY_API_TOKEN to .env.local:
+ *   npx dotenv -e .env.local -- node scripts/migrate-to-sanity.mjs
+ */
+function htmlToPortableText(html) {
+  _keyCounter = 0
+  const root   = parseHtml(html)
+  const blocks = []
+  walkBlocks(root.childNodes, blocks)
+  return blocks
+}
+
+// ── Markdown fallback converter ───────────────────────────────────────────────
+// Used for MDX files whose body is plain Markdown (not HTML).
+
+function makeMarkdownBlock(style, text, listItem, level) {
+  const bKey     = nextKey('b')
+  const spanKey  = nextKey(`${bKey}-s`)
   const block = {
     _type:    'block',
     _key:     bKey,
     style,
-    children: spans,
-    markDefs,
+    children: [{ _type: 'span', _key: spanKey, text: text.trim(), marks: [] }],
+    markDefs: [],
   }
   if (listItem) {
     block.listItem = listItem
@@ -128,43 +257,37 @@ function makeBlock(style, text, listItem, level) {
   return block
 }
 
-/**
- * Converts a markdown string to an array of Portable Text blocks.
- * Supports: paragraphs, h2/h3/h4, blockquotes, bullet lists, numbered lists,
- *           inline bold, italic, and links.
- */
 function markdownToPortableText(markdown) {
+  _keyCounter = 0
   const blocks = []
-  const lines  = markdown.split('\n')
-
-  for (const raw of lines) {
+  for (const raw of markdown.split('\n')) {
     const line = raw.trimEnd()
-
-    if (!line.trim()) continue  // skip blank lines
-
-    if (line.startsWith('#### ')) {
-      blocks.push(makeBlock('h4', line.slice(5).trim()))
-    } else if (line.startsWith('### ')) {
-      blocks.push(makeBlock('h3', line.slice(4).trim()))
-    } else if (line.startsWith('## ')) {
-      blocks.push(makeBlock('h2', line.slice(3).trim()))
-    } else if (line.startsWith('# ')) {
-      blocks.push(makeBlock('h2', line.slice(2).trim()))
-    } else if (line.startsWith('> ')) {
-      blocks.push(makeBlock('blockquote', line.slice(2).trim()))
-    } else if (/^[-*] /.test(line)) {
+    if (!line.trim()) continue
+    if (line.startsWith('#### '))      blocks.push(makeMarkdownBlock('h4',        line.slice(5).trim()))
+    else if (line.startsWith('### ')) blocks.push(makeMarkdownBlock('h3',        line.slice(4).trim()))
+    else if (line.startsWith('## '))  blocks.push(makeMarkdownBlock('h2',        line.slice(3).trim()))
+    else if (line.startsWith('# '))   blocks.push(makeMarkdownBlock('h2',        line.slice(2).trim()))
+    else if (line.startsWith('> '))   blocks.push(makeMarkdownBlock('blockquote',line.slice(2).trim()))
+    else if (/^[-*] /.test(line)) {
       const indent = line.match(/^(\s*)/)[1].length
-      blocks.push(makeBlock('normal', line.replace(/^[-*] /, '').trimStart(), 'bullet', Math.floor(indent / 2) + 1))
+      blocks.push(makeMarkdownBlock('normal', line.replace(/^[-*] /, '').trimStart(), 'bullet', Math.floor(indent / 2) + 1))
     } else if (/^\d+\. /.test(line)) {
-      blocks.push(makeBlock('normal', line.replace(/^\d+\. /, ''), 'number', 1))
-    } else if (line.startsWith('---') || line.startsWith('===')) {
-      // skip horizontal rules
-    } else {
-      blocks.push(makeBlock('normal', line.trim()))
+      blocks.push(makeMarkdownBlock('normal', line.replace(/^\d+\. /, ''), 'number', 1))
+    } else if (!line.startsWith('---') && !line.startsWith('===')) {
+      blocks.push(makeMarkdownBlock('normal', line.trim()))
     }
   }
-
   return blocks
+}
+
+/**
+ * Detects whether the body content is HTML or Markdown and converts accordingly.
+ * HTML files start with a tag character `<`; all others are treated as Markdown.
+ */
+function bodyToPortableText(body) {
+  return body.trimStart().startsWith('<')
+    ? htmlToPortableText(body)
+    : markdownToPortableText(body)
 }
 
 // ── MDX loader ───────────────────────────────────────────────────────────────
@@ -211,7 +334,7 @@ async function upsertCategory(title) {
 async function upsertPost(slug, frontmatter, body) {
   const id         = postId(slug)
   const categoryRef = categoryId(frontmatter.category || 'Wellness')
-  const ptBody     = markdownToPortableText(body)
+  const ptBody     = bodyToPortableText(body)
 
   const doc = {
     _id:         id,

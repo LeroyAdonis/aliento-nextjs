@@ -1,75 +1,90 @@
-type PaymentGateStatus = 'pending' | 'paid' | 'failed'
+import { db } from '../db'
+import { payments } from '../db/schema'
+import { eq, and, sql } from 'drizzle-orm'
 
-interface PaymentGateRecord {
+export type PaymentGateStatus = 'pending' | 'paid' | 'failed'
+
+export interface PaymentGateRecord {
   paymentId: string
   packageId: string
   buyerName: string
   buyerEmail: string
-  status: PaymentGateStatus
-  createdAt: number
-  paidAt?: number
+  status: 'pending' | 'paid' | 'failed'
+  createdAt: Date
+  paidAt: Date | null
 }
 
-const PAYMENT_GATE_TTL_MS = 1000 * 60 * 60 * 6 // 6h
-const paymentGateStore = new Map<string, PaymentGateRecord>()
-
-function pruneExpired() {
-  const now = Date.now()
-  for (const [paymentId, record] of paymentGateStore.entries()) {
-    if (now - record.createdAt > PAYMENT_GATE_TTL_MS) {
-      paymentGateStore.delete(paymentId)
-    }
-  }
-}
-
-export function createPaymentGateRecord(input: {
+export async function createPaymentGateRecord(input: {
   paymentId: string
   packageId: string
   buyerName: string
   buyerEmail: string
-}) {
-  pruneExpired()
-
-  const record: PaymentGateRecord = {
-    ...input,
+}): Promise<PaymentGateRecord> {
+  await db.insert(payments).values({
+    paymentId: input.paymentId,
+    packageId: input.packageId,
+    buyerName: input.buyerName,
+    buyerEmail: input.buyerEmail,
     status: 'pending',
-    createdAt: Date.now(),
-  }
+    createdAt: new Date(),
+    paidAt: null,
+  })
 
-  paymentGateStore.set(input.paymentId, record)
-  return record
+  return {
+    ...input,
+    status: 'pending' as const,
+    createdAt: new Date(),
+    paidAt: null,
+  }
 }
 
-export function markPaymentGatePaid(paymentId: string) {
-  pruneExpired()
-  const existing = paymentGateStore.get(paymentId)
-  if (!existing) return null
+export async function markPaymentGatePaid(paymentId: string): Promise<PaymentGateRecord | null> {
+  await db
+    .update(payments)
+    .set({ status: 'paid', paidAt: new Date() })
+    .where(eq(payments.paymentId, paymentId))
 
-  const updated: PaymentGateRecord = {
-    ...existing,
-    status: 'paid',
-    paidAt: Date.now(),
-  }
-
-  paymentGateStore.set(paymentId, updated)
-  return updated
+  return getPaymentGateRecord(paymentId)
 }
 
-export function markPaymentGateFailed(paymentId: string) {
-  pruneExpired()
-  const existing = paymentGateStore.get(paymentId)
-  if (!existing) return null
+export async function markPaymentGateFailed(paymentId: string): Promise<PaymentGateRecord | null> {
+  await db
+    .update(payments)
+    .set({ status: 'failed' })
+    .where(eq(payments.paymentId, paymentId))
 
-  const updated: PaymentGateRecord = {
-    ...existing,
-    status: 'failed',
-  }
-
-  paymentGateStore.set(paymentId, updated)
-  return updated
+  return getPaymentGateRecord(paymentId)
 }
 
-export function getPaymentGateRecord(paymentId: string) {
-  pruneExpired()
-  return paymentGateStore.get(paymentId) ?? null
+export async function getPaymentGateRecord(paymentId: string): Promise<PaymentGateRecord | null> {
+  const result = await db
+    .select()
+    .from(payments)
+    .where(eq(payments.paymentId, paymentId))
+    .limit(1)
+
+  if (!result[0]) return null
+
+  const row = result[0]
+  return {
+    paymentId: row.paymentId,
+    packageId: row.packageId,
+    buyerName: row.buyerName,
+    buyerEmail: row.buyerEmail,
+    status: row.status as 'pending' | 'paid' | 'failed',
+    createdAt: row.createdAt,
+    paidAt: row.paidAt,
+  }
+}
+
+export async function pruneExpired(): Promise<void> {
+  const sixHoursAgo = new Date(Date.now() - 1000 * 60 * 60 * 6)
+  await db
+    .delete(payments)
+    .where(
+      and(
+        eq(payments.status, 'pending'),
+        sql`${payments.createdAt} < ${sixHoursAgo.toISOString()}`
+      )
+    )
 }

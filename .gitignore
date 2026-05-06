@@ -43,3 +43,4 @@ next-env.d.ts
 # Build/lint output logs
 build_output.txt
 lint_output.txt
+.env*.local

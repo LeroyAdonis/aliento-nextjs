@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: '%s | Aliento',
   },
   description:
-    'Aliento is a health promotion and education platform for South Africans. Expert-backed articles on nutrition, mental health, screenings, chronic care, and more — plus virtual medical consultations.',
+    'Aliento is a health promotion and education platform by Dr. Leegale Adonis (MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD). Expert-backed articles on nutrition, mental health, screenings, chronic care, and more — plus virtual medical consultations.',
   keywords: [
     'health promotion', 'health education', 'virtual consultation',
     'South Africa', 'preventive care', 'wellness', 'medical advice',
