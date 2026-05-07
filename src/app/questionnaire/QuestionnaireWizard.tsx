@@ -17,6 +17,9 @@ import { Step8Screening } from './steps/Step8Screening'
 import { Step9Family } from './steps/Step9Family'
 import { Step10Consent } from './steps/Step10Consent'
 import { useRouter } from 'next/navigation'
+import { useRHFPersistence } from '@/lib/form-persistence'
+
+const PERSIST_KEY = 'questionnaire-v1'
 
 const STEPS = [
   { title: 'Personal Information',  component: Step1Personal },
@@ -62,6 +65,8 @@ export function QuestionnaireWizard({ bookingUid, prefillEmail }: Props) {
       consentIndemnity: false,
     },
   })
+
+  const { clear: clearPersistedQuestionnaire } = useRHFPersistence(methods, PERSIST_KEY)
 
   const isLast = currentStep === STEPS.length - 1
   const StepComponent = STEPS[currentStep].component
@@ -130,6 +135,7 @@ export function QuestionnaireWizard({ bookingUid, prefillEmail }: Props) {
         throw new Error(body.error ?? 'Submission failed')
       }
 
+      clearPersistedQuestionnaire()
       router.push('/questionnaire/confirmed')
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')

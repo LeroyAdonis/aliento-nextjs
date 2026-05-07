@@ -5,26 +5,40 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock, ArrowRight, CalendarDays } from 'lucide-react'
 import Link from 'next/link'
+import { useLocalStorageState } from '@/lib/form-persistence'
+
+type ContactFormState = { name: string; email: string; phone: string; message: string }
 
 export default function ContactPage() {
-  const [formState, setFormState] = useState({ name: '', email: '', phone: '', message: '' })
+  const [formState, setFormState, clearFormState] = useLocalStorageState<ContactFormState>(
+    'contact-v1',
+    { name: '', email: '', phone: '', message: '' },
+  )
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
+    setSubmitError(null)
     try {
-      await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formState),
       })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({})) as { error?: string }
+        throw new Error(body.error ?? 'Could not send message. Please try again.')
+      }
+      clearFormState()
+      setSubmitted(true)
     } catch (err) {
-      console.error('Submit error:', err)
+      setSubmitError(err instanceof Error ? err.message : 'Could not send message. Please try again.')
+    } finally {
+      setSubmitting(false)
     }
-    setSubmitted(true)
-    setSubmitting(false)
   }
 
   return (
@@ -78,6 +92,9 @@ export default function ContactPage() {
                     </div>
                     <input type="tel" value={formState.phone} onChange={(e) => setFormState({ ...formState, phone: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-warm-200" placeholder="+27 xxx xxx xxx" />
                     <textarea required rows={5} value={formState.message} onChange={(e) => setFormState({ ...formState, message: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-warm-200 resize-none" placeholder="How can we help you?" />
+                    {submitError ? (
+                      <p className="text-sm text-red-600">{submitError}</p>
+                    ) : null}
                     <button type="submit" disabled={submitting} className="w-full sm:w-auto bg-warm-900 text-white px-8 py-4 rounded-full font-medium hover:bg-warm-800 transition-all flex items-center justify-center gap-2 group disabled:opacity-50">
                       {submitting ? 'Sending...' : 'Send Message'}
                       {!submitting && <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />}

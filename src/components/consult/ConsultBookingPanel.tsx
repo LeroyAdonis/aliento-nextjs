@@ -3,16 +3,19 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Loader2, CreditCard, FileText } from 'lucide-react'
+import { useLocalStorageState } from '@/lib/form-persistence'
 
 const options = [
   { id: 'consult-20', label: '20 minutes', price: 'R250' },
   { id: 'consult-35', label: '35 minutes', price: 'R500' },
 ] as const
 
+type PackageId = (typeof options)[number]['id']
+
 export function ConsultBookingPanel() {
-  const [selectedPackage, setSelectedPackage] = useState<(typeof options)[number]['id']>('consult-20')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [selectedPackage, setSelectedPackage] = useLocalStorageState<PackageId>('consult-package-v1', 'consult-20')
+  const [name, setName, clearName] = useLocalStorageState<string>('consult-name-v1', '')
+  const [email, setEmail, clearEmail] = useLocalStorageState<string>('consult-email-v1', '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [needsQuestionnaire, setNeedsQuestionnaire] = useState(false)
@@ -69,6 +72,8 @@ export function ConsultBookingPanel() {
       })
 
       document.body.appendChild(form)
+      clearName()
+      clearEmail()
       form.submit()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to start checkout')
