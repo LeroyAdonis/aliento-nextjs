@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, BookOpen, Heart, Users } from 'lucide-react'
+import { ArrowRight, BadgeCheck, BookOpen, Heart, Mail, MapPin, Phone, Users } from 'lucide-react'
 import { DoctorIllustration } from '@/components/ui/DoctorIllustration'
 
 const values = [
@@ -142,28 +142,68 @@ export function About() {
                   feels heard, understood, and empowered to take control of their health.
                 </p>
               </div>
-              <div className="mt-8 space-y-3 bg-white/70 rounded-2xl p-5 border border-warm-200/50">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                  <span className="text-warm-400 font-medium">Full Name</span>
-                  <span className="text-warm-800">Dr. Leegale Franscesca Adonis</span>
+              <div className="mt-8 rounded-2xl bg-white/70 border border-warm-200/50 overflow-hidden">
+                <div className="p-5 border-b border-warm-200/50">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-lg bg-sage-50 flex items-center justify-center shrink-0">
+                      <BadgeCheck size={16} className="text-sage-600" />
+                    </div>
+                    <span className="text-xs font-body font-semibold tracking-[0.15em] uppercase text-sage-600">
+                      Registration
+                    </span>
+                  </div>
+                  <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm pl-12">
+                    <dt className="text-warm-400 font-medium">Practice No.</dt>
+                    <dd className="text-warm-800 tabular-nums">1181300</dd>
+                    <dt className="text-warm-400 font-medium">HPCSA No.</dt>
+                    <dd className="text-warm-800 tabular-nums">MP0531502</dd>
+                  </dl>
+                </div>
 
-                  <span className="text-warm-400 font-medium">Qualifications</span>
-                  <span className="text-warm-800">MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD</span>
+                <div className="p-5 border-b border-warm-200/50">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-lg bg-sage-50 flex items-center justify-center shrink-0">
+                      <Phone size={16} className="text-sage-600" />
+                    </div>
+                    <span className="text-xs font-body font-semibold tracking-[0.15em] uppercase text-sage-600">
+                      Contact
+                    </span>
+                  </div>
+                  <div className="space-y-2 pl-12 text-sm">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-warm-800">
+                      <a href="tel:+27762367921" className="hover:text-sage-600 transition-colors tabular-nums">076 236 7921</a>
+                      <span className="text-warm-300" aria-hidden>·</span>
+                      <a href="tel:+27657477524" className="hover:text-sage-600 transition-colors tabular-nums">065 747 7524</a>
+                    </div>
+                    <a
+                      href="mailto:leegale@alientomd.com"
+                      className="inline-flex items-center gap-2 text-warm-800 hover:text-sage-600 transition-colors group"
+                    >
+                      <Mail size={14} className="text-warm-400 group-hover:text-sage-600 transition-colors" />
+                      leegale@alientomd.com
+                    </a>
+                  </div>
+                </div>
 
-                  <span className="text-warm-400 font-medium">Practice No.</span>
-                  <span className="text-warm-800">1181300</span>
-
-                  <span className="text-warm-400 font-medium">HPCSA No.</span>
-                  <span className="text-warm-800">MP0531502</span>
-
-                  <span className="text-warm-400 font-medium">Phone</span>
-                  <span className="text-warm-800">076 236 7921 / 065 747 7524</span>
-
-                  <span className="text-warm-400 font-medium">Email</span>
-                  <span className="text-warm-800">leegale@alientomd.com</span>
-
-                  <span className="text-warm-400 font-medium">Practice Address</span>
-                  <span className="text-warm-800">112A 9th Road, Hyde Park, Johannesburg, 2196</span>
+                <div className="p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-lg bg-sage-50 flex items-center justify-center shrink-0">
+                      <MapPin size={16} className="text-sage-600" />
+                    </div>
+                    <span className="text-xs font-body font-semibold tracking-[0.15em] uppercase text-sage-600">
+                      Practice
+                    </span>
+                  </div>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=112A+9th+Road+Hyde+Park+Johannesburg+2196"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block pl-12 text-sm text-warm-800 hover:text-sage-600 transition-colors leading-relaxed"
+                  >
+                    112A 9th Road, Hyde Park
+                    <br />
+                    Johannesburg, 2196
+                  </a>
                 </div>
               </div>
             </div>
