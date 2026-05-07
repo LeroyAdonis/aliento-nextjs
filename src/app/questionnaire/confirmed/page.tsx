@@ -33,7 +33,7 @@ export default function QuestionnaireConfirmedPage() {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
-            href="/consult/book"
+            href="/consult"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-sage-600 text-white text-sm font-semibold hover:bg-sage-700 transition-all"
           >
             <Calendar size={16} /> Book a Consultation
