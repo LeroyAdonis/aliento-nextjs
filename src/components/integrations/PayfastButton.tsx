@@ -5,10 +5,10 @@ import { ArrowRight, CreditCard, Clock, Loader2 } from 'lucide-react'
 
 const packages = [
   {
-    id: 'consult-30',
-    name: '30-Minute Consultation',
+    id: 'consult-20',
+    name: '20-Minute Consultation',
     price: 'R250',
-    duration: '30 min',
+    duration: '20 min',
     description: 'Focused virtual consultation via Zoom or Teams',
   },
   {

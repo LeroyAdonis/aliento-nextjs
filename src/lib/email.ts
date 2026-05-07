@@ -2,12 +2,15 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY || '')
 
-type EmailPurpose = 'questionnaire' | 'contact' | 'notification'
+type EmailPurpose = 'questionnaire' | 'contact' | 'notification' | 'booking'
 
-const RECIPIENTS: Record<EmailPurpose, string> = {
-  questionnaire: 'leegale@alientomd.com',
-  contact: 'leegale@alientomd.com',
-  notification: 'leegale@alientomd.com',
+const RECIPIENT = 'leegailadonis@gmail.com'
+
+const FROM_ADDRESSES: Record<EmailPurpose, string> = {
+  questionnaire: 'Aliento Health <notifications@resend.alientomd.com>',
+  contact: 'Aliento Health <contact@resend.alientomd.com>',
+  notification: 'Aliento Health <notifications@resend.alientomd.com>',
+  booking: 'Aliento Health <bookings@resend.alientomd.com>',
 }
 
 export async function sendEmail(params: {
@@ -22,8 +25,8 @@ export async function sendEmail(params: {
   }
 
   const { data, error } = await resend.emails.send({
-    from: 'Aliento Health <notifications@alientomd.com>',
-    to: RECIPIENTS[params.purpose],
+    from: FROM_ADDRESSES[params.purpose],
+    to: RECIPIENT,
     subject: params.subject,
     html: params.html,
     replyTo: params.replyTo,

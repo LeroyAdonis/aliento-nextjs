@@ -33,9 +33,10 @@ const STEPS = [
 
 interface Props {
   bookingUid?: string
+  prefillEmail?: string
 }
 
-export function QuestionnaireWizard({ bookingUid }: Props) {
+export function QuestionnaireWizard({ bookingUid, prefillEmail }: Props) {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -45,6 +46,8 @@ export function QuestionnaireWizard({ bookingUid }: Props) {
   const methods = useForm<FullFormData>({
     mode: 'onTouched',
     defaultValues: {
+      email: prefillEmail ?? '',
+      emailConfirm: prefillEmail ?? '',
       stressProfile: [],
       screeningFullBloodCount: false,
       screeningLiverFunction: false,

@@ -10,7 +10,7 @@ const CalEmbed = dynamic(() => import('@/components/integrations/CalEmbed').then
 export default function RescheduleClient() {
   const searchParams = useSearchParams()
   const rescheduleUid = searchParams.get('rescheduleUid') || searchParams.get('bookingUid') || ''
-  const eventTypeSlug = searchParams.get('eventTypeSlug') || process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_30 || ''
+  const eventTypeSlug = searchParams.get('eventTypeSlug') || process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_20 || ''
 
   return (
     <main className="min-h-screen bg-cream-100 px-6 py-10">

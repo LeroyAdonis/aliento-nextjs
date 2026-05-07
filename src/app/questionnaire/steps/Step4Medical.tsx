@@ -1,10 +1,14 @@
 'use client'
 
+import { useWatch } from 'react-hook-form'
 import {
   YesNoField, RadioGroupField, TextareaField, ConditionalField, SectionDivider,
 } from '@/components/ui/form-primitives'
 
 export function Step4Medical() {
+  const gender = useWatch({ name: 'gender' })
+  const showReproductive = gender === 'Female'
+
   return (
     <div className="space-y-5">
       <SectionDivider title="Chronic Conditions" />
@@ -65,14 +69,18 @@ export function Step4Medical() {
         placeholder="State 'No' if not applicable"
       />
 
-      <SectionDivider title="Reproductive Health" />
-      <YesNoField name="pregnantOrBreastfeeding" label="Are you currently pregnant or breastfeeding?" />
-      <YesNoField name="menopausal" label="Are you menopausal?" />
-      <RadioGroupField
-        name="menstrualPeriods"
-        label="Menstrual periods (if applicable)"
-        options={['Regular', 'Heavy', 'Painful']}
-      />
+      {showReproductive && (
+        <>
+          <SectionDivider title="Reproductive Health" />
+          <YesNoField name="pregnantOrBreastfeeding" label="Are you currently pregnant or breastfeeding?" />
+          <YesNoField name="menopausal" label="Are you menopausal?" />
+          <RadioGroupField
+            name="menstrualPeriods"
+            label="Menstrual periods (if applicable)"
+            options={['Regular', 'Heavy', 'Painful']}
+          />
+        </>
+      )}
 
       <SectionDivider title="COVID-19" />
       <YesNoField name="hadCovid" label="Have you had COVID-19?" />

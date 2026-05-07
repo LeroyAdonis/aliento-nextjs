@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 }
 
 interface Props {
-  searchParams: Promise<{ bookingUid?: string }>
+  searchParams: Promise<{ bookingUid?: string; email?: string }>
 }
 
 export default async function QuestionnairePage({ searchParams }: Props) {
-  const { bookingUid } = await searchParams
+  const { bookingUid, email } = await searchParams
 
   return (
     <div className="bg-cream-100 min-h-screen">
@@ -83,7 +83,7 @@ export default async function QuestionnairePage({ searchParams }: Props) {
 
       {/* Wizard */}
       <section className="pb-20 lg:pb-28 pt-6">
-        <QuestionnaireWizard bookingUid={bookingUid} />
+        <QuestionnaireWizard bookingUid={bookingUid} prefillEmail={email} />
       </section>
     </div>
   )

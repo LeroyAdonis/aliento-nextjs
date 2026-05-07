@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const successUrl = new URL(successBase, origin)
     successUrl.searchParams.set('payment', 'success')
     successUrl.searchParams.set('paymentId', paymentId)
-    successUrl.searchParams.set('duration', packageId === 'consult-60' ? '60' : '30')
+    successUrl.searchParams.set('duration', packageId === 'consult-35' ? '35' : '20')
 
     const formData = buildPayfastFormData({
       packageId,

@@ -1,19 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Loader2, CreditCard } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight, Loader2, CreditCard, FileText } from 'lucide-react'
 
 const options = [
-  { id: 'consult-30', label: '20 minutes', price: 'R250' },
-  { id: 'consult-60', label: '35 minutes', price: 'R500' },
+  { id: 'consult-20', label: '20 minutes', price: 'R250' },
+  { id: 'consult-35', label: '35 minutes', price: 'R500' },
 ] as const
 
 export function ConsultBookingPanel() {
-  const [selectedPackage, setSelectedPackage] = useState<(typeof options)[number]['id']>('consult-30')
+  const [selectedPackage, setSelectedPackage] = useState<(typeof options)[number]['id']>('consult-20')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [needsQuestionnaire, setNeedsQuestionnaire] = useState(false)
 
   const handleCheckout = async () => {
     if (!name || !email) {
@@ -23,8 +25,20 @@ export function ConsultBookingPanel() {
 
     setLoading(true)
     setError('')
+    setNeedsQuestionnaire(false)
 
     try {
+      const checkRes = await fetch(`/api/questionnaire/check?email=${encodeURIComponent(email)}`)
+      const checkData = await checkRes.json().catch(() => ({}))
+      if (!checkRes.ok) {
+        throw new Error(checkData.error || 'Could not verify questionnaire status')
+      }
+      if (!checkData.exists) {
+        setNeedsQuestionnaire(true)
+        setLoading(false)
+        return
+      }
+
       const res = await fetch('/api/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -103,6 +117,31 @@ export function ConsultBookingPanel() {
       </div>
 
       {error ? <p className="text-sm text-red-600 mb-3">{error}</p> : null}
+
+      {needsQuestionnaire ? (
+        <div className="mb-4 rounded-2xl border border-sage-300 bg-sage-50 p-4">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-full bg-sage-100 flex items-center justify-center flex-shrink-0">
+              <FileText size={16} className="text-sage-600" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-display font-semibold text-warm-900 text-sm mb-1">
+                Please complete your health questionnaire first
+              </h4>
+              <p className="text-xs text-warm-600 leading-relaxed mb-3">
+                We couldn&apos;t find a questionnaire submitted with this email. Dr. Leegale Adonis needs your responses
+                before your consultation. It only takes a few minutes.
+              </p>
+              <Link
+                href={`/questionnaire?email=${encodeURIComponent(email)}`}
+                className="inline-flex items-center gap-1.5 bg-sage-600 text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-sage-700 transition-all"
+              >
+                Fill in Questionnaire <ArrowRight size={13} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <button
         type="button"

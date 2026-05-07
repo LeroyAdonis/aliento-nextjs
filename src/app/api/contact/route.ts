@@ -1,5 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server'
+import { sendEmail } from '@/lib/email'
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,52 +18,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name, email and message are required' }, { status: 400 })
     }
 
-    // Store the inquiry - for now log it, can be extended to email/DB
-    const inquiry = {
-      name,
-      email,
-      phone: phone || '',
-      message,
-      date: new Date().toISOString(),
-      read: false
-    }
+    const safeName = escapeHtml(String(name))
+    const safeEmail = escapeHtml(String(email))
+    const safePhone = phone ? escapeHtml(String(phone)) : 'Not provided'
+    const safeMessage = escapeHtml(String(message)).replace(/\n/g, '<br>')
 
-    // Log to console for now
-    console.log('NEW CONTACT INQUIRY:', JSON.stringify(inquiry, null, 2))
-
-    // If Resend is configured, send notification email
-    const RESEND_API_KEY = process.env.RESEND_API_KEY
-    if (RESEND_API_KEY) {
-      try {
-        await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${RESEND_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            from: 'Aliento <noreply@alientomd.com>',
-            to: ['info@alientomd.com'],
-            subject: `New Contact: ${name}`,
-            html: `
-              <h2>New Contact Form Submission</h2>
-              <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-              <p><strong>Message:</strong></p>
-              <p>${message.replace(/\n/g, '<br>')}</p>
-              <hr>
-              <p style="color: #666; font-size: 12px;">Received: ${new Date().toLocaleString()}</p>
-            `
-          })
-        })
-      } catch (emailErr) {
-        console.error('Email send failed:', emailErr)
-      }
-    }
+    await sendEmail({
+      purpose: 'contact',
+      subject: `New Contact: ${safeName}`,
+      replyTo: String(email),
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <p><strong>Phone:</strong> ${safePhone}</p>
+        <p><strong>Message:</strong></p>
+        <p>${safeMessage}</p>
+        <hr>
+        <p style="color: #666; font-size: 12px;">Received: ${new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg' })}</p>
+      `,
+    })
 
     return NextResponse.json({ success: true, message: 'Inquiry received' })
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

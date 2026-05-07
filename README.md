@@ -12,8 +12,8 @@ npm run dev
 
 ### Cal.com
 - `NEXT_PUBLIC_CALCOM_USERNAME` — Cal.com username/org handle
-- `NEXT_PUBLIC_CALCOM_EVENT_SLUG_30` — event slug for 30-minute consult
-- `NEXT_PUBLIC_CALCOM_EVENT_SLUG_60` — event slug for 60-minute consult
+- `NEXT_PUBLIC_CALCOM_EVENT_SLUG_20` — event slug for 20-minute consult
+- `NEXT_PUBLIC_CALCOM_EVENT_SLUG_35` — event slug for 35-minute consult
 - `CALCOM_API_KEY` — server-side API key (never expose client-side)
 - `CALCOM_WEBHOOK_SECRET` — webhook signing secret for `x-cal-signature-256`
 
@@ -27,7 +27,7 @@ npm run dev
 
 ## Consult booking flow
 
-1. User goes to `/consult` and selects 30min or 60min.
+1. User goes to `/consult` and selects 20min or 35min.
 2. User pays via PayFast.
 3. `/api/payment/notify` marks payment as paid.
 4. User is redirected to `/consult/book?paymentId=...`.

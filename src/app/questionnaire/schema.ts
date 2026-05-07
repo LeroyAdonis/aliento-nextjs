@@ -51,7 +51,11 @@ export const step3Schema = z.object({
 })
 
 // ─── Step 4: Medical History ──────────────────────────────────────────────────
+// Reproductive-health fields (pregnantOrBreastfeeding, menopausal, menstrualPeriods)
+// are only required when gender === 'Female'; gender is included so the wizard's
+// safeParse(allValues) call can drive the conditional rule via superRefine.
 export const step4Schema = z.object({
+  gender: z.enum(['Male', 'Female', 'N/A']).optional(),
   diabetes: z.enum(['Yes', 'No'], { error: 'Required' }),
   hypertension: z.enum(['Yes', 'No'], { error: 'Required' }),
   cardiacDisease: z.enum(['Yes', 'No'], { error: 'Required' }),
@@ -66,14 +70,23 @@ export const step4Schema = z.object({
   skinAllergies: z.string().min(1, "State 'No' if not applicable"),
   adverseAllergyReaction: z.string().min(1, "State 'No' if not applicable"),
   autoimmuneDisease: z.string().min(1, "State 'No' if not applicable"),
-  pregnantOrBreastfeeding: z.enum(['Yes', 'No'], { error: 'Required' }),
-  menopausal: z.enum(['Yes', 'No'], { error: 'Required' }),
+  pregnantOrBreastfeeding: z.enum(['Yes', 'No']).optional(),
+  menopausal: z.enum(['Yes', 'No']).optional(),
   menstrualPeriods: z.enum(['Regular', 'Heavy', 'Painful']).optional(),
   hadCovid: z.enum(['Yes', 'No'], { error: 'Required' }),
   covidDate: z.string().optional(),
   longCovidSymptoms: z.string().optional(),
   covidVaccinationStatus: z.enum(['Vaccinated', 'Not Vaccinated', 'Prefer not to say'], { error: 'Required' }),
   otherChronicIllnesses: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.gender === 'Female') {
+    if (!data.pregnantOrBreastfeeding) {
+      ctx.addIssue({ code: 'custom', path: ['pregnantOrBreastfeeding'], message: 'Required' })
+    }
+    if (!data.menopausal) {
+      ctx.addIssue({ code: 'custom', path: ['menopausal'], message: 'Required' })
+    }
+  }
 })
 
 // ─── Step 5: Chronic Medication ───────────────────────────────────────────────

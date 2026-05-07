@@ -17,10 +17,10 @@ export function BookingContent() {
   const [status, setStatus] = useState<PaymentStatus>('pending')
 
   const eventSlug = useMemo(() => {
-    const duration = searchParams.get('duration') === '60' ? '60' : '30'
-    return duration === '60'
-      ? process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_60 || ''
-      : process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_30 || ''
+    const duration = searchParams.get('duration') === '35' ? '35' : '20'
+    return duration === '35'
+      ? process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_35 || ''
+      : process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_20 || ''
   }, [searchParams])
 
   useEffect(() => {
