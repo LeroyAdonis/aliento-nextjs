@@ -7,10 +7,10 @@ type EmailPurpose = 'questionnaire' | 'contact' | 'notification' | 'booking'
 const RECIPIENT = 'leegailadonis@gmail.com'
 
 const FROM_ADDRESSES: Record<EmailPurpose, string> = {
-  questionnaire: 'Aliento Health <notifications@resend.alientomd.com>',
-  contact: 'Aliento Health <contact@resend.alientomd.com>',
-  notification: 'Aliento Health <notifications@resend.alientomd.com>',
-  booking: 'Aliento Health <bookings@resend.alientomd.com>',
+  questionnaire: 'Aliento Health <notifications@alientomd.com>',
+  contact: 'Aliento Health <contact@alientomd.com>',
+  notification: 'Aliento Health <notifications@alientomd.com>',
+  booking: 'Aliento Health <bookings@alientomd.com>',
 }
 
 export async function sendEmail(params: {

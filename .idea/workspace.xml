@@ -7,13 +7,7 @@
     <list default="true" id="8b768aee-8a62-4027-ad22-8526ec8e3e03" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.worktrees/fleet-implement-plan" beforeDir="false" afterPath="$PROJECT_DIR$/.worktrees/fleet-implement-plan" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/payment/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/payment/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/consult/book/BookingContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/consult/book/BookingContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/consult/reschedule/RescheduleClient.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/consult/reschedule/RescheduleClient.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/consult/ConsultBookingPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/consult/ConsultBookingPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/integrations/PayfastButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/integrations/PayfastButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/payfast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/payfast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/contact/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/contact/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +156,7 @@
       <workItem from="1774865074635" duration="598000" />
       <workItem from="1775654653693" duration="39000" />
       <workItem from="1777698590476" duration="5184000" />
-      <workItem from="1778150099625" duration="4083000" />
+      <workItem from="1778150099625" duration="5997000" />
     </task>
     <servers />
   </component>
