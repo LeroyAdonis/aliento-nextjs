@@ -1,7 +1,5 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || '')
-
 type EmailPurpose = 'questionnaire' | 'contact' | 'notification'
 
 const RECIPIENTS: Record<EmailPurpose, string> = {
@@ -20,6 +18,8 @@ export async function sendEmail(params: {
     console.warn('[Email] RESEND_API_KEY not set — skipping send')
     return { success: false, reason: 'no_api_key' }
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   const { data, error } = await resend.emails.send({
     from: 'Aliento Health <notifications@alientomd.com>',
