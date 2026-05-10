@@ -1,36 +1,5 @@
 import { z } from 'zod'
 
-// South African ID Number Validation (Luhn Algorithm)
-const validateSAID = (idNumber: string) => {
-  // Remove any spaces or dashes
-  const cleaned = idNumber.replace(/\s/g, '').replace(/-/g, '')
-  
-  // Check if it's exactly 13 digits
-  if (!/^\d{13}$/.test(cleaned)) {
-    return false
-  }
-  
-  // Luhn algorithm validation
-  let sum = 0
-  let alternate = false
-  
-  for (let i = cleaned.length - 1; i >= 0; i--) {
-    let digit = parseInt(cleaned.charAt(i), 10)
-    
-    if (alternate) {
-      digit *= 2
-      if (digit > 9) {
-        digit = Math.floor(digit / 10) + (digit % 10)
-      }
-    }
-    
-    sum += digit
-    alternate = !alternate
-  }
-  
-  return sum % 10 === 0
-}
-
 // ─── Step 1: Personal Information ────────────────────────────────────────────
 export const step1Schema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -38,11 +7,6 @@ export const step1Schema = z.object({
   age: z.string().min(1, 'Age is required'),
   gender: z.enum(['Male', 'Female', 'N/A'], { error: 'Please select a gender' }),
   race: z.enum(['Black', 'White', 'Coloured', 'Indian', 'Other'], { error: 'Please select an option' }),
-  idNumber: z.string()
-    .min(13, 'ID number must be exactly 13 digits')
-    .max(13, 'ID number must be exactly 13 digits')
-    .regex(/^\d{13}$/, 'ID number must contain only digits')
-    .refine(validateSAID, { message: 'Invalid South African ID number' }),
   email: z.string().email('Valid email required'),
   emailConfirm: z.string().email('Valid email required'),
   education: z.enum(['Matric or equivalent', 'Undergraduate and beyond', 'Other'], { error: 'Please select an option' }),

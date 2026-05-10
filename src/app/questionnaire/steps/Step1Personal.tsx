@@ -15,12 +15,6 @@ export function Step1Personal() {
         <TextField name="age" label="Age" placeholder="35" type="number" />
         <RadioGroupField name="gender" label="Gender" options={['Male', 'Female', 'N/A']} />
       </div>
-      <TextField 
-        name="idNumber" 
-        label="South African ID Number" 
-        placeholder="13-digit ID number (e.g., 8001015009087)" 
-        maxLength={13}
-      />
       <RadioGroupField
         name="race"
         label="Race / Ethnicity"

@@ -30,13 +30,12 @@ export function FieldWrapper({ label, name, children, hint }: {
 }
 
 // ─── TextField ────────────────────────────────────────────────────────────────
-export function TextField({ name, label, placeholder, type = 'text', hint, maxLength }: {
+export function TextField({ name, label, placeholder, type = 'text', hint }: {
   name: string
   label: string
   placeholder?: string
   type?: string
   hint?: string
-  maxLength?: number
 }) {
   const { register, formState: { errors } } = useFormContext()
   const hasError = name.split('.').reduce((acc: unknown, k) => {
@@ -50,7 +49,6 @@ export function TextField({ name, label, placeholder, type = 'text', hint, maxLe
         {...register(name)}
         type={type}
         placeholder={placeholder}
-        maxLength={maxLength}
         className={cn(
           'w-full px-4 py-3 rounded-xl border bg-white focus:ring-2 outline-none transition-all text-warm-900 placeholder:text-warm-300 text-sm',
           hasError
