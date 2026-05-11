@@ -4,6 +4,9 @@ import BlogClient from '@/app/blog/BlogClient'
 import type { SanityPost } from '@/lib/sanity'
 import { fallbackPosts, fallbackCategories } from '@/lib/health-topics-fallbacks'
 
+// Revalidate every 60 seconds so new Sanity content appears without a redeploy
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Health Topics',
   description:
