@@ -4,38 +4,47 @@ import BlogPostContent from './BlogPostContent'
 import { Metadata } from 'next'
 import Script from 'next/script'
 
+function getCoverImageUrl(post: { coverImage?: { asset?: { _ref?: string } } }, siteUrl: string): string {
+  try {
+    if (post.coverImage?.asset?._ref) {
+      return `https://cdn.sanity.io/images/kygybgb7/production/${post.coverImage.asset._ref
+        .replace('image-', '')
+        .replace(/-png$/, '.png')
+        .replace(/-jpg$/, '.jpg')
+        .replace(/-webp$/, '.webp')}`
+    }
+  } catch {
+    // fall through to default
+  }
+  return `${siteUrl}/images/og-default.png`
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug)
 
   if (!post) {
     return {
-      title: "Post Not Found | Aliento Africa",
-      description: "This post could not be found."
+      title: 'Post Not Found | Aliento Africa',
+      description: 'This post could not be found.',
     }
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aliento.africa"
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://aliento.africa'
   const postUrl = `${siteUrl}/blog/${slug}`
-  const coverImageUrl = post.coverImage
-    ? `https://cdn.sanity.io/images/kygybgb7/production/${post.coverImage.asset._ref
-        .replace("image-", "")
-        .replace(/-png$/, ".png")
-        .replace(/-jpg$/, ".jpg")
-        .replace(/-webp$/, ".webp")}`
-    : `${siteUrl}/images/og-default.png`
+  const coverImageUrl = getCoverImageUrl(post, siteUrl)
 
   return {
     title: post.title,
-    description: post.excerpt || "Read more on Aliento Africa",
+    description: post.excerpt || 'Read more on Aliento Africa',
     alternates: {
       canonical: postUrl,
     },
     openGraph: {
-      type: "article",
+      type: 'article',
       url: postUrl,
       title: post.title,
-      description: post.excerpt || "Read more on Aliento Africa",
+      description: post.excerpt || 'Read more on Aliento Africa',
       images: [
         {
           url: coverImageUrl,
@@ -46,7 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
     },
   }
 }
@@ -70,31 +79,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     post = null
   }
 
-  // If no Sanity content, show fallback message
   if (!post) {
     return <BlogPostFallback slug={slug} />
   }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://aliento.africa'
+  const coverImageUrl = getCoverImageUrl(post, siteUrl)
 
   return (
     <>
       <Script id="schema-org-article" type="application/ld+json">
         {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": post.title,
-          "description": post.excerpt || "Read more on Aliento Africa",
-          "image": post.coverImage
-            ? `https://cdn.sanity.io/images/kygybgb7/production/${post.coverImage.asset._ref
-                .replace("image-", "")
-                .replace(/-png$/, ".png")
-                .replace(/-jpg$/, ".jpg")
-                .replace(/-webp$/, ".webp")}`
-            : `${process.env.NEXT_PUBLIC_SITE_URL || "https://aliento.africa"}/images/og-default.png`,
-          "datePublished": new Date(post.publishedAt).toISOString(),
-          "author": {
-            "@type": "Person",
-            "name": post.author
-          }
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: post.title,
+          description: post.excerpt || 'Read more on Aliento Africa',
+          image: coverImageUrl,
+          datePublished: new Date(post.publishedAt).toISOString(),
+          author: {
+            '@type': 'Person',
+            name: post.author,
+          },
         })}
       </Script>
       <BlogPostContent post={post} />
@@ -109,7 +114,8 @@ function BlogPostFallback({ slug }: { slug: string }) {
         <span className="text-6xl mb-6 block">📝</span>
         <h1 className="text-3xl font-display font-bold text-warm-900 mb-4">Post Coming Soon</h1>
         <p className="text-warm-500 mb-2">
-          This article (<code className="text-sm bg-warm-100 px-2 py-0.5 rounded">{slug}</code>) will be published through our CMS soon.
+          This article (<code className="text-sm bg-warm-100 px-2 py-0.5 rounded">{slug}</code>) will
+          be published through our CMS soon.
         </p>
         <p className="text-warm-400 text-sm mb-8">
           Content is managed via Sanity CMS. Visit /admin to create and publish posts.
