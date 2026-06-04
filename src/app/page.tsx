@@ -2,6 +2,7 @@ import { getAllPosts, type SanityPost } from '@/lib/sanity'
 import { Hero } from '@/components/sections/Hero'
 import { FeaturedArticle } from '@/components/sections/FeaturedArticle'
 import { HealthTopicCategories } from '@/components/sections/HealthTopicCategories'
+import { ForgottenMiddle } from '@/components/sections/ForgottenMiddle'
 import { AboutDoctor } from '@/components/sections/AboutDoctor'
 import { RecentArticles } from '@/components/sections/RecentArticles'
 import { CTA } from '@/components/sections/CTA'
@@ -58,6 +59,7 @@ export default async function Home() {
       <Hero />
       {featuredPost && <FeaturedArticle post={featuredPost} />}
       <HealthTopicCategories />
+      <ForgottenMiddle />
       <AboutDoctor />
       <RecentArticles posts={posts} />
       <CTA />

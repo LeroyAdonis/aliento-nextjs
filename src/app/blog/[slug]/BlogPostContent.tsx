@@ -2,9 +2,11 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar, ArrowLeft, Clock, Tag, ArrowRight } from 'lucide-react'
+import { Calendar, ArrowLeft, Clock, Tag, ArrowRight, FileDown, Loader2, CheckCircle } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import type { SanityPost } from '@/lib/sanity'
+import { useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 function isRawHtmlBody(body: unknown[]): boolean {
   const first = body[0] as { _type?: string; children?: Array<{ _type?: string; text?: string }> }
@@ -80,6 +82,146 @@ const portableTextComponents = {
   },
 }
 
+function PdfDownloadSection({
+  articleTitle,
+  articleSlug,
+  pdfUrl,
+}: {
+  articleTitle: string
+  articleSlug: string
+  pdfUrl: string
+}) {
+  const searchParams = useSearchParams()
+  const [loading, setLoading] = useState(false)
+  const [paid, setPaid] = useState(false)
+  const [error, setError] = useState('')
+
+  // Check if user just returned from successful payment
+  useEffect(() => {
+    if (searchParams.get('pdf') === 'success' && searchParams.get('paymentId')) {
+      setPaid(true)
+    }
+  }, [searchParams])
+
+  const handlePurchase = async () => {
+    setLoading(true)
+    setError('')
+
+    try {
+      // For now, prompt for name/email via a simple prompt
+      const email = prompt('Enter your email address for the receipt:')
+      if (!email) { setLoading(false); return }
+      const name = prompt('Enter your full name:')
+      if (!name) { setLoading(false); return }
+
+      const res = await fetch('/api/payment/pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          articleTitle,
+          articleSlug,
+          buyerEmail: email,
+          buyerName: name,
+        }),
+      })
+
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.error || 'Payment initiation failed')
+
+      // Submit hidden form to PayFast
+      const form = document.createElement('form')
+      form.method = 'POST'
+      form.action = result.url
+      Object.entries(result.data).forEach(([key, value]) => {
+        const input = document.createElement('input')
+        input.type = 'hidden'
+        input.name = key
+        input.value = value as string
+        form.appendChild(input)
+      })
+      document.body.appendChild(form)
+      form.submit()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong')
+      setLoading(false)
+    }
+  }
+
+  if (paid) {
+    return (
+      <div className="mt-12 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 lg:p-8">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+            <CheckCircle size={22} className="text-emerald-600" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-display font-semibold text-warm-900 text-lg mb-1">
+              Payment successful! 🎉
+            </h3>
+            <p className="text-warm-500 text-sm leading-relaxed mb-4">
+              Thank you for your purchase. Your download should start automatically.
+              If it doesn&apos;t, click the button below.
+            </p>
+            <a
+              href={pdfUrl}
+              download
+              className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-emerald-700 transition-all hover:-translate-y-0.5 shadow-sm"
+            >
+              Download PDF
+              <FileDown size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mt-12 rounded-2xl border border-sage-200 bg-sage-50 p-6 lg:p-8">
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-xl bg-sage-100 flex items-center justify-center flex-shrink-0">
+          <FileDown size={22} className="text-sage-600" />
+        </div>
+        <div className="flex-1">
+          <h3 className="font-display font-semibold text-warm-900 text-lg mb-1">
+            Download this article as PDF
+          </h3>
+          <p className="text-warm-500 text-sm leading-relaxed mb-4">
+            Get a beautifully formatted PDF version of this article to save, print,
+            or share with family. Just R50 once-off.
+          </p>
+
+          {error && (
+            <p className="text-red-600 text-sm mb-3">{error}</p>
+          )}
+
+          <button
+            onClick={handlePurchase}
+            disabled={loading}
+            className="inline-flex items-center gap-2 bg-sage-500 text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-sage-600 transition-all hover:-translate-y-0.5 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {loading ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                Processing...
+              </>
+            ) : (
+              <>
+                Purchase PDF — R50
+                <FileDown size={16} />
+              </>
+            )}
+          </button>
+
+          <p className="text-xs text-warm-400 mt-3">
+            Secure payment via PayFast. The article remains free to read online.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function BlogPostContent({ post }: { post: SanityPost }) {
   const catTitle = typeof post.category === 'string' ? post.category : post.category?.title || ''
 
@@ -146,6 +288,15 @@ export default function BlogPostContent({ post }: { post: SanityPost }) {
                 <span key={t} className="px-3 py-1.5 rounded-full bg-warm-100 text-warm-600 text-sm">{t}</span>
               ))}
             </div>
+          )}
+
+          {/* Download PDF — R50 */}
+          {post.pdfFile && post.pdfFile.asset?.url && (
+            <PdfDownloadSection
+              articleTitle={post.title}
+              articleSlug={typeof post.slug === 'string' ? post.slug : post.slug?.current || ''}
+              pdfUrl={post.pdfFile.asset.url}
+            />
           )}
 
           {/* Related Posts */}

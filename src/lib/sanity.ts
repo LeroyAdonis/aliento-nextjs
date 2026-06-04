@@ -40,6 +40,7 @@ export interface SanityPost {
  author: string
  publishedAt: string
  body?: unknown[]
+ pdfFile?: { asset?: { _ref?: string; url?: string } }
  relatedPosts?: SanityPost[]
 }
 
@@ -53,7 +54,7 @@ export interface SanityCategory {
 
 // ── Queries ──
 const postFields = `
- _id, title, slug, excerpt, coverImage, category->{title, slug, color}, tags, author, publishedAt,
+ _id, title, slug, excerpt, coverImage, category->{title, slug, color}, tags, author, publishedAt, pdfFile{asset->{url}},
 `
 
 export async function getAllPosts(): Promise<SanityPost[]> {
