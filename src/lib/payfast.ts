@@ -3,7 +3,7 @@ import crypto from 'crypto'
 // ── Payfast Config ──
 export const PAYFAST_CONFIG = {
   merchantId: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_ID || '',
-  merchantKey: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_KEY || '',
+  merchantKey: process.env.PAYFAST_MERCHANT_KEY || '',
   passphrase: process.env.PAYFAST_PASSPHRASE || '',
   sandboxMode: !process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_ID, // auto-sandbox if no creds
 }
