@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { buildPayfastFormData, PAYFAST_URL, PAYFAST_CONFIG } from '@/lib/payfast'
 import { createPaymentGateRecord } from '@/lib/payment-gate'
+import { db } from '@/db'
+import { questionnaires } from '@/db/schema'
+import { sql } from 'drizzle-orm'
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,10 +17,24 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Verify questionnaire exists before allowing payment
+    const existing = await db
+      .select({ id: questionnaires.id })
+      .from(questionnaires)
+      .where(sql`lower(${questionnaires.patientEmail}) = ${buyerEmail.toLowerCase().trim()}`)
+      .limit(1)
+
+    if (existing.length === 0) {
+      return NextResponse.json(
+        { error: 'Please complete the health questionnaire before booking. Go to /questionnaire first.' },
+        { status: 403 }
+      )
+    }
+
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     const paymentId = `${packageId}-${Date.now()}`
 
-    createPaymentGateRecord({
+    await createPaymentGateRecord({
       paymentId,
       packageId,
       buyerName,
