@@ -3,16 +3,17 @@ import './globals.css'
 import { Layout } from '@/components/layout/Layout'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aliento-nextjs.vercel.app'),
+  metadataBase: new URL('https://alientomd.com'),
   title: {
     default:  'Aliento — Breathe, Screen, Live',
     template: '%s | Aliento',
   },
   description:
-    'Aliento is a health promotion and education platform by Dr. Leegale Adonis (MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD). Expert-backed articles on nutrition, mental health, screenings, chronic care, and more — plus virtual medical consultations.',
+    'Health promotion and virtual medical consultations with Dr. Leegale Adonis. Expert-backed articles on nutrition, mental health, screenings, chronic care, and more — from the comfort of home.',
   keywords: [
     'health promotion', 'health education', 'virtual consultation',
     'South Africa', 'preventive care', 'wellness', 'medical advice',
+    'Dr Leegale Adonis', 'telemedicine',
   ],
   icons: {
     icon: [{ url: '/logo-icon.svg', type: 'image/svg+xml' }],
@@ -20,24 +21,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_ZA",
-    url: "https://aliento-nextjs.vercel.app",
-    siteName: "Aliento Medical",
-    title: "Aliento — Empowering Personal Health",
-    description: "Personalised healthcare with cutting-edge technology and genuine compassion.",
+    url: "https://alientomd.com",
+    siteName: "Aliento",
+    title: "Aliento — Breathe, Screen, Live",
+    description: "Expert-backed health education and virtual consultations with Dr. Leegale Adonis. Book a consult or explore our health topics.",
     images: [
       {
-        url: "/api/og?title=Aliento%20%E2%80%94%20Empowering%20Personal%20Health&description=Personalised%20healthcare%20with%20cutting-edge%20technology%20and%20genuine%20compassion.",
+        url: "/api/og",
         width: 1200,
         height: 630,
-        alt: "Aliento Medical",
+        alt: "Aliento — Health Promotion & Virtual Consultations",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aliento — Empowering Personal Health",
-    description: "Personalised healthcare with cutting-edge technology and genuine compassion.",
-    images: ["/api/og?title=Aliento%20%E2%80%94%20Empowering%20Personal%20Health&description=Personalised%20healthcare%20with%20cutting-edge%20technology%20and%20genuine%20compassion."],
+    title: "Aliento — Breathe, Screen, Live",
+    description: "Expert-backed health education and virtual consultations with Dr. Leegale Adonis.",
+    images: ["/api/og"],
   },
 }
 
