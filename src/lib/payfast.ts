@@ -46,16 +46,34 @@ export function generatePayfastSignature(
 
 // ── Build Payfast Form Data ──
 export function buildPayfastFormData(params: {
-  packageId: string
+  /** Package ID from CONSULTATION_PACKAGES. Omit to use custom amount/item. */
+  packageId?: string
   buyerEmail: string
   buyerName: string
   returnUrl: string
   cancelUrl: string
   notifyUrl: string
   paymentId?: string
+  /** Custom amount override (e.g. '50.00'). Required when packageId is omitted. */
+  amount?: string
+  /** Custom item name (e.g. 'PDF: My Article'). Required when packageId is omitted. */
+  itemName?: string
+  /** Custom item description. Falls back to itemName when omitted. */
+  itemDescription?: string
 }): Record<string, string> {
-  const pkg = CONSULTATION_PACKAGES.find((p) => p.id === params.packageId)
-  if (!pkg) throw new Error(`Invalid package: ${params.packageId}`)
+  const pkg = params.packageId
+    ? CONSULTATION_PACKAGES.find((p) => p.id === params.packageId)
+    : undefined
+  if (params.packageId && !pkg) throw new Error(`Invalid package: ${params.packageId}`)
+
+  const amount = params.amount ?? (pkg ? pkg.amount.toFixed(2) : undefined)
+  const itemName = params.itemName ?? pkg?.name
+  const itemDescription = params.itemDescription ?? pkg?.description
+  const paymentId = params.paymentId || `${pkg?.id || 'custom'}-${Date.now()}`
+
+  if (!amount || !itemName) {
+    throw new Error('Either packageId or amount+itemName must be provided')
+  }
 
   const data: Record<string, string> = {
     merchant_id: PAYFAST_CONFIG.merchantId,
@@ -66,10 +84,10 @@ export function buildPayfastFormData(params: {
     name_first: params.buyerName.split(' ')[0] || '',
     name_last: params.buyerName.split(' ').slice(1).join(' ') || '',
     email_address: params.buyerEmail,
-    m_payment_id: params.paymentId || `${pkg.id}-${Date.now()}`,
-    amount: pkg.amount.toFixed(2),
-    item_name: pkg.name,
-    item_description: pkg.description,
+    m_payment_id: paymentId,
+    amount,
+    item_name: itemName,
+    item_description: itemDescription || itemName,
   }
 
   data.signature = generatePayfastSignature(data, PAYFAST_CONFIG.passphrase)

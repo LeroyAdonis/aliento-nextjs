@@ -33,19 +33,17 @@ export async function POST(req: NextRequest) {
     successUrl.searchParams.set('paymentId', paymentId)
 
     const formData = buildPayfastFormData({
-      packageId: 'pdf-article',
+      packageId: undefined,
       buyerEmail,
       buyerName,
       paymentId,
+      amount: '50.00',
+      itemName: `PDF: ${articleTitle}`,
+      itemDescription: `Downloadable PDF of "${articleTitle}"`,
       returnUrl: successUrl.toString(),
       cancelUrl: `${origin}/health-topics/${articleSlug}?pdf=cancelled`,
       notifyUrl: `${origin}/api/payment/notify`,
     })
-
-    // Override the amount to R50
-    formData.amount = '50.00'
-    formData.item_name = `PDF: ${articleTitle}`
-    formData.item_description = `Downloadable PDF of "${articleTitle}"`
 
     return NextResponse.json({
       url: PAYFAST_URL,
