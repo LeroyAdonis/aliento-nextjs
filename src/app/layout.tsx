@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: "Expert-backed health education and virtual consultations with Dr. Leegale Adonis. Book a consult or explore our health topics.",
     images: [
       {
-        url: "/api/og",
+        url: "/api/og?v=2",
         width: 1200,
         height: 630,
         alt: "Aliento — Health Promotion & Virtual Consultations",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Aliento — Breathe, Screen, Live",
     description: "Expert-backed health education and virtual consultations with Dr. Leegale Adonis.",
-    images: ["/api/og"],
+    images: ["/api/og?v=2"],
   },
 }
 
