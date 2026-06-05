@@ -1,0 +1,690 @@
+{
+  "C:\\scratchpad\\aliento-nextjs\\drizzle.config.ts": {
+    "mtime": 1778149272.5811555,
+    "hash": "6435e0c63b8e37183bc8c65ee8a51db5"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\eslint.config.mjs": {
+    "mtime": 1774256775.6510658,
+    "hash": "6c4307ffa009658f5c97f5629094c0c2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\next-env.d.ts": {
+    "mtime": 1778342791.3205993,
+    "hash": "b698cdd97fe8e3bd16dcd74899ad7cef"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\next.config.ts": {
+    "mtime": 1778149272.810948,
+    "hash": "70e9a5d0b2aa89123103b39e5fa5ba3f"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\postcss.config.mjs": {
+    "mtime": 1774256775.6647475,
+    "hash": "481fac0fdecd70e1821cc30b86030c1a"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\sanity.cli.ts": {
+    "mtime": 1778149272.8884823,
+    "hash": "eeab55a77faa5ecfb1711dc932ccae25"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\sanity.config.ts": {
+    "mtime": 1778149272.903479,
+    "hash": "c95cc30962369d4675446face2edf9ac"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\sanity\\schema.ts": {
+    "mtime": 1778149272.919842,
+    "hash": "2e00c79af263f0aba2cdae1a9cb48b36"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\sanity\\schemas\\category.ts": {
+    "mtime": 1778149272.9248304,
+    "hash": "979df4274d085d9170d462c6fae5729b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\sanity\\schemas\\post.ts": {
+    "mtime": 1778149272.9298635,
+    "hash": "2dff0632e53707ebd8870ed718a4a46b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\scripts\\dev-safe.js": {
+    "mtime": 1778149272.9498618,
+    "hash": "49393938a0665470cf58b8afc74ab482"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\scripts\\migrate-to-sanity.mjs": {
+    "mtime": 1778149272.9548752,
+    "hash": "6266ba317f0ce375dc4503d9d1b06a0a"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\proxy.ts": {
+    "mtime": 1778149273.3824782,
+    "hash": "eb13acb46eea733d6ab5df8067bc3fe2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\layout.tsx": {
+    "mtime": 1778149273.123806,
+    "hash": "c99849deeff47c11e4668b5aec664afc"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\page.tsx": {
+    "mtime": 1778149273.1408045,
+    "hash": "372bf87fc73ebac8a46358d09a5b36e7"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\about\\page.tsx": {
+    "mtime": 1778149272.9608767,
+    "hash": "ad4bb17737c136f2f5e1f3f169954278"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\admin\\login\\page.tsx": {
+    "mtime": 1778149272.9854152,
+    "hash": "944de619eb0507c1014c226b343eba6a"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\admin\\posts\\edit\\[slug]\\page.tsx": {
+    "mtime": 1778149272.989412,
+    "hash": "0d07f4ea7486d8f14b3b32bddc8c9d82"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\admin\\posts\\new\\page.tsx": {
+    "mtime": 1778149272.992411,
+    "hash": "d40dd9d1020fe338d81f26cdba9ba1b5"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\admin\\[[...tool]]\\page.tsx": {
+    "mtime": 1778149272.9814167,
+    "hash": "a056ec54dbbc50dec7f719c984247d76"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\admin\\auth\\route.ts": {
+    "mtime": 1778149272.9954226,
+    "hash": "29419308c339189d1b7138f8c5267ba2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\calcom\\bookings\\[bookingUid]\\route.ts": {
+    "mtime": 1778149273.0274158,
+    "hash": "f54fd7a1dd75d1bb66331015bc759359"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\calcom\\bookings\\[bookingUid]\\cancel\\route.ts": {
+    "mtime": 1778149273.006414,
+    "hash": "6061c3d2c53d018c8a0e4ce22b059e1b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\calcom\\bookings\\[bookingUid]\\reschedule\\route.ts": {
+    "mtime": 1778149273.025413,
+    "hash": "d6840835e41a00241c04124b45345336"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\contact\\route.ts": {
+    "mtime": 1780575001.3537035,
+    "hash": "720ba786f9249118fc252a4d67aaf409"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\og\\route.tsx": {
+    "mtime": 1775050010.334802,
+    "hash": "a480f52ddaf3d73f270fccb6b94661a7"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\payment\\route.ts": {
+    "mtime": 1780575001.3814034,
+    "hash": "c8bb79405bdf040a915bfba63c0d98c8"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\payment\\notify\\route.ts": {
+    "mtime": 1778149273.0334148,
+    "hash": "eb7f900878a0134d0aa6bf9fbf723b4b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\payment\\status\\[paymentId]\\route.ts": {
+    "mtime": 1778149273.0384152,
+    "hash": "e7776c7457595230028e4ed2fe577190"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\posts\\route.ts": {
+    "mtime": 1778149273.0444157,
+    "hash": "749243fecc6ce7b4b6db650e95b6e6e5"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\posts\\[slug]\\route.ts": {
+    "mtime": 1778149273.0414164,
+    "hash": "721e335efa42cb37c0e82e499ac08083"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\questionnaire\\route.ts": {
+    "mtime": 1778149273.0474136,
+    "hash": "dd23276c0c98b39d8cd6318550df5ce4"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\questionnaire\\check\\route.ts": {
+    "mtime": 1780575001.410254,
+    "hash": "eb659218765240fa13ada5799ecb1a99"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\upload\\route.ts": {
+    "mtime": 1778149273.050416,
+    "hash": "78c253ecae7d2ba5a6bcf5ee68e63e29"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\api\\webhooks\\calcom\\route.ts": {
+    "mtime": 1780575001.4383972,
+    "hash": "eacdd7aeacc9e86d7364bdb0d3e645d4"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\blog\\BlogClient.tsx": {
+    "mtime": 1778149273.058426,
+    "hash": "6f6cd8374dca83e49c3ec7453be463ff"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\blog\\page.tsx": {
+    "mtime": 1778149273.0788026,
+    "hash": "bbccc714ed4e8f28f5ae4f0dbd3dd6d0"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\blog\\[slug]\\BlogPostContent.tsx": {
+    "mtime": 1778149273.0604305,
+    "hash": "922c585bd05af3c272acca1c634528cc"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\blog\\[slug]\\page.tsx": {
+    "mtime": 1780575016.861714,
+    "hash": "845363e2998b0efd696cd7492d828090"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\page.tsx": {
+    "mtime": 1778149273.093805,
+    "hash": "b350297f23e61691bb0e920fd3e5c6d4"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\book\\BookingContent.tsx": {
+    "mtime": 1780575001.462155,
+    "hash": "6913a114c8b0bfc7157b854cf083a513"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\book\\page.tsx": {
+    "mtime": 1778149273.0848036,
+    "hash": "27af7a11035e18270e4bfbdc0093c3d3"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\cancel\\[bookingUid]\\page.tsx": {
+    "mtime": 1778149273.0888069,
+    "hash": "2ca5916c0d1a6bd64b841f4b966d6dcc"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\confirmed\\[bookingUid]\\page.tsx": {
+    "mtime": 1778149273.091803,
+    "hash": "94b388574cc0f12b7c0c28d7364daf61"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\reschedule\\page.tsx": {
+    "mtime": 1778149273.0978024,
+    "hash": "8b08d1dece75da7c87b4b556fecf3de5"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\consult\\reschedule\\RescheduleClient.tsx": {
+    "mtime": 1780575001.4959803,
+    "hash": "e41928dd2ef3de688d3d681ac6a14f58"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\contact\\page.tsx": {
+    "mtime": 1780575001.532056,
+    "hash": "09fc0b0cf35a37674b0f43b68048e97e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\health-topics\\page.tsx": {
+    "mtime": 1780575016.8847048,
+    "hash": "f6289616e97aa92f6b91ac16afa60f40"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\health-topics\\[slug]\\page.tsx": {
+    "mtime": 1778149273.1198053,
+    "hash": "212ef0292e0973072e21d8b241e942f6"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\page.tsx": {
+    "mtime": 1780575001.6181417,
+    "hash": "fb4861cbb441a148dbc8240d87ff1388"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\QuestionnaireWizard.tsx": {
+    "mtime": 1780575001.5610569,
+    "hash": "0a94648eb1f186c25c8b1fa47ad68fc0"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\schema.ts": {
+    "mtime": 1780575016.9181135,
+    "hash": "5ca523811641acb6ae98c0432e3a9157"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\types.ts": {
+    "mtime": 1778149273.188398,
+    "hash": "d19c64f05f1058809abc843672592b87"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\confirmed\\page.tsx": {
+    "mtime": 1780575001.5931306,
+    "hash": "572b8df622412d178088c262bb415fab"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step10Consent.tsx": {
+    "mtime": 1778149273.1578128,
+    "hash": "ec71bfa2f417f5f4ac4787831afeeec1"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step1Personal.tsx": {
+    "mtime": 1780575016.9410262,
+    "hash": "0fa23397ed967a0ea38de7dd18dc518c"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step2Metrics.tsx": {
+    "mtime": 1778149273.1638143,
+    "hash": "0a58b8d5aa737585bf2b7342d11ed7e8"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step3Ergonomics.tsx": {
+    "mtime": 1778149273.1668148,
+    "hash": "1e801fe3bed087d2417ba294ffcd6389"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step4Medical.tsx": {
+    "mtime": 1780575001.7141857,
+    "hash": "843d052cd2afc7df45e7b682382ebe70"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step5Medication.tsx": {
+    "mtime": 1778149273.1723325,
+    "hash": "66ae5890cc3d70d6b611ebe0f207fcc8"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step6Surgical.tsx": {
+    "mtime": 1778149273.175332,
+    "hash": "fe6e478a0a7ade4a5b1f8dc723ed1797"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step7Stress.tsx": {
+    "mtime": 1778149273.177331,
+    "hash": "fa1cd9e53f9609b323b4855f3b32a20d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step8Screening.tsx": {
+    "mtime": 1778149273.1809902,
+    "hash": "f5e9d30bfdf36810ae3d70644c8d14f3"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\questionnaire\\steps\\Step9Family.tsx": {
+    "mtime": 1778149273.1843965,
+    "hash": "c6b1a9827cf5816f53c48368294fd65c"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\app\\services\\page.tsx": {
+    "mtime": 1774256775.8625753,
+    "hash": "8410ff171b309ea98aa533fbec2aaf88"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\blog\\BlogCard.tsx": {
+    "mtime": 1778149273.2063997,
+    "hash": "4cb24791dd4c6cbb1b9d96997c535889"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\consult\\ConsultBookingPanel.tsx": {
+    "mtime": 1780575001.735748,
+    "hash": "198635f1bc29321a70bc3aaf967c2cac"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\editor\\TiptapEditor.tsx": {
+    "mtime": 1778149273.2134037,
+    "hash": "5cd4056b48b577f1b8afb17aad355e03"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\integrations\\CalEmbed.tsx": {
+    "mtime": 1778149273.2153988,
+    "hash": "469b2eee965e63b19d6fc5c093fb5bc1"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\integrations\\PayfastButton.tsx": {
+    "mtime": 1780575001.765832,
+    "hash": "9e5b9afffbcb81ebed98d95290285a1e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\layout\\Footer.tsx": {
+    "mtime": 1778149273.2224004,
+    "hash": "105f7c499f205491e2ac9b32218ec060"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\layout\\Header.tsx": {
+    "mtime": 1778149273.2253976,
+    "hash": "11b31aaf277f8cf1d081275f064e0063"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\layout\\Layout.tsx": {
+    "mtime": 1774256775.8813224,
+    "hash": "cd8dc74a33d178e9bfbfa4ae68f779f8"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\About.tsx": {
+    "mtime": 1778149309.5174758,
+    "hash": "40cebdee22bf189dbb55cf1317584af8"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\AboutDoctor.tsx": {
+    "mtime": 1778149273.2303982,
+    "hash": "0047b5a9ee758deca4b671e4153dcc74"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\Conditions.tsx": {
+    "mtime": 1774256775.8908703,
+    "hash": "e8d67f764b27996a8c54263dd94cea5d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\CTA.tsx": {
+    "mtime": 1778149273.2464006,
+    "hash": "d64bfe218fcd11f269b1b0960ee2d91a"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\FeaturedArticle.tsx": {
+    "mtime": 1778149273.2604136,
+    "hash": "d7aa65ba5de8aa726d5237ad6f786995"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\HealthTopicCategories.tsx": {
+    "mtime": 1778149273.276649,
+    "hash": "6c1658cbf01af391c5b61d62c6447e47"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\Hero.tsx": {
+    "mtime": 1778149273.2806525,
+    "hash": "820650bc451e7c34a60596da5dfdbe6b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\Process.tsx": {
+    "mtime": 1774256775.896399,
+    "hash": "89f0dc72e874305f9b316f1a9ff3d6f9"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\RecentArticles.tsx": {
+    "mtime": 1778149273.296651,
+    "hash": "bfe44a7c4e90eb0b452d2fbc6caf678b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\Services.tsx": {
+    "mtime": 1774256775.8983965,
+    "hash": "27f3bc941d7616a167a0d1c9c03a8dbd"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\ServicesModal.tsx": {
+    "mtime": 1774256775.901398,
+    "hash": "4b388466129c282c3e70d7447a5ab330"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\sections\\WhyChooseUs.tsx": {
+    "mtime": 1774256775.9023967,
+    "hash": "f6c9f32cce9d8e538905c4e2219e4715"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\ui\\button.tsx": {
+    "mtime": 1774256775.9071417,
+    "hash": "03e4416666cdc2f38518b63b2a106fec"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\ui\\DoctorIllustration.tsx": {
+    "mtime": 1778149273.2996516,
+    "hash": "ee0417cd827783e3c3dacd48b48431de"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\components\\ui\\form-primitives.tsx": {
+    "mtime": 1780575016.9617472,
+    "hash": "1d92ded118ada0729f549c42c69ce8b6"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\db\\index.ts": {
+    "mtime": 1778149273.3056524,
+    "hash": "621fc1f5f4a75fbc07d3f698a417671d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\db\\schema.ts": {
+    "mtime": 1778149273.3076503,
+    "hash": "e3ffd9296dcccd83de81f6dfb9533115"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\blog.ts": {
+    "mtime": 1778149273.3246567,
+    "hash": "b23a046160d355881dfe61a4da182582"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\calcom.ts": {
+    "mtime": 1778149273.3276565,
+    "hash": "b7780e9b23474635070282dd00ffac75"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\design-system.ts": {
+    "mtime": 1774256775.921661,
+    "hash": "6bae794131dcfa2b2289c2aaf7a7ddc2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\email.ts": {
+    "mtime": 1780575001.79575,
+    "hash": "352b75e4dadf28c850563ff53dbb78f8"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\form-persistence.ts": {
+    "mtime": 1780575001.8187654,
+    "hash": "0a5a6a062ab6da135381a2c48f113514"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\health-topics-fallbacks.ts": {
+    "mtime": 1778149273.3536572,
+    "hash": "c0ae74499cd24e93953c0961f1ed1fb2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\payfast.ts": {
+    "mtime": 1780575001.8413186,
+    "hash": "6bfa014e0f7aa0068d57c3fadd24a7cb"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\payment-gate.ts": {
+    "mtime": 1778149273.3587358,
+    "hash": "f761d66a70e6e14abd5a93fb268cc3ac"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\sanity.ts": {
+    "mtime": 1778149273.3607397,
+    "hash": "a8ee435fc7cc67ea3507873523ae5642"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\theme.ts": {
+    "mtime": 1778149273.3774476,
+    "hash": "471a0f9fe4d84db45d3ce372395ab643"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\src\\lib\\utils.ts": {
+    "mtime": 1774256775.929276,
+    "hash": "1d8011eb18769078bf77502b220daa5e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\eslint.config.mjs": {
+    "mtime": 1778149273.4404926,
+    "hash": "27e60037b0dc2c118f25bbc9a0adf246"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\sanity.cli.ts": {
+    "mtime": 1778149273.5045729,
+    "hash": "04347eef5767eb63da9a2c7be5dbc2ea"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\sanity.config.ts": {
+    "mtime": 1778149273.525585,
+    "hash": "05a8cb0b665fcce04d6c24d4d11f19fd"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\schemaTypes\\category.ts": {
+    "mtime": 1778149273.5295968,
+    "hash": "979df4274d085d9170d462c6fae5729b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\schemaTypes\\index.ts": {
+    "mtime": 1778149273.5328014,
+    "hash": "3ceb4d9827ebff6dc8cc0464a1655a36"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\schemaTypes\\post.ts": {
+    "mtime": 1778149273.5358036,
+    "hash": "2dff0632e53707ebd8870ed718a4a46b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\lint_output.txt": {
+    "mtime": 1774450154.5337708,
+    "hash": "1d5be26f35faeb5b4c174fa827b131fe"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\README.md": {
+    "mtime": 1780575001.2958174,
+    "hash": "8a5c9b0c6390b235c43f4cbe10e71b73"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\TODOS.md": {
+    "mtime": 1778149272.3318546,
+    "hash": "750172f4b957bc396092ab129362ebc3"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\5-tips-for-managing-chronic-conditions.mdx": {
+    "mtime": 1775050009.6141517,
+    "hash": "25a1003c1adfc104675e3d2c5fa41249"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\cardiovascular-health-stay-informed.mdx": {
+    "mtime": 1778149272.3398542,
+    "hash": "6734c54854be5cf12ac56241010ce2c2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\coughing-coughing-coughing-asthma.mdx": {
+    "mtime": 1778149272.3468568,
+    "hash": "2297f74b720dbc9fc3fbec60e247e977"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\coughing-coughing-coughing-pneumonia.mdx": {
+    "mtime": 1778149272.354872,
+    "hash": "2e1f71a27b4fd332c6bf10fc2aaa350d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\diabetes-mellitus-everything-you-need-to-know.mdx": {
+    "mtime": 1778149272.3628764,
+    "hash": "ae0eef85daf4e91c28f9d5230c670b43"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\how-to-boost-your-immune-system-naturally-this-winter.mdx": {
+    "mtime": 1778149272.3732934,
+    "hash": "d3626bb0b0ccd177810e99a13e124050"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\hypertension.mdx": {
+    "mtime": 1778149272.3822882,
+    "hash": "f6370e57776ec05dc0f7679e82d496a2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\mental-health-matters-breaking-the-stigma.mdx": {
+    "mtime": 1775050009.8980396,
+    "hash": "4a0d308719a47ca7aee38b2d7c395cf7"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\the-power-of-preventive-care.mdx": {
+    "mtime": 1775050009.9010441,
+    "hash": "374ec5c7c554bdd8551c8fbe68902a0b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\understanding-personalised-medicine.mdx": {
+    "mtime": 1775050009.9080577,
+    "hash": "1c3099f3f7f8deb86272394090a7a0ef"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\welcome-to-aliento-health-blog.mdx": {
+    "mtime": 1775050009.91504,
+    "hash": "8c0514dbfeaecd52c752527129adb20f"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\content\\blog\\when-to-see-a-doctor.mdx": {
+    "mtime": 1775050009.9190462,
+    "hash": "e6f1170a32d836753381961563d5d99b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2025-01-30-questionnaire-design.md": {
+    "mtime": 1778149272.3922799,
+    "hash": "7fd04e48263a612d4acb0cd907162903"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2025-01-30-questionnaire-implementation.md": {
+    "mtime": 1778149272.4032917,
+    "hash": "a84979068ae61a72a708c32e360e24bd"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2026-03-25-aliento-health-promotion-implementation.md": {
+    "mtime": 1778149272.449314,
+    "hash": "8b705f5cb370c6517beee979f5043859"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2026-03-25-aliento-health-promotion-redesign.md": {
+    "mtime": 1778149272.4868526,
+    "hash": "49fe258d6f4c5c0b643224f81ab48fcf"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2026-03-25-mdx-to-sanity-migration-design.md": {
+    "mtime": 1778149272.5178459,
+    "hash": "1dbc9860e985dd90e213797104ba616e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2026-03-25-mdx-to-sanity-migration.md": {
+    "mtime": 1778149272.5398436,
+    "hash": "b03c6c29b1c5e6a83ecf7d4099e47657"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\2026-04-02-calcom-consult-integration.md": {
+    "mtime": 1778149272.5438452,
+    "hash": "14c855b0d4e65388241fedafed42dff9"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\agent-superpowers-plan.md": {
+    "mtime": 1778149272.5488443,
+    "hash": "e726e3300286c912378b6658aab7a19a"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\aliento-changes-plan.md": {
+    "mtime": 1778149272.551846,
+    "hash": "5e5ea3f16c06750c222deb362a72dac6"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\docs\\plans\\studio-deploy-and-fallback.md": {
+    "mtime": 1778149272.5771458,
+    "hash": "18ed772f6063d4de978b789b4a765405"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\5-tips-for-managing-chronic-conditions.mdx": {
+    "mtime": 1774256775.6753068,
+    "hash": "25a1003c1adfc104675e3d2c5fa41249"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\cardiovascular-health-stay-informed.mdx": {
+    "mtime": 1778149272.825948,
+    "hash": "6734c54854be5cf12ac56241010ce2c2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\coughing-coughing-coughing-asthma.mdx": {
+    "mtime": 1778149272.8279507,
+    "hash": "2297f74b720dbc9fc3fbec60e247e977"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\coughing-coughing-coughing-pneumonia.mdx": {
+    "mtime": 1778149272.8309486,
+    "hash": "2e1f71a27b4fd332c6bf10fc2aaa350d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\how-to-boost-your-immune-system-naturally-this-winter.mdx": {
+    "mtime": 1778149272.833952,
+    "hash": "d3626bb0b0ccd177810e99a13e124050"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\hypertension.mdx": {
+    "mtime": 1778149272.8369617,
+    "hash": "f6370e57776ec05dc0f7679e82d496a2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\mental-health-matters-breaking-the-stigma.mdx": {
+    "mtime": 1774256775.6773095,
+    "hash": "4a0d308719a47ca7aee38b2d7c395cf7"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\the-power-of-preventive-care.mdx": {
+    "mtime": 1774256775.6823075,
+    "hash": "374ec5c7c554bdd8551c8fbe68902a0b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\understanding-personalised-medicine.mdx": {
+    "mtime": 1774256775.6864772,
+    "hash": "1c3099f3f7f8deb86272394090a7a0ef"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\welcome-to-aliento-health-blog.mdx": {
+    "mtime": 1774256775.6885035,
+    "hash": "8c0514dbfeaecd52c752527129adb20f"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\content\\blog\\when-to-see-a-doctor.mdx": {
+    "mtime": 1774256775.6904998,
+    "hash": "e6f1170a32d836753381961563d5d99b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\studio-aliento\\README.md": {
+    "mtime": 1778149273.4214964,
+    "hash": "9cae326e667aafbed30872f7cb44b6f4"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\vercel-sso.png": {
+    "mtime": 1778149273.6028497,
+    "hash": "64f8efe11f443e8a1d6d8a39328b1a4b"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\favicon.svg": {
+    "mtime": 1774256775.6925013,
+    "hash": "6204bddb7aac2ec5a426e6370eae63a1"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\file.svg": {
+    "mtime": 1774256775.6941745,
+    "hash": "d09f95206c3fa0bb9bd9fefabfd0ea71"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\globe.svg": {
+    "mtime": 1774256775.6973798,
+    "hash": "2aaafa6a49b6563925fe440891e32717"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\logo-icon-white.svg": {
+    "mtime": 1778149272.8734784,
+    "hash": "5bc0add8ed1fdde39b7fabc6bf0427d1"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\logo-icon.svg": {
+    "mtime": 1778149272.886482,
+    "hash": "47b7daa93a772654b9ba3b5d12928286"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\next.svg": {
+    "mtime": 1774256775.7913742,
+    "hash": "8e061864f388b47f33a1c3780831193e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\vercel.svg": {
+    "mtime": 1774256775.7923744,
+    "hash": "c0af2f507b369b085b35ef4bbe3bcf1e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\window.svg": {
+    "mtime": 1774256775.7949038,
+    "hash": "a2760511c65806022ad20adf74370ff3"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\aliento-icon.svg": {
+    "mtime": 1778149272.8489506,
+    "hash": "85d107106a3c81da4c8fc47b658962c6"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\aliento-logo-white.svg": {
+    "mtime": 1774256775.7151365,
+    "hash": "1011bc183c3ba6454cdf42523bc69397"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\aliento-logo.svg": {
+    "mtime": 1774256775.7392995,
+    "hash": "3b999b3ae25006a315bfcf002e537d85"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\doctor-headshot.jpg": {
+    "mtime": 1778149272.8569572,
+    "hash": "a3fae8a1a9fdacf61d1a625b117e0ed9"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\doctor-headshot.webp": {
+    "mtime": 1778149272.8589582,
+    "hash": "9f5fbbb0034b16fa2be4eb4230815e7e"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\chronic-care.png": {
+    "mtime": 1774256775.7498724,
+    "hash": "6858e57f94e388b7df2e2c5e21fb8b95"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\chronic-care.svg": {
+    "mtime": 1774256775.75499,
+    "hash": "65ada0bbdba8d3f4f62922ea5fccd6c7"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\default.png": {
+    "mtime": 1774256775.7590086,
+    "hash": "63d3c4a5a6cac6374c2a3f382da5d3b9"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\default.svg": {
+    "mtime": 1774256775.763003,
+    "hash": "1e66734705217c4cab5feca6e5829ec3"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\medical-insights.png": {
+    "mtime": 1774256775.7665694,
+    "hash": "7d49234de71c0bfe7fb37704dbfbd211"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\medical-insights.svg": {
+    "mtime": 1774256775.768634,
+    "hash": "62538459236488b8945eae9665e69678"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\mental-health.png": {
+    "mtime": 1774256775.7726555,
+    "hash": "a2068b2fb1b6f82afd58b58521a2ad1d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\mental-health.svg": {
+    "mtime": 1774256775.776913,
+    "hash": "18ad6bf5be6227b8cf8ac04b10ca6cde"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\nutrition.png": {
+    "mtime": 1774256775.7799563,
+    "hash": "6b8747aa6a5dc09c2eabf0638eace2c5"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\nutrition.svg": {
+    "mtime": 1774256775.7819607,
+    "hash": "98de9c30d55c40337dbf283fde095cb3"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\tips-guides.png": {
+    "mtime": 1774256775.783954,
+    "hash": "57e017f0b543c7fb43e2e2edb98296b9"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\tips-guides.svg": {
+    "mtime": 1774256775.7853782,
+    "hash": "e7c39eea8dee629936f194b741bd76c2"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\wellness.png": {
+    "mtime": 1774256775.7883754,
+    "hash": "8940789cf2227ac05db54a1241763c5d"
+  },
+  "C:\\scratchpad\\aliento-nextjs\\public\\images\\blog\\wellness.svg": {
+    "mtime": 1774256775.790372,
+    "hash": "7ee3b5c4ea01d95a62fe73930de32ece"
+  }
+}

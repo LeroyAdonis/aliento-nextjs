@@ -44,3 +44,6 @@ next-env.d.ts
 build_output.txt
 lint_output.txt
 .env*.local
+
+# graphify cache (auto-generated binary hashes)
+graphify-out/cache/
