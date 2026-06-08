@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import BookingsClient from './BookingsClient'
 
 export const metadata: Metadata = {
@@ -6,7 +8,15 @@ export const metadata: Metadata = {
   description: 'View and manage your consultation bookings.',
 }
 
-export default function BookingsPage() {
+export default async function BookingsPage() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin_session')
+  const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
+
+  if (!session || session.value !== ADMIN_SECRET) {
+    redirect('/admin/login?redirect=/consult/bookings')
+  }
+
   return (
     <main className="min-h-screen bg-cream-100">
       <div className="max-w-5xl mx-auto px-6 py-10 lg:py-14">
