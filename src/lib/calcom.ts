@@ -38,6 +38,22 @@ export async function cancelCalBooking(bookingUid: string, reason?: string) {
   })
 }
 
+export async function listCalBookings(params?: {
+  status?: 'upcoming' | 'past' | 'cancelled' | 'recurring'
+  limit?: number
+  cursor?: string
+}) {
+  const query = new URLSearchParams()
+  if (params?.status) query.set('status', params.status)
+  if (params?.limit) query.set('limit', String(params.limit))
+  if (params?.cursor) query.set('cursor', params.cursor)
+
+  const qs = query.toString()
+  return calcomFetch<{ data: any[]; meta: { limit: number; cursor?: string; hasMore?: boolean } }>(
+    `/bookings${qs ? `?${qs}` : ''}`
+  )
+}
+
 export async function verifyCalWebhookSignature(signature: string | null, rawBody: string) {
   const secret = process.env.CALCOM_WEBHOOK_SECRET
   if (!secret || !signature) return false

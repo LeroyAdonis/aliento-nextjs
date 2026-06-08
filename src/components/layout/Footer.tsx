@@ -96,13 +96,13 @@ export function Footer() {
               Connect
             </h4>
             <a
-              href="mailto:info@alientomedical.com"
+              href="mailto:info@alientomd.com"
               className="flex items-center gap-3 text-warm-500 hover:text-sage-600 transition-colors group mb-6"
             >
               <div className="w-9 h-9 rounded-full bg-sage-50 flex items-center justify-center group-hover:bg-sage-100 transition-colors">
                 <Mail size={15} className="text-sage-500" />
               </div>
-              <span className="text-sm">info@alientomedical.com</span>
+              <span className="text-sm">info@alientomd.com</span>
             </a>
             <p className="text-xs text-warm-400 leading-relaxed">
               For medical emergencies, please call 10177 (EMS) or visit your
@@ -116,9 +116,6 @@ export function Footer() {
         <div className="border-t border-warm-200 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-warm-400 text-xs">
             © {new Date().getFullYear()} Aliento. All rights reserved.
-          </p>
-          <p className="text-warm-400 text-xs italic">
-            Not a substitute for professional medical advice.
           </p>
         </div>
 

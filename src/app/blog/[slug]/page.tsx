@@ -4,14 +4,10 @@ import BlogPostContent from './BlogPostContent'
 import { Metadata } from 'next'
 import Script from 'next/script'
 
-function getCoverImageUrl(post: { coverImage?: { asset?: { _ref?: string } } }, siteUrl: string): string {
+function getCoverImageUrl(post: { coverImage?: { asset?: { url?: string } } }, siteUrl: string): string {
   try {
-    if (post.coverImage?.asset?._ref) {
-      return `https://cdn.sanity.io/images/kygybgb7/production/${post.coverImage.asset._ref
-        .replace('image-', '')
-        .replace(/-png$/, '.png')
-        .replace(/-jpg$/, '.jpg')
-        .replace(/-webp$/, '.webp')}`
+    if (post.coverImage?.asset?.url) {
+      return post.coverImage.asset.url
     }
   } catch {
     // fall through to default

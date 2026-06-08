@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Layout } from '@/components/layout/Layout'
+import { headers } from 'next/headers'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://alientomd.com'),
@@ -42,9 +43,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const headersList = await headers()
+  const pathname = headersList.get('x-pathname') || ''
+
+  // Admin pages (Sanity Studio) need full viewport without site layout
+  if (pathname.startsWith('/admin')) {
+    return (
+      <html lang="en">
+        <body className="antialiased">{children}</body>
+      </html>
+    )
+  }
+
   return (
     <html lang="en">
       <body className="antialiased">

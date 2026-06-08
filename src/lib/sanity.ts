@@ -34,13 +34,14 @@ export interface SanityPost {
  title: string
  slug: { current: string }
  excerpt: string
- coverImage?: any
+ coverImage?: { asset?: { url?: string } }
+ firstBodyImage?: string
  category: { title: string; slug?: { current: string }; color?: string }
  tags: string[]
  author: string
  publishedAt: string
  body?: unknown[]
- pdfFile?: { asset?: { _ref?: string; url?: string } }
+ pdfFile?: { asset?: { url?: string } }
  relatedPosts?: SanityPost[]
 }
 
@@ -54,7 +55,7 @@ export interface SanityCategory {
 
 // ── Queries ──
 const postFields = `
- _id, title, slug, excerpt, coverImage, category->{title, slug, color}, tags, author, publishedAt, pdfFile{asset->{url}},
+ _id, title, slug, excerpt, coverImage{asset->{url}}, "firstBodyImage": body[_type == "image" && defined(url)][0].url, category->{title, slug, color}, tags, author, publishedAt, pdfFile{asset->{url}},
 `
 
 export async function getAllPosts(): Promise<SanityPost[]> {
@@ -65,7 +66,7 @@ export async function getAllPosts(): Promise<SanityPost[]> {
 
 export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
  return client.fetch(
- `*[_type == "post" && slug.current == $slug][0] { ${postFields} body, relatedPosts[]->{ _id, title, slug, excerpt, coverImage, category->{title, slug, color}, publishedAt } }`,
+ `*[_type == "post" && slug.current == $slug][0] { ${postFields} body, relatedPosts[]->{ _id, title, slug, excerpt, coverImage{asset->{url}}, category->{title, slug, color}, publishedAt } }`,
  { slug }
  )
 }

@@ -4,34 +4,44 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
 const COOKIE_NAME = 'admin_session'
 
 function isAuthenticated(request: NextRequest): boolean {
- if (!ADMIN_SECRET) return true
- const cookie = request.cookies.get(COOKIE_NAME)
- return cookie?.value === ADMIN_SECRET
+  if (!ADMIN_SECRET) return true
+  const cookie = request.cookies.get(COOKIE_NAME)
+  return cookie?.value === ADMIN_SECRET
 }
 
 export function proxy(request: NextRequest) {
- const { pathname } = request.nextUrl
+  const { pathname } = request.nextUrl
 
- if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
- if (!isAuthenticated(request)) {
- const studioUrl = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.sanity.studio`
- return NextResponse.redirect(studioUrl)
- }
- }
+  // Set pathname header for root layout detection (admin gets full viewport)
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
 
- const isWriteApiRoute =
- (pathname.startsWith('/api/posts') && request.method !== 'GET') ||
- pathname.startsWith('/api/upload')
+  // Admin pages need auth (except login page itself)
+  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+    if (!isAuthenticated(request)) {
+      const loginUrl = new URL('/admin/login', request.url)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
 
- if (isWriteApiRoute) {
- if (!isAuthenticated(request)) {
- return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
- }
- }
+  // Protect write API routes
+  const isWriteApiRoute =
+    (pathname.startsWith('/api/posts') && request.method !== 'GET') ||
+    pathname.startsWith('/api/upload')
 
- return NextResponse.next()
+  if (isWriteApiRoute) {
+    if (!isAuthenticated(request)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+  }
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
 }
 
 export const config = {
- matcher: ['/admin/:path*', '/api/posts/:path*', '/api/upload'],
+  matcher: ['/admin/:path*', '/api/posts/:path*', '/api/upload'],
 }

@@ -12,9 +12,9 @@ export async function POST(req: NextRequest) {
 
     if (paymentId) {
       if (paymentStatus === 'COMPLETE') {
-        markPaymentGatePaid(paymentId)
+        await markPaymentGatePaid(paymentId)
       } else if (paymentStatus) {
-        markPaymentGateFailed(paymentId)
+        await markPaymentGateFailed(paymentId)
       }
     }
 

@@ -5,8 +5,24 @@ import Image from 'next/image'
 import { Calendar, ArrowLeft, Clock, Tag, ArrowRight, FileDown, Loader2, CheckCircle } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import type { SanityPost } from '@/lib/sanity'
+import { urlFor } from '@/lib/sanity'
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
+
+/** Strip timestamp/uuid hashes from auto-generated alt text (migrated content) */
+function cleanAltText(alt: string): string {
+  if (!alt) return ''
+  // Remove trailing timestamp-uuid patterns like "-1712232415633-095dc9e03c5d" or ".avif.jpg.png"
+  return alt
+    .replace(/[-_][\d]{10,}[-_][a-z0-9-]+\.\w+$/i, '') // timestamp-uuid.extension
+    .replace(/[-_][\d]{10,}[-_][a-z0-9-]+$/i, '')        // without extension
+    .replace(/\.\w{3,4}$/i, '')                           // file extension
+    .replace(/[-_]+/g, ' ')                                // dashes/underscores → spaces
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, c => c.toUpperCase())               // Title Case
+    || 'Article illustration'
+}
 
 function isRawHtmlBody(body: unknown[]): boolean {
   const first = body[0] as { _type?: string; children?: Array<{ _type?: string; text?: string }> }
@@ -31,14 +47,49 @@ function extractRawHtml(body: unknown[]): string {
 
 const portableTextComponents = {
   types: {
-    image: ({ value }: { value: { asset?: { _ref?: string }; caption?: string; alt?: string } }) => {
-      const ref = value?.asset?._ref
-      if (!ref) return null
-      const src = `https://cdn.sanity.io/images/kygybgb7/production/${ref.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`
+    image: ({ value }: { value: { asset?: { _ref?: string }; url?: string; caption?: string; alt?: string } }) => {
+      // Case 1: Sanity-native image with asset reference
+      if (value?.asset?._ref) {
+        const imageUrl = urlFor(value).width(800).url()
+        return (
+          <figure className="my-10">
+            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-lg shadow-warm-900/5">
+              <Image
+                src={imageUrl}
+                alt={cleanAltText(value.alt || '')}
+                fill
+                className="object-cover hover:scale-[1.02] transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 800px"
+              />
+            </div>
+            {value.caption && <figcaption className="text-warm-400 text-sm mt-3 text-center italic">{value.caption}</figcaption>}
+          </figure>
+        )
+      }
+
+      // Case 2: Migrated article image with direct URL (from MDX migration)
+      if (value?.url) {
+        return (
+          <figure className="my-10">
+            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl bg-warm-50 shadow-lg shadow-warm-900/5">
+              <Image
+                src={value.url}
+                alt={cleanAltText(value.alt || '')}
+                fill
+                className="object-cover hover:scale-[1.02] transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 800px"
+              />
+            </div>
+            {value.caption && <figcaption className="text-warm-400 text-sm mt-3 text-center italic">{value.caption}</figcaption>}
+          </figure>
+        )
+      }
+
+      // Case 3: No usable image source — render placeholder
       return (
-        <figure className="my-10">
-          <Image src={src} alt={value.alt || ''} width={800} height={500} className="rounded-2xl w-full" />
-          {value.caption && <figcaption className="text-warm-400 text-sm mt-3 text-center italic">{value.caption}</figcaption>}
+        <figure className="my-10 p-12 rounded-2xl bg-warm-50 border border-dashed border-warm-200 text-center">
+          <span className="text-4xl mb-3 block">🖼️</span>
+          <p className="text-warm-400 text-sm">{value.alt || 'Image'} <br /><span className="text-xs text-warm-300">(coming soon)</span></p>
         </figure>
       )
     },

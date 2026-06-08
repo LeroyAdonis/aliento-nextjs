@@ -14,13 +14,17 @@ sanityEnvSchema.parse({
 
 const nextConfig: NextConfig = {
   images: {
- remotePatterns: [
- {
- protocol: 'https',
- hostname: 'cdn.sanity.io',
- },
- ],
- },
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+      {
+        protocol: 'https',
+        hostname: '1dp2ojinmz645uqk.public.blob.vercel-storage.com',
+      },
+    ],
+  },
  async redirects() {
  return [
  {

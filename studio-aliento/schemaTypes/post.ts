@@ -137,6 +137,13 @@ export const post = defineType({
       of: [{ type: 'reference', to: [{ type: 'post' }] }],
       description: 'Link to other posts for "Read more about..." callouts',
     }),
+    defineField({
+      name: 'pdfFile',
+      title: 'Downloadable PDF (R50)',
+      type: 'file',
+      description: 'Upload a PDF that users can purchase for R50. Leave empty if not available.',
+      options: { accept: '.pdf' },
+    }),
   ],
   orderings: [
     {

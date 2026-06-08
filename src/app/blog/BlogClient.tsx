@@ -100,13 +100,13 @@ export default function BlogClient({ posts, categories, basePath = '/health-topi
  <Link href={`${basePath}/${featuredPost.slug?.current || featuredPost.slug}`} className="group block">
  <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
  <div className={`aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br ${getCategoryGradient(featuredCatTitle)} flex items-center justify-center`}>
- {featuredPost.coverImage ? (
+ {featuredPost.coverImage?.asset?.url || featuredPost.firstBodyImage ? (
  <Image
- src={`https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${(featuredPost.coverImage as { asset?: { _ref?: string } })?.asset?._ref?.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`}
- alt={featuredPost.title}
- width={600}
- height={450}
- className="w-full h-full object-cover"
+     src={featuredPost.coverImage?.asset?.url || featuredPost.firstBodyImage || ''}
+     alt={featuredPost.title}
+     width={600}
+     height={450}
+     className="w-full h-full object-cover"
  />
  ) : (
  <div className="text-center p-12">
@@ -179,13 +179,13 @@ export default function BlogClient({ posts, categories, basePath = '/health-topi
  <Link href={`${basePath}/${slug}`} className="group block h-full">
  <article className="h-full flex flex-col bg-white rounded-3xl border border-warm-200/60 overflow-hidden hover:border-warm-300 hover:shadow-xl transition-all duration-500">
  <div className={`aspect-[16/10] overflow-hidden relative bg-gradient-to-br ${getCategoryGradient(catTitle)}"}`}>
- {post.coverImage ? (
+ {post.coverImage?.asset?.url || post.firstBodyImage ? (
  <Image
- src={`https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${(post.coverImage as { asset?: { _ref?: string } })?.asset?._ref?.replace('image-', '').replace('-png', '.png').replace('-jpg', '.jpg').replace('-webp', '.webp')}`}
- alt={post.title}
- width={400}
- height={250}
- className="w-full h-full object-cover"
+     src={post.coverImage?.asset?.url || post.firstBodyImage || ''}
+     alt={post.title}
+     width={400}
+     height={250}
+     className="w-full h-full object-cover"
  />
  ) : (
  <div className="w-full h-full flex items-center justify-center">
