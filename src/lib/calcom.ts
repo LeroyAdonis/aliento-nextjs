@@ -49,7 +49,7 @@ export async function listCalBookings(params?: {
   if (params?.cursor) query.set('cursor', params.cursor)
 
   const qs = query.toString()
-  return calcomFetch<{ data: any[]; meta: { limit: number; cursor?: string; hasMore?: boolean } }>(
+  return calcomFetch<{ data: { bookings: any[]; totalCount: number; hasMore: boolean; nextCursor: string | null } }>(
     `/bookings${qs ? `?${qs}` : ''}`
   )
 }

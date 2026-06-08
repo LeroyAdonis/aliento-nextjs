@@ -153,7 +153,7 @@ export default function BookingsClient() {
         throw new Error(errData.error || 'Failed to fetch')
       }
       const data = await res.json()
-      setBookings(data.data || [])
+      setBookings(data?.data?.bookings || [])
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong')
       setBookings([])
