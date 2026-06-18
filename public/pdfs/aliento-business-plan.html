@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Aliento Medical — Business Plan</title>
+<style>
+  @page { margin: 1.2cm 1.8cm; size: A4; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    color: #433E34;
+    background: #FDF8F0;
+    padding: 0;
+  }
+  .page {
+    max-width: 21cm;
+    margin: 0 auto;
+    padding: 1cm 1.5cm;
+    background: #FDF8F0;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  /* Cover page */
+  .cover {
+    background: #3A5E4A;
+    color: #FDF8F0;
+    padding: 2.5cm 2cm 2cm 2cm;
+    text-align: center;
+    min-height: 29.7cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cover h1 {
+    font-size: 42pt;
+    color: #FDF8F0;
+    margin-bottom: 0.5cm;
+    letter-spacing: 2px;
+  }
+  .cover .gold {
+    color: #C9A96E;
+  }
+  .cover .subtitle {
+    font-size: 18pt;
+    color: #A8C4B2;
+    margin-bottom: 2cm;
+  }
+  .cover .price {
+    font-size: 28pt;
+    color: #C9A96E;
+    font-weight: bold;
+    margin: 1cm 0;
+  }
+  .cover .meta {
+    font-size: 12pt;
+    color: #7C9E8A;
+    margin-top: 2cm;
+  }
+  .cover .tagline {
+    font-size: 14pt;
+    color: #5E8A70;
+    font-style: italic;
+    margin-top: 1cm;
+  }
+
+  /* Section styling */
+  .section-number {
+    font-size: 10pt;
+    color: #5E8A70;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.3cm;
+  }
+  h2 {
+    font-size: 24pt;
+    color: #2E2A26;
+    margin-bottom: 0.5cm;
+    padding-bottom: 0.2cm;
+    border-bottom: 3px solid #5E8A70;
+  }
+  h3 {
+    font-size: 16pt;
+    color: #4A7059;
+    margin: 0.6cm 0 0.3cm 0;
+  }
+  h4 {
+    font-size: 13pt;
+    color: #433E34;
+    margin: 0.4cm 0 0.2cm 0;
+  }
+  p { margin-bottom: 0.3cm; }
+  ul { margin: 0.2cm 0 0.4cm 1.5cm; }
+  li { margin-bottom: 0.15cm; }
+
+  .highlight-box {
+    background: #5E8A70;
+    color: #FDF8F0;
+    padding: 0.6cm 0.8cm;
+    border-radius: 4px;
+    margin: 0.5cm 0;
+  }
+  .highlight-box.gold {
+    background: #C9A96E;
+    color: #2E2A26;
+  }
+  .highlight-box.dark {
+    background: #3A5E4A;
+  }
+  .highlight-box h4 { color: inherit; margin-top: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5cm 0;
+  }
+  table th {
+    background: #4A7059;
+    color: #FDF8F0;
+    padding: 0.3cm 0.4cm;
+    text-align: left;
+    font-size: 11pt;
+  }
+  table td {
+    padding: 0.3cm 0.4cm;
+    border-bottom: 1px solid #C8C0B0;
+    font-size: 11pt;
+  }
+  table tr:nth-child(even) td { background: #F5EDE0; }
+
+  .two-col {
+    display: flex;
+    gap: 0.8cm;
+    margin: 0.5cm 0;
+  }
+  .two-col > div { flex: 1; }
+
+  .metric-card {
+    background: #FFFFFF;
+    border: 1px solid #E0D8C8;
+    border-radius: 4px;
+    padding: 0.5cm;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+  .metric-card .num {
+    font-size: 28pt;
+    font-weight: bold;
+    color: #4A7059;
+    display: block;
+  }
+  .metric-card .label {
+    font-size: 10pt;
+    color: #433E34;
+  }
+
+  .footer {
+    margin-top: 1cm;
+    padding-top: 0.3cm;
+    border-top: 1px solid #7C9E8A;
+    font-size: 9pt;
+    color: #7C9E8A;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ COVER PAGE ═══════ -->
+<div class="cover">
+  <h1>Aliento <span class="gold">Medical</span></h1>
+  <p class="subtitle">Employee Wellness Screening Programme<br>Business Plan</p>
+  <p class="price">R500 per employee per year</p>
+  <p class="meta">
+    Prepared by Dr. Leegale Adonis<br>
+    PhD in Public Health | Founder, Aliento Medical<br>
+    alientomd.com
+  </p>
+  <p class="tagline">Breathe, Screen, Live.</p>
+</div>
+
+<!-- ═══════ PAGE: EXECUTIVE SUMMARY ═══════ -->
+<div class="page">
+  <p class="section-number">Section 01</p>
+  <h2>Executive Summary</h2>
+
+  <p><strong>Aliento Medical</strong> is a health technology and clinical practice delivering evidence-based employee wellness screening and patient-adapted behavioural lifestyle interventions. Founded by Dr. Leegale Adonis, a public health PhD with deep expertise in preventative medicine and workplace wellness, Aliento bridges the critical gap between screening and sustained health behaviour change.</p>
+
+  <div class="highlight-box">
+    <h4>Our Value Proposition</h4>
+    <p style="color: #FDF8F0;">We provide a complete, scalable employee wellness solution — from on-site screening through personalised intervention to structured onward referral — for <strong>R500 per employee per year</strong>. No hidden fees. No lock-in contracts.</p>
+  </div>
+
+  <h3>Target Market</h3>
+  <p>South Africa's largest retail and franchise groups: <strong>Shoprite, Pick n Pay, Game, Makro, and the Foschini Group</strong>. These organisations employ hundreds of thousands of staff across the country and face significant productivity losses from preventable chronic disease.</p>
+
+  <h3>The Opportunity</h3>
+  <ul>
+    <li><strong>64%</strong> of deaths in South Africa are caused by non-communicable diseases — largely preventable through early detection and lifestyle intervention.</li>
+    <li><strong>Less than 20%</strong> of South African employees undergo regular preventative health screening.</li>
+    <li>Workplace wellness programmes deliver an average <strong>3.5x ROI</strong> through reduced absenteeism, presenteeism, and healthcare costs.</li>
+    <li>Dr. Adonis's PhD research found <strong>87% of retail employees</strong> had at least one undiagnosed risk factor.</li>
+  </ul>
+
+  <h3>Business Model</h3>
+  <p><strong>Per-employee-per-year pricing (R500)</strong> with bulk discounts for 500+ employees. Revenue scales linearly with covered lives. Low overhead — screening is on-site, reports are digital, interventions are group and individual.</p>
+</div>
+
+<!-- ═══════ PAGE: THE PROBLEM ═══════ -->
+<div class="page">
+  <p class="section-number">Section 02</p>
+  <h2>The Problem</h2>
+
+  <h3>The Burden of Preventable Disease</h3>
+  <p>South Africa faces a quadruple burden of disease, with non-communicable diseases (NCDs) accounting for the majority of deaths. Hypertension, diabetes, obesity, and cardiovascular disease are rampant — yet largely undiagnosed in working-age populations.</p>
+
+  <div class="two-col">
+    <div class="metric-card">
+      <span class="num">64%</span>
+      <span class="label">Of SA deaths from NCDs</span>
+    </div>
+    <div class="metric-card">
+      <span class="num">4.2M</span>
+      <span class="label">Undiagnosed hypertensives</span>
+    </div>
+    <div class="metric-card">
+      <span class="num">87%</span>
+      <span class="label">Retail staff with risk factors (Adonis PhD)</span>
+    </div>
+  </div>
+
+  <h3>The Screening Gap</h3>
+  <p>Despite the availability of effective screening tools, uptake remains critically low. Barriers include:</p>
+  <ul>
+    <li><strong>Access</strong> — Employees cannot easily attend clinics during work hours</li>
+    <li><strong>Awareness</strong> — Many do not perceive themselves as at risk</li>
+    <li><strong>Cost</strong> — Private screening is expensive and not always covered by medical aid</li>
+    <li><strong>Follow-through</strong> — Even when screened, few receive structured support to change behaviour</li>
+  </ul>
+
+  <h3>The Cost to Employers</h3>
+  <p>Poor employee health directly impacts the bottom line:</p>
+  <ul>
+    <li><strong>R42 billion+</strong> in annual productivity loss from employee illness in South Africa</li>
+    <li><strong>15-20%</strong> of payroll lost to absenteeism and presenteeism (unplanned absence)</li>
+    <li>Healthy employees are <strong>2.5x more productive</strong> and <strong>40% less likely to leave</strong></li>
+  </ul>
+
+  <div class="highlight-box gold">
+    <p><strong>The gap is clear:</strong> Employers need a turnkey screening solution that drives real behaviour change, at a price that makes sense at scale.</p>
+  </div>
+</div>
+
+<!-- ═══════ PAGE: THE SOLUTION ═══════ -->
+<div class="page">
+  <p class="section-number">Section 03</p>
+  <h2>The Aliento Solution</h2>
+
+  <h3>Three-Pillar Approach</h3>
+
+  <div class="two-col">
+    <div class="metric-card">
+      <h4 style="color:#5E8A70;">01 | Screen</h4>
+      <p>Comprehensive on-site health screening conducted at your premises. Measures include blood pressure, blood glucose, cholesterol, BMI, waist circumference, and health risk assessment questionnaire.</p>
+    </div>
+    <div class="metric-card">
+      <h4 style="color:#5E8A70;">02 | Intervene</h4>
+      <p>Each employee receives a confidential personal health report with a patient-adapted behavioural lifestyle intervention plan — tailored to their specific results, readiness to change, and personal goals.</p>
+    </div>
+    <div class="metric-card">
+      <h4 style="color:#5E8A70;">03 | Refer</h4>
+      <p>Employees requiring further care are referred through a structured onward pathway to a partner pharmacy group and a multi-disciplinary team of healthcare professionals.</p>
+    </div>
+  </div>
+
+  <h3>What's Included (R500/employee/year)</h3>
+  <ul>
+    <li>Comprehensive on-site health screening</li>
+    <li>Confidential individual digital health reports</li>
+    <li>Patient-adapted behavioural lifestyle intervention programme</li>
+    <li>Group wellness workshops (quarterly)</li>
+    <li>Structured onward referral pathway to pharmacy + specialists</li>
+    <li>Multi-disciplinary team coordination</li>
+    <li>Annual follow-up screening and progress tracking</li>
+    <li>Employer dashboard with de-identified aggregate outcomes</li>
+  </ul>
+
+  <h3>Pricing Structure</h3>
+  <table>
+    <tr><th>Employee Count</th><th>Price per Employee</th><th>Monthly Equivalent</th></tr>
+    <tr><td>50 - 499</td><td>R500 / year</td><td>R42 / month</td></tr>
+    <tr><td>500 - 2,499</td><td>R450 / year</td><td>R38 / month</td></tr>
+    <tr><td>2,500 - 9,999</td><td>R400 / year</td><td>R33 / month</td></tr>
+    <tr><td>10,000+</td><td>Custom pricing</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- ═══════ PAGE: MARKET & COMPETITION ═══════ -->
+<div class="page">
+  <p class="section-number">Section 04</p>
+  <h2>Market Analysis</h2>
+
+  <h3>Target Clients</h3>
+  <p>Dr. Adonis has established initial contact with decision-makers at:</p>
+  <ul>
+    <li><strong>Shoprite Group</strong> — Africa's largest retailer, ~150,000 employees</li>
+    <li><strong>Pick n Pay</strong> — Major retail chain, ~90,000 employees</li>
+    <li><strong>Game & Makro (Massmart/Walmart)</strong> — ~30,000 employees</li>
+    <li><strong>Foschini Group (TFG)</strong> — ~30,000 employees across multiple retail brands</li>
+  </ul>
+  <p>Combined addressable market: <strong>~300,000 lives</strong>, representing R120-150M annual revenue potential at scale.</p>
+
+  <h3>Competitive Landscape</h3>
+  <table>
+    <tr><th>Competitor</th><th>Positioning</th><th>Price Point</th><th>Aliento Advantage</th></tr>
+    <tr>
+      <td>Corporate wellness providers (e.g. Vitality Wellness)</td>
+      <td>Large-scale, insurance-linked</td>
+      <td>R600-R1,200+</td>
+      <td>Aliento is <strong>40-60% cheaper</strong> with integrated behavioural intervention</td>
+    </tr>
+    <tr>
+      <td>Occupational health clinics</td>
+      <td>Compliance-focused, episodic</td>
+      <td>R300-R800 per screening only</td>
+      <td>Aliento covers <strong>screening + intervention + referral</strong> in one price</td>
+    </tr>
+    <tr>
+      <td>Individual GPs / specialists</td>
+      <td>Fragmented, no employer interface</td>
+      <td>Variable</td>
+      <td>Aliento provides a <strong>single point of contact</strong> for the employer</td>
+    </tr>
+    <tr>
+      <td>Digital-only health apps</td>
+      <td>No physical screening, low engagement</td>
+      <td>R100-R300</td>
+      <td>Aliento combines <strong>in-person screening with digital follow-up</strong></td>
+    </tr>
+  </table>
+
+  <h3>Competitive Moat</h3>
+  <ul>
+    <li><strong>Price leadership</strong>: R500 is significantly below comparable integrated programmes</li>
+    <li><strong>Clinical credibility</strong>: PhD-level expertise, published research, practising clinician</li>
+    <li><strong>Referral network</strong>: Established patient-by-patient pathway with pharmacy group</li>
+    <li><strong>Tech-enabled</strong>: Cal.com booking, digital reports, employer dashboard, scalable infrastructure</li>
+  </ul>
+</div>
+
+<!-- ═══════ PAGE: OPERATIONS ═══════ -->
+<div class="page">
+  <p class="section-number">Section 05</p>
+  <h2>Operations & Delivery</h2>
+
+  <h3>Service Delivery Model</h3>
+  <table>
+    <tr><th>Phase</th><th>Activity</th><th>Timeline</th></tr>
+    <tr><td>1. Onboarding</td><td>Employer agreement, schedule planning, employee comms</td><td>Week 1-2</td></tr>
+    <tr><td>2. On-site Screening</td><td>Aliento team conducts screening at employer premises</td><td>Week 3-4</td></tr>
+    <tr><td>3. Reports & Intervention</td><td>Individual reports + behavioural intervention plans delivered</td><td>Week 4-6</td></tr>
+    <tr><td>4. Referral & Follow-up</td><td>Referrals activated, pharmacy pathway initiated</td><td>Week 6-8</td></tr>
+    <tr><td>5. Ongoing</td><td>Quarterly workshops, annual re-screening, outcomes reporting</td><td>Ongoing</td></tr>
+  </table>
+
+  <h3>Onward Referral Network</h3>
+  <p>Aliento has established a patient-by-patient referral pathway with a leading pharmacy group. The multi-disciplinary team available for referrals includes:</p>
+  <ul>
+    <li>General Practitioners</li>
+    <li>Clinical Pharmacists</li>
+    <li>Dietitians and Nutritionists</li>
+    <li>Biokineticists and Physiotherapists</li>
+    <li>Psychologists and Counsellors</li>
+    <li>Health Coaches</li>
+  </ul>
+
+  <h3>Technology Infrastructure</h3>
+  <ul>
+    <li><strong>Booking:</strong> Cal.com — instant online scheduling for screening appointments</li>
+    <li><strong>Reports:</strong> Digital health reports delivered via secure portal</li>
+    <li><strong>Employer Dashboard:</strong> De-identified aggregate outcomes and trends</li>
+    <li><strong>Scalability:</strong> Infrastructure designed for 50 to 50,000+ employees</li>
+  </ul>
+</div>
+
+<!-- ═══════ PAGE: FINANCIALS ═══════ -->
+<div class="page">
+  <p class="section-number">Section 06</p>
+  <h2>Financial Projections</h2>
+
+  <h3>Revenue Model</h3>
+  <table>
+    <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+    <tr><td>Lives covered</td><td>5,000</td><td>25,000</td><td>75,000</td></tr>
+    <tr><td>Average price per life</td><td>R500</td><td>R475</td><td>R450</td></tr>
+    <tr><td><strong>Annual Revenue</strong></td><td><strong>R2.5M</strong></td><td><strong>R11.9M</strong></td><td><strong>R33.8M</strong></td></tr>
+    <tr><td>Cost of services (~40%)</td><td>R1.0M</td><td>R4.8M</td><td>R13.5M</td></tr>
+    <tr><td>Gross margin</td><td>60%</td><td>60%</td><td>60%</td></tr>
+    <tr><td>Operating costs</td><td>R0.8M</td><td>R2.5M</td><td>R5.0M</td></tr>
+    <tr><td><strong>Net Profit</strong></td><td><strong>R0.7M</strong></td><td><strong>R4.6M</strong></td><td><strong>R15.3M</strong></td></tr>
+  </table>
+
+  <h3>Key Assumptions</h3>
+  <ul>
+    <li>Average screening team cost per employee: R120 (staff, equipment, travel)</li>
+    <li>Intervention programme delivery cost per employee: R80 (materials, workshops, digital platform)</li>
+    <li>Referral pathway coordination cost per employee: R40</li>
+    <li>Administration and overhead: 15% of revenue</li>
+    <li>Sales and marketing: 10% of revenue</li>
+    <li>Renewal rate: 85% annually</li>
+  </ul>
+
+  <h3>Unit Economics</h3>
+  <div class="two-col">
+    <div class="metric-card">
+      <span class="num">R500</span>
+      <span class="label">Revenue per employee per year</span>
+    </div>
+    <div class="metric-card">
+      <span class="num">R240</span>
+      <span class="label">Cost to serve per employee</span>
+    </div>
+    <div class="metric-card">
+      <span class="num">52%</span>
+      <span class="label">Unit contribution margin</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ PAGE: ROADMAP & NEXT STEPS ═══════ -->
+<div class="page">
+  <p class="section-number">Section 07</p>
+  <h2>Roadmap & Next Steps</h2>
+
+  <h3>Immediate Priorities (Next 90 Days)</h3>
+  <ol>
+    <li><strong>Contract pilot programme</strong> with at least one target franchise group (minimum 500 employees)</li>
+    <li><strong>Finalise referral agreements</strong> with pharmacy group and multi-disciplinary team members</li>
+    <li><strong>Develop employer dashboard</strong> for real-time outcomes tracking</li>
+    <li><strong>Build sales collateral</strong> and presentation materials (this deck is step one)</li>
+    <li><strong>Formalise pricing tiers</strong> and bulk discount structure</li>
+  </ol>
+
+  <h3>6-Month Milestones</h3>
+  <ul>
+    <li>3 pilot programmes running with 1,500+ total lives covered</li>
+    <li>Outcomes data published to support wider rollout</li>
+    <li>Referral network expanded to 3+ provinces</li>
+    <li>Digital platform v2 with self-service employer onboarding</li>
+  </ul>
+
+  <h3>12-Month Milestones</h3>
+  <ul>
+    <li>10,000+ lives covered across multiple franchise groups</li>
+    <li>Screening team capacity expanded to 5 concurrent sites</li>
+    <li>Behavioural intervention programme refined based on outcomes data</li>
+    <li>R4-5M annual revenue run-rate achieved</li>
+  </ul>
+
+  <div class="highlight-box dark">
+    <h4>Ready to Begin</h4>
+    <p style="color: #A8C4B2;">Dr. Leegale Adonis is immediately available to present to your executive team, answer questions, and structure a pilot programme tailored to your organisation's needs.</p>
+  </div>
+
+  <h3>Contact</h3>
+  <p>
+    <strong>Dr. Leegale Adonis</strong><br>
+    Founder, Aliento Medical<br>
+    alientomd.com<br>
+    cal.com/lee-adonis<br>
+    info@alientomd.com
+  </p>
+
+  <div class="footer">
+    <p>Aliento Medical — Breathe, Screen, Live. | Confidential | June 2026</p>
+  </div>
+</div>
+
+</body>
+</html>
