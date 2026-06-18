@@ -324,7 +324,7 @@ def create_pdf(slug, guide_data):
         ParagraphStyle('ContactTitle', parent=h3_style, textColor=SAGE_500, spaceAfter=8, fontSize=12)
     ))
     elements.append(Paragraph(
-        'Website: www.alientomd.com &nbsp;|&nbsp; Email: info@alientomedical.com',
+        'Website: www.alientomd.com &nbsp;|&nbsp; Email: info@alientomd.com',
         ParagraphStyle('ContactBody', parent=body_style, fontSize=10, textColor=WARM_600, alignment=TA_LEFT)
     ))
 
