@@ -53,7 +53,12 @@ function buildEmailHtml(data: FullFormData, bookingUid: string | null): string {
       row('COVID vaccination', data.covidVaccinationStatus),
       row('Allergies', data.allergies),
     ].join(''))}
-    ${section('Medications', [row('Current medications', data.currentMedications)].join(''))}
+    ${section('Medications', [
+      row('Current medications', data.currentMedications),
+      row('Types of medication', data.medicationType),
+      row('Length of time on meds', data.medicationDuration),
+      row('Side effects', data.medicationSideEffects),
+    ].join(''))}
     ${section('Surgical History', [row('Procedures', data.surgicalHistory)].join(''))}
     ${section('Lifestyle', [
       row('Smokes', data.smokes),

@@ -128,6 +128,9 @@ export const step4Schema = z.object({
 // ─── Step 5: Chronic Medication ───────────────────────────────────────────────
 export const step5Schema = z.object({
   currentMedications: z.string().min(1, "State 'No' if not applicable"),
+  medicationType: z.string().min(1, "State 'None' if not applicable"),
+  medicationDuration: z.string().min(1, "State 'N/A' if not applicable"),
+  medicationSideEffects: z.string().min(1, "State 'None' if not applicable"),
 })
 
 // ─── Step 6: Surgical History ─────────────────────────────────────────────────
