@@ -1,9 +1,8 @@
- 
 'use client'
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronDown } from 'lucide-react'
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -14,7 +13,7 @@ const stagger = {
 }
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.75 } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.75 } },
 }
 
 export function Hero() {
@@ -38,7 +37,7 @@ export function Hero() {
           <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
             <div className="w-8 h-px bg-sage-400" />
             <span className="text-xs font-body font-semibold tracking-[0.22em] uppercase text-sage-500">
-              Health Promotion & Education
+              Health Promotion &amp; Education
             </span>
             <div className="w-8 h-px bg-sage-400" />
           </motion.div>
@@ -50,24 +49,19 @@ export function Hero() {
           >
             Your health,
             <br />
-            <span className="text-gradient-primary italic">explained clearly.</span>
+            <span className="text-gradient-primary italic">
+              explained clearly.
+            </span>
           </motion.h1>
-
-          {/* Payoff line */}
-          <motion.p
-            variants={fadeUp}
-            className="text-lg sm:text-xl text-sage-600 font-body font-medium tracking-wide mb-5 italic"
-          >
-            &quot;Breathe, Screen, Live&quot;
-          </motion.p>
 
           {/* Supporting text */}
           <motion.p
             variants={fadeUp}
             className="text-lg lg:text-xl text-warm-500 max-w-2xl leading-relaxed mb-12 font-light"
           >
-            Expert-backed health articles, preventive guidance, and virtual consultations
-            — like having a knowledgeable friend who happens to be a doctor.
+            Expert-backed health articles, preventive guidance, and virtual
+            consultations — like having a knowledgeable friend who happens to be
+            a doctor.
           </motion.p>
 
           {/* CTAs */}
@@ -80,7 +74,10 @@ export function Hero() {
               className="group relative bg-sage-400 text-white px-8 py-4 rounded-full font-body font-medium text-base hover:bg-sage-500 transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5"
             >
               Explore Health Topics
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                size={18}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
             <Link
               href="/consult"
@@ -89,28 +86,28 @@ export function Hero() {
               Book a Virtual Consult
             </Link>
           </motion.div>
-
-          {/* Trust pills */}
-          <motion.div
-            variants={fadeUp}
-            className="mt-12 flex flex-wrap justify-center gap-3"
-          >
-            {[
-              { icon: '🌿', label: 'Evidence-based' },
-              { icon: '💻', label: 'Virtual consultations' },
-              { icon: '🇿🇦', label: 'South African context' },
-            ].map((item) => (
-              <span
-                key={item.label}
-                className="flex items-center gap-2 text-sm font-body font-medium text-warm-600 bg-white/60 px-4 py-2 rounded-full border border-warm-200/60 backdrop-blur-sm"
-              >
-                <span>{item.icon}</span>
-                {item.label}
-              </span>
-            ))}
-          </motion.div>
         </motion.div>
       </div>
+
+      {/* Scroll-down indicator */}
+      <motion.a
+        href="#services"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-warm-400 hover:text-sage-500 transition-colors"
+        aria-label="Scroll to services"
+      >
+        <span className="text-[10px] font-body font-medium uppercase tracking-[0.2em]">
+          Scroll
+        </span>
+        <motion.span
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown size={20} />
+        </motion.span>
+      </motion.a>
     </section>
   )
 }

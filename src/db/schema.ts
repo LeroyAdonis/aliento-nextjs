@@ -6,6 +6,7 @@ export const payments = pgTable('payments', {
   buyerName: text('buyer_name').notNull(),
   buyerEmail: text('buyer_email').notNull(),
   status: text('status').notNull().default('pending'),
+  stream: text('stream').notNull().default('consult'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   paidAt: timestamp('paid_at'),
 })
@@ -16,4 +17,5 @@ export const questionnaires = pgTable('questionnaires', {
   patientEmail: text('patient_email').notNull(),
   submittedAt: timestamp('submitted_at').notNull().defaultNow(),
   rawData: text('raw_data'),
+  stream: text('stream').notNull().default('consult'),
 })

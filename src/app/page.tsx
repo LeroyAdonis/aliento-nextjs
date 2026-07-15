@@ -1,5 +1,6 @@
 import { getAllPosts, type SanityPost } from '@/lib/sanity'
 import { Hero } from '@/components/sections/Hero'
+import { StreamServices } from '@/components/sections/StreamServices'
 import { FeaturedArticle } from '@/components/sections/FeaturedArticle'
 import { HealthTopicCategories } from '@/components/sections/HealthTopicCategories'
 import { ForgottenMiddle } from '@/components/sections/ForgottenMiddle'
@@ -57,6 +58,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <StreamServices />
       {featuredPost && <FeaturedArticle post={featuredPost} />}
       <HealthTopicCategories />
       <ForgottenMiddle />

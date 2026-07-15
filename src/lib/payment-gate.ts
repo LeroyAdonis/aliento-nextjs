@@ -7,6 +7,7 @@ export async function createPaymentGateRecord(params: {
   packageId: string
   buyerName: string
   buyerEmail: string
+  stream?: string
 }) {
   await db.insert(payments).values({
     paymentId: params.paymentId,
@@ -14,6 +15,7 @@ export async function createPaymentGateRecord(params: {
     buyerName: params.buyerName,
     buyerEmail: params.buyerEmail,
     status: 'pending',
+    stream: params.stream ?? 'consult',
   })
 }
 

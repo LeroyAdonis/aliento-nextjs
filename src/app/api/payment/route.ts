@@ -8,7 +8,7 @@ import { sql } from 'drizzle-orm'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { packageId, buyerEmail, buyerName, successPath, cancelPath } = body
+    const { packageId, buyerEmail, buyerName, successPath, cancelPath, stream } = body
 
     if (!packageId || !buyerEmail || !buyerName) {
       return NextResponse.json(
@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     }
+
+    const streamValue = stream ?? 'consult'
 
     // Verify questionnaire exists before allowing payment
     const existing = await db
@@ -39,9 +41,11 @@ export async function POST(req: NextRequest) {
       packageId,
       buyerName,
       buyerEmail,
+      stream: streamValue,
     })
 
-    const successBase = successPath || '/consult/book'
+    // Stream-aware success redirect
+    const successBase = successPath || `/${streamValue}/confirmed`
     const successUrl = new URL(successBase, origin)
     successUrl.searchParams.set('payment', 'success')
     successUrl.searchParams.set('paymentId', paymentId)
