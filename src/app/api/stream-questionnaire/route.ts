@@ -9,7 +9,7 @@ const bodySchema = z.object({
   stream: z.string().default('consult'),
   patientName: z.string().min(1, 'patientName is required'),
   patientEmail: z.string().email('Invalid email address'),
-  data: z.record(z.unknown()),
+  data: z.record(z.string(), z.unknown()),
 })
 
 export async function POST(req: NextRequest) {
