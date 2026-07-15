@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm, useFormContext, FormProvider } from 'react-hook-form'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Loader2, CreditCard } from 'lucide-react'
 import { z } from 'zod'
