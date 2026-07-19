@@ -145,8 +145,8 @@ export function Header() {
 
                   {/* Dropdown */}
                   {servicesOpen && (
-                    <div className="absolute left-0 top-full mt-2 w-56 rounded-xl bg-cream-100 border border-warm-200/70 shadow-lg backdrop-blur-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="py-2">
+                    <div className="absolute left-0 top-full pt-2 w-56 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="py-2 rounded-xl bg-cream-100 border border-warm-200/70 shadow-lg backdrop-blur-xl overflow-hidden">
                         {serviceItems.map((svc) => (
                           <Link
                             key={svc.href}
