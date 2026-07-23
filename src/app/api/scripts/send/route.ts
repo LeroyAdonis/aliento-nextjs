@@ -6,10 +6,6 @@ import { scripts } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { sendEmail } from '@/lib/email'
 import { Resend } from 'resend'
-import {
-  generateScriptPdfBuffer,
-  type ScriptData,
-} from '@/lib/script-pdf'
 
 const resend = new Resend(process.env.RESEND_API_KEY || '')
 
@@ -49,40 +45,17 @@ export async function POST(req: Request) {
       )
     }
 
-    // Build script data and generate PDF
-    const scriptData: ScriptData = {
-      id: script.id,
-      patientName: script.patientName,
-      patientEmail: script.patientEmail,
-      patientIdNumber: script.patientIdNumber,
-      patientCell: script.patientCell,
-      patientAddress: script.patientAddress,
-      medications: (script.medications as ScriptData['medications']) ?? [],
-      type: script.type,
-      specialInstructions: script.specialInstructions,
-      createdAt: script.createdAt,
-      completedAt: script.completedAt,
-    }
-
-    const pdfBuffer = await generateScriptPdfBuffer(scriptData)
-
     if (!process.env.RESEND_API_KEY) {
       console.warn('[scripts/send] RESEND_API_KEY not set — skipping send')
       return NextResponse.json({ success: false, reason: 'no_api_key' }, { status: 500 })
     }
 
-    // 1. Send to patient via Resend directly with PDF attachment
+    // Send to patient via Resend (HTML email — patient can print to PDF)
     const patientResult = await resend.emails.send({
       from: 'Aliento Health <notifications@alientomd.com>',
       to: script.patientEmail,
       subject: `Your Prescription — ${script.patientName}`,
       html: buildPatientEmailHtml(script),
-      attachments: [
-        {
-          filename: `prescription-${script.id}.pdf`,
-          content: pdfBuffer.toString('base64'),
-        },
-      ],
     })
 
     if (patientResult.error) {
@@ -90,7 +63,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to send email to patient' }, { status: 500 })
     }
 
-    // 2. Send copy to doctor via existing email utility
+    // Send copy to doctor via existing email utility
     const doctorResult = await sendEmail({
       purpose: 'notification',
       subject: `Script Copy — ${script.patientName} (${script.id})`,
