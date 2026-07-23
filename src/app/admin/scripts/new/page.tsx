@@ -169,12 +169,11 @@ export default function NewScriptPage() {
                 <div className="relative">
                   <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
                   <input
-                    type="email"
+                    type="text"
                     name="patientEmail"
                     value={form.patientEmail}
                     onChange={handleChange}
                     placeholder="patient@email.com"
-                    required
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
                   {fieldErrors.patientEmail && (
