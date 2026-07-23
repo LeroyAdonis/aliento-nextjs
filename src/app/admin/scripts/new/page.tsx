@@ -15,13 +15,45 @@ export default function NewScriptPage() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(prev => ({ ...prev, [name]: value }))
+    // Clear field error on change
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => {
+        const next = { ...prev }
+        delete next[name]
+        return next
+      })
+    }
+  }
+
+  function validate(): boolean {
+    const errors: Record<string, string> = {}
+
+    if (!form.patientName.trim()) {
+      errors.patientName = 'Patient name is required'
+    }
+    if (form.patientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.patientEmail)) {
+      errors.patientEmail = 'Please enter a valid email address'
+    }
+    if (form.patientCell && !/^\+?[\d\s\-()]{7,}$/.test(form.patientCell)) {
+      errors.patientCell = 'Please enter a valid phone number'
+    }
+    if (form.patientIdNumber && form.patientIdNumber.trim().length < 5) {
+      errors.patientIdNumber = 'ID number seems too short'
+    }
+
+    setFieldErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!validate()) return
+
     setLoading(true)
     setError('')
 
@@ -86,6 +118,9 @@ export default function NewScriptPage() {
                   required
                   className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                 />
+                {fieldErrors.patientName && (
+                  <p className="text-xs text-red-500 mt-1">{fieldErrors.patientName}</p>
+                )}
               </div>
             </div>
 
@@ -103,6 +138,9 @@ export default function NewScriptPage() {
                     placeholder="patient@email.com"
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
+                  {fieldErrors.patientEmail && (
+                    <p className="text-xs text-red-500 mt-1">{fieldErrors.patientEmail}</p>
+                  )}
                 </div>
               </div>
               <div>
@@ -117,6 +155,9 @@ export default function NewScriptPage() {
                     placeholder="ID / Passport number"
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
+                  {fieldErrors.patientIdNumber && (
+                    <p className="text-xs text-red-500 mt-1">{fieldErrors.patientIdNumber}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -135,6 +176,9 @@ export default function NewScriptPage() {
                     placeholder="+27 XX XXX XXXX"
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
+                  {fieldErrors.patientCell && (
+                    <p className="text-xs text-red-500 mt-1">{fieldErrors.patientCell}</p>
+                  )}
                 </div>
               </div>
               <div className="sm:col-span-1">
