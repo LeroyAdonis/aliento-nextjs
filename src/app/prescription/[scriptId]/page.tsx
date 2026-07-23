@@ -53,10 +53,10 @@ export default function PrescriptionPage() {
 
   if (prescriptionHtml) {
     return (
-      <div className="min-h-screen bg-cream-100">
-        <header className="bg-white border-b border-warm-200 sticky top-0 z-10">
-          <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 className="font-display font-bold text-warm-900 text-lg">Your Prescription</h1>
+      <>
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="font-display font-bold text-warm-900 text-2xl">Your Prescription</h1>
             <button
               onClick={handlePrint}
               className="flex items-center gap-2 px-5 py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all"
@@ -65,8 +65,6 @@ export default function PrescriptionPage() {
               Print / Save PDF
             </button>
           </div>
-        </header>
-        <main className="max-w-4xl mx-auto px-6 py-8">
           <div
             className="bg-white rounded-2xl border border-warm-200 shadow-sm overflow-hidden"
             dangerouslySetInnerHTML={{ __html: prescriptionHtml }}
@@ -74,14 +72,14 @@ export default function PrescriptionPage() {
           <p className="text-center text-sm text-warm-400 mt-6">
             Present this prescription at your pharmacy. You may also print or save as PDF.
           </p>
-        </main>
-      </div>
+        </div>
+      </>
     )
   }
 
   // Lock screen
   return (
-    <div className="min-h-screen bg-cream-100 flex items-center justify-center px-6">
+    <div className="min-h-[60vh] flex items-center justify-center px-6">
       <div className="max-w-sm w-full">
         <div className="bg-white rounded-2xl border border-warm-200 p-8 shadow-sm">
           <div className="text-center mb-6">

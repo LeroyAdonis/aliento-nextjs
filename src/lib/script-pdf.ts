@@ -463,11 +463,6 @@ export function generateScriptHtml(script: ScriptData): string {
         This prescription contains <strong>${itemCount} medication(s)</strong>.
         No further items have been prescribed.
       </p>
-      ${
-        script.type
-          ? `<p style="margin-top: 4px; font-size: 10px; color: #999;">Type: ${escHtml(script.type)}</p>`
-          : ''
-      }
     </div>
   </div>
 </body>
