@@ -52,9 +52,7 @@ export default function NewScriptPage() {
     if (!form.patientName.trim()) {
       errors.patientName = 'Patient name is required'
     }
-    if (!form.patientEmail.trim()) {
-      errors.patientEmail = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.patientEmail)) {
+    if (form.patientEmail.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.patientEmail)) {
       errors.patientEmail = 'Please enter a valid email address'
     }
     if (!form.patientIdNumber.trim()) {
@@ -167,7 +165,7 @@ export default function NewScriptPage() {
             {/* Email & ID Number row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-warm-600 mb-1.5">Email <span className="text-blush-500">*</span></label>
+                <label className="block text-sm font-medium text-warm-600 mb-1.5">Email</label>
                 <div className="relative">
                   <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
                   <input
@@ -263,7 +261,7 @@ export default function NewScriptPage() {
             </button>
             <button
               type="submit"
-              disabled={loading || !form.patientName.trim() || !form.patientEmail.trim() || !form.patientIdNumber.trim() || !form.patientCell.trim() || !form.patientAddress.trim()}
+              disabled={loading || !form.patientName.trim() || !form.patientIdNumber.trim() || !form.patientCell.trim() || !form.patientAddress.trim()}
               className="flex items-center gap-2 px-6 py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
