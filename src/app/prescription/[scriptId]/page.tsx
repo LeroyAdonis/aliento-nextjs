@@ -53,7 +53,7 @@ export default function PrescriptionPage() {
 
   if (prescriptionHtml) {
     return (
-      <>
+      <div className="bg-cream-100 min-h-screen">
         <div className="max-w-4xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between mb-6">
             <h1 className="font-display font-bold text-warm-900 text-2xl">Your Prescription</h1>
@@ -73,13 +73,13 @@ export default function PrescriptionPage() {
             Present this prescription at your pharmacy. You may also print or save as PDF.
           </p>
         </div>
-      </>
+      </div>
     )
   }
 
   // Lock screen
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-6">
+    <div className="bg-cream-100 min-h-[60vh] flex items-center justify-center px-6">
       <div className="max-w-sm w-full">
         <div className="bg-white rounded-2xl border border-warm-200 p-8 shadow-sm">
           <div className="text-center mb-6">
