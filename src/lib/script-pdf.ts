@@ -89,6 +89,7 @@ export function generateScriptHtml(script: ScriptData): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prescription — ${escHtml(script.patientName)}</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
     @page { margin: 20mm 15mm; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -127,20 +128,7 @@ export function generateScriptHtml(script: ScriptData): string {
       align-items: center;
       gap: 16px;
     }
-    .logo-placeholder {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, #0d6b4f, #1a9e7a);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: -0.5px;
-      flex-shrink: 0;
-    }
+
     .practice-info h1 {
       font-size: 20px;
       font-weight: 700;
@@ -291,21 +279,7 @@ export function generateScriptHtml(script: ScriptData): string {
     .stamp-area {
       text-align: center;
     }
-    .qr-placeholder {
-      width: 72px;
-      height: 72px;
-      border: 2px dashed #0d6b4f;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 8px;
-      color: #0d6b4f;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      margin: 0 auto 4px;
-    }
+
     .stamp-label {
       font-size: 9px;
       color: #888;
@@ -355,7 +329,7 @@ export function generateScriptHtml(script: ScriptData): string {
     <!-- Header -->
     <div class="header">
       <div class="header-left">
-        <div class="logo-placeholder">AH</div>
+        <img src="https://alientomd.com/logo-icon.svg" alt="Aliento" style="width:56px;height:56px;border-radius:12px;" />
         <div class="practice-info">
           <h1>${escHtml(DOCTOR.practiceName)}</h1>
           <div class="doctor-name">${escHtml(DOCTOR.name)}</div>
@@ -446,12 +420,29 @@ export function generateScriptHtml(script: ScriptData): string {
       <div class="signature-line">
         <div class="sig-label">Prescriber Signature</div>
         <div class="sig-space"></div>
-        <div style="font-size: 12px; color: #666; margin-top: 4px;">
+        <div style="font-family: 'Dancing Script', cursive; font-size: 20px; color: #1a1a1a; margin-top: 0; font-weight: 700;">
           ${escHtml(DOCTOR.name)}
         </div>
       </div>
       <div class="stamp-area">
-        <div class="qr-placeholder">Digital<br />Stamp</div>
+        <svg width="120" height="120" viewBox="0 0 120 120" style="display:block;margin:0 auto 4px;">
+          <defs>
+            <path id="arc-top" d="M 18,60 A 42,42 0 1,1 102,60" />
+            <path id="arc-bot" d="M 18,60 A 42,42 0 0,0 102,60" />
+          </defs>
+          <circle cx="60" cy="60" r="56" fill="none" stroke="#0d6b4f" stroke-width="2" />
+          <circle cx="60" cy="60" r="49" fill="none" stroke="#0d6b4f" stroke-width="0.6" opacity="0.4" />
+          <text font-family="'Inter',sans-serif" font-size="6" fill="#0d6b4f" font-weight="700" letter-spacing="2">
+            <textPath href="#arc-top" startOffset="50%" text-anchor="middle">ALIENTO HEALTH</textPath>
+          </text>
+          <text font-family="'Inter',sans-serif" font-size="5" fill="#0d6b4f" font-weight="600" letter-spacing="1.5">
+            <textPath href="#arc-bot" startOffset="50%" text-anchor="middle">MEDICAL PRACTITIONER</textPath>
+          </text>
+          <path d="M 60,37 Q 68,47 60,57 Q 52,47 60,37" fill="#0d6b4f" opacity="0.85" />
+          <text x="60" y="70" text-anchor="middle" font-family="'Inter',sans-serif" font-size="6" fill="#0d6b4f" font-weight="700">Dr L Adonis</text>
+          <text x="60" y="78" text-anchor="middle" font-family="'Inter',sans-serif" font-size="4.5" fill="#0d6b4f">MBBCH · MBA · PhD</text>
+          <text x="60" y="85" text-anchor="middle" font-family="'Inter',sans-serif" font-size="3.5" fill="#0d6b4f" opacity="0.7">MP0531502</text>
+        </svg>
         <div class="stamp-label">Rx #${escHtml(script.id.slice(0, 8).toUpperCase())}</div>
       </div>
     </div>
@@ -474,23 +465,191 @@ export function generateScriptHtml(script: ScriptData): string {
 </html>`
 }
 
-// ─── PDF buffer conversion ─────────────────────────────────────────────────
+// ─── PDF buffer conversion (pdfkit) ─────────────────────────────────────────
+
+const PDFDocument = require('pdfkit')
 
 /**
- * Convert the prescription HTML string to a Buffer for download/display.
- * On Vercel (serverless), we return the HTML as-is since puppeteer/chromium
- * can't run there. The HTML is styled at A4 print size and prints perfectly
- * to PDF from any browser (Cmd+P / Ctrl+P → "Save as PDF").
- *
- * @example
- * ```ts
- * const html = generateScriptHtml(scriptData)
- * const buf = generateScriptPdfBuffer(html)
- * // serve as text/html or store for later
- * ```
+ * Generate a real A4 PDF buffer for a prescription using pdfkit.
  */
-export function generateScriptPdfBuffer(html: string): Buffer {
-  return Buffer.from(html, 'utf-8')
+export function generateScriptPdfBuffer(script: ScriptData): Promise<Buffer> {
+  const doc = new PDFDocument({ size: 'A4', margin: 50 })
+  const buffers: Buffer[] = []
+
+  doc.on('data', (chunk: Buffer) => buffers.push(chunk))
+
+  return new Promise<Buffer>((resolve, reject) => {
+    doc.on('end', () => resolve(Buffer.concat(buffers)))
+    doc.on('error', reject)
+
+    const pageWidth = doc.page.width
+    const leftMargin = doc.page.margins.left
+    const rightMargin = doc.page.margins.right
+    const contentWidth = pageWidth - leftMargin - rightMargin
+    const brandColor = '#0d6b4f'
+    const lightBg = '#f7fbf9'
+    const borderColor = '#d4e8df'
+
+    // ── Helper functions ──────────────────────────────────────────────
+    function brandRect(y: number, h: number) {
+      doc.rect(leftMargin, y, contentWidth, h).fill(brandColor)
+    }
+
+    function sectionLabel(text: string, x: number, y: number) {
+      doc.fontSize(9).fillColor('#666').font('Helvetica-Bold')
+      doc.text(text.toUpperCase(), x, y, { continued: false })
+    }
+
+    function sectionValue(text: string, x: number, y: number) {
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica')
+      doc.text(text || '—', x, y, { continued: false })
+    }
+
+    // ── Top decorative line ──────────────────────────────────────────
+    doc.rect(leftMargin, 30, contentWidth, 4).fill(brandColor)
+
+    // ── Header ────────────────────────────────────────────────────────
+    // Logo circle
+    doc.circle(leftMargin + 28, 70, 24).fill(brandColor)
+    doc.fontSize(14).fillColor('#fff').font('Helvetica-Bold')
+    doc.text('AH', leftMargin + 18, 60, { width: 20, align: 'center' })
+
+    // Practice name & doctor
+    doc.fontSize(16).fillColor(brandColor).font('Helvetica-Bold')
+    doc.text(DOCTOR.practiceName, leftMargin + 60, 50)
+    doc.fontSize(11).fillColor('#333').font('Helvetica-Bold')
+    doc.text(DOCTOR.name, leftMargin + 60, 70)
+    doc.fontSize(9).fillColor('#666').font('Helvetica')
+    doc.text(DOCTOR.qualifications, leftMargin + 60, 85)
+
+    // Right-aligned practice info
+    const rightX = leftMargin + contentWidth
+    doc.fontSize(9).fillColor('#555').font('Helvetica')
+    doc.text(`Practice No: ${DOCTOR.practiceNo}`, rightX - 150, 50, { width: 150, align: 'right' })
+    doc.text(`MP No: ${DOCTOR.mpNo}`, rightX - 150, 63, { width: 150, align: 'right' })
+    doc.text(DOCTOR.address, rightX - 150, 76, { width: 150, align: 'right' })
+
+    // ── Separator line ───────────────────────────────────────────────
+    const headerBottom = 110
+    doc.moveTo(leftMargin, headerBottom).lineTo(rightX, headerBottom).strokeColor('#e8e8e8').lineWidth(1).stroke()
+
+    // ── Title ─────────────────────────────────────────────────────────
+    const titleY = headerBottom + 20
+    doc.fontSize(18).fillColor(brandColor).font('Helvetica-Bold')
+    doc.text('MEDICAL PRESCRIPTION', leftMargin, titleY, { width: contentWidth, align: 'center' })
+    const today = new Date().toLocaleDateString('en-ZA', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    })
+    doc.fontSize(10).fillColor('#888').font('Helvetica')
+    doc.text(today, leftMargin, titleY + 20, { width: contentWidth, align: 'center' })
+
+    // ── Patient section ───────────────────────────────────────────────
+    const patientY = titleY + 50
+    doc.roundedRect(leftMargin, patientY, contentWidth, 80, 6).fill(lightBg)
+    doc.roundedRect(leftMargin, patientY, contentWidth, 80, 6).stroke(borderColor)
+
+    const pCol1 = leftMargin + 16
+    const pCol2 = leftMargin + contentWidth / 2 + 8
+    const pRow1 = patientY + 12
+    const pRow2 = patientY + 40
+
+    sectionLabel('Patient Name', pCol1, pRow1)
+    sectionValue(script.patientName, pCol1, pRow1 + 12)
+    sectionLabel('ID Number', pCol2, pRow1)
+    sectionValue(script.patientIdNumber ?? '—', pCol2, pRow1 + 12)
+    sectionLabel('Cell', pCol1, pRow2)
+    sectionValue(script.patientCell ?? '—', pCol1, pRow2 + 12)
+    sectionLabel('Email', pCol2, pRow2)
+    sectionValue(script.patientEmail ?? '—', pCol2, pRow2 + 12)
+
+    // ── Medication table ─────────────────────────────────────────────
+    const meds = Array.isArray(script.medications)
+      ? script.medications.filter((m) => m && m.name && m.name.trim() !== '')
+      : []
+
+    const tableY = patientY + 100
+    const colWidths = [30, contentWidth * 0.35, contentWidth * 0.25, 60, 60]
+    const colStarts = [leftMargin]
+    for (let i = 1; i < colWidths.length; i++) {
+      colStarts.push(colStarts[i - 1] + colWidths[i - 1])
+    }
+
+    // Table header
+    const headerH = 24
+    brandRect(tableY, headerH)
+    doc.fontSize(9).fillColor('#fff').font('Helvetica-Bold')
+    const headers = ['#', 'Medication / Item', 'Dosage', 'Qty', 'Refills']
+    headers.forEach((h, i) => {
+      doc.text(h, colStarts[i] + 6, tableY + 7, {
+        width: colWidths[i] - 12,
+        align: i >= 3 ? 'center' : 'left',
+      })
+    })
+
+    // Table rows
+    let rowY = tableY + headerH
+    const rowH = 22
+    meds.forEach((m, i) => {
+      const bg = i % 2 === 0 ? '#f9fdfb' : '#ffffff'
+      doc.rect(leftMargin, rowY, contentWidth, rowH).fill(bg)
+      doc.rect(leftMargin, rowY, contentWidth, rowH).stroke('#ccc')
+
+      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
+      doc.text(String(i + 1), colStarts[0] + 6, rowY + 6, { width: colWidths[0] - 12, align: 'center' })
+      doc.font('Helvetica-Bold')
+      doc.text(m.name, colStarts[1] + 6, rowY + 6, { width: colWidths[1] - 12 })
+      doc.font('Helvetica')
+      doc.text(m.dosage ?? '—', colStarts[2] + 6, rowY + 6, { width: colWidths[2] - 12 })
+      doc.text(String(m.quantity ?? '—'), colStarts[3] + 6, rowY + 6, { width: colWidths[3] - 12, align: 'center' })
+      doc.text(String(m.refills ?? 0), colStarts[4] + 6, rowY + 6, { width: colWidths[4] - 12, align: 'center' })
+      rowY += rowH
+    })
+
+    // ── Special instructions ──────────────────────────────────────────
+    const instrY = rowY + 16
+    doc.roundedRect(leftMargin, instrY, contentWidth, 50, 6).stroke('#ddd')
+    sectionLabel('Special Instructions', leftMargin + 12, instrY + 8)
+    doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
+    doc.text(script.specialInstructions || 'None', leftMargin + 12, instrY + 22, {
+      width: contentWidth - 24,
+    })
+
+    // ── Signature & stamp ─────────────────────────────────────────────
+    const sigY = instrY + 70
+    doc.moveTo(leftMargin, sigY).lineTo(rightX, sigY).strokeColor('#e8e8e8').lineWidth(1).stroke()
+
+    doc.fontSize(9).fillColor('#888').font('Helvetica-Bold')
+    doc.text('PRESCRIBER SIGNATURE', leftMargin, sigY + 8)
+    doc.moveTo(leftMargin, sigY + 30).lineTo(leftMargin + 200, sigY + 30).strokeColor('#333').lineWidth(1).stroke()
+    doc.fontSize(10).fillColor('#666').font('Helvetica')
+    doc.text(DOCTOR.name, leftMargin, sigY + 34)
+
+    // Stamp area
+    const stampX = rightX - 100
+    doc.roundedRect(stampX, sigY + 4, 80, 60, 6).stroke(brandColor)
+    doc.fontSize(8).fillColor(brandColor).font('Helvetica-Bold')
+    doc.text('Digital\nStamp', stampX + 10, sigY + 16, { width: 60, align: 'center' })
+    doc.fontSize(7).fillColor('#888').font('Helvetica')
+    doc.text(`Rx #${script.id.slice(0, 8).toUpperCase()}`, stampX + 10, sigY + 44, { width: 60, align: 'center' })
+
+    // ── Footer ────────────────────────────────────────────────────────
+    const footerY = Math.max(sigY + 80, doc.y + 20)
+    doc.roundedRect(leftMargin, footerY, contentWidth, 40, 6).fill('#fafafa')
+    doc.roundedRect(leftMargin, footerY, contentWidth, 40, 6).stroke('#eee')
+    doc.fontSize(9).fillColor('#666').font('Helvetica-Oblique')
+    doc.text(
+      `Tamper-Proof: This prescription contains ${meds.length} medication(s). No further items have been prescribed.`,
+      leftMargin + 12,
+      footerY + 8,
+      { width: contentWidth - 24, align: 'center' },
+    )
+    if (script.type) {
+      doc.fontSize(8).fillColor('#999').font('Helvetica')
+      doc.text(`Type: ${script.type}`, leftMargin + 12, footerY + 26, { width: contentWidth - 24, align: 'center' })
+    }
+
+    doc.end()
+  })
 }
 
 // ─── Email wrapper ─────────────────────────────────────────────────────────

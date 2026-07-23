@@ -6,6 +6,10 @@ import { scripts } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { sendEmail } from '@/lib/email'
 import { Resend } from 'resend'
+import {
+  generateScriptPdfBuffer,
+  type ScriptData,
+} from '@/lib/script-pdf'
 
 const resend = new Resend(process.env.RESEND_API_KEY || '')
 
@@ -45,28 +49,40 @@ export async function POST(req: Request) {
       )
     }
 
-    if (!script.scriptPdfUrl) {
-      return NextResponse.json(
-        { error: 'Script has no generated HTML. Run generate first.' },
-        { status: 400 }
-      )
+    // Build script data and generate PDF
+    const scriptData: ScriptData = {
+      id: script.id,
+      patientName: script.patientName,
+      patientEmail: script.patientEmail,
+      patientIdNumber: script.patientIdNumber,
+      patientCell: script.patientCell,
+      patientAddress: script.patientAddress,
+      medications: (script.medications as ScriptData['medications']) ?? [],
+      type: script.type,
+      specialInstructions: script.specialInstructions,
+      createdAt: script.createdAt,
+      completedAt: script.completedAt,
     }
 
-    const doctorEmail = 'leegailadonis@gmail.com'
-
-    // 1. Send to patient via Resend directly
-    const patientEmailHtml = buildPatientEmailHtml(script)
+    const pdfBuffer = await generateScriptPdfBuffer(scriptData)
 
     if (!process.env.RESEND_API_KEY) {
       console.warn('[scripts/send] RESEND_API_KEY not set — skipping send')
       return NextResponse.json({ success: false, reason: 'no_api_key' }, { status: 500 })
     }
 
+    // 1. Send to patient via Resend directly with PDF attachment
     const patientResult = await resend.emails.send({
       from: 'Aliento Health <notifications@alientomd.com>',
       to: script.patientEmail,
       subject: `Your Prescription — ${script.patientName}`,
-      html: patientEmailHtml,
+      html: buildPatientEmailHtml(script),
+      attachments: [
+        {
+          filename: `prescription-${script.id}.pdf`,
+          content: pdfBuffer.toString('base64'),
+        },
+      ],
     })
 
     if (patientResult.error) {
@@ -122,7 +138,6 @@ function buildPatientEmailHtml(script: Record<string, any>): string {
         <tr><td style="color:#6b7280;padding:4px 0;width:120px">Script ID</td><td style="padding:4px 0;font-weight:600">${script.id}</td></tr>
         <tr><td style="color:#6b7280;padding:4px 0">Date</td><td style="padding:4px 0">${dateStr}</td></tr>
       </table>
-      ${script.scriptPdfUrl || ''}
     </div>
     <div style="padding:16px 32px;background:#f9fafb;text-align:center">
       <p style="margin:0;font-size:12px;color:#9ca3af">Aliento Health · This is a computer-generated prescription.</p>

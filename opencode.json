@@ -4,7 +4,8 @@
     "graphify": {
       "type": "command",
       "command": "python",
-      "args": ["-m", "graphify.serve", "${workspaceFolder}/graphify-out/graph.json"]
+      "args": ["-m", "graphify.serve", "${workspaceFolder}/graphify-out/graph.json"],
+      "enabled": false
     }
   }
 }
