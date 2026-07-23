@@ -109,6 +109,11 @@ export function generateScriptHtml(script: ScriptData): string {
       background: #fff;
       position: relative;
     }
+    @media screen and (max-width: 640px) {
+      .page {
+        padding: 20px 16px 20px;
+      }
+    }
     /* Decorative top border */
     .top-border {
       height: 6px;
