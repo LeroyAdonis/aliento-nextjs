@@ -476,7 +476,7 @@ export function generateScriptHtml(script: ScriptData): string {
 
 // ─── PDF buffer conversion (pdfkit) ─────────────────────────────────────────
 
-const PDFDocument = require('pdfkit')
+const PDFDocument = null as any
 
 /**
  * Generate a real A4 PDF buffer for a prescription using pdfkit.
