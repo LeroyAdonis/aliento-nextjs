@@ -30,6 +30,22 @@ export default function NewScriptPage() {
     }
   }
 
+  // SA ID number Luhn (mod-10) checksum validation
+  function luhnCheck(id: string): boolean {
+    let sum = 0
+    let alternate = false
+    for (let i = id.length - 1; i >= 0; i--) {
+      let n = parseInt(id.charAt(i), 10)
+      if (alternate) {
+        n *= 2
+        if (n > 9) n -= 9
+      }
+      sum += n
+      alternate = !alternate
+    }
+    return sum % 10 === 0
+  }
+
   function validate(): boolean {
     const errors: Record<string, string> = {}
 
@@ -43,16 +59,31 @@ export default function NewScriptPage() {
     }
     if (!form.patientIdNumber.trim()) {
       errors.patientIdNumber = 'ID number is required'
-    } else if (form.patientIdNumber.trim().length < 5) {
-      errors.patientIdNumber = 'ID number seems too short'
+    } else {
+      // SA ID: 13 digits — YYMMDD SSSS C A Z
+      const id = form.patientIdNumber.replace(/\s/g, '')
+      if (!/^\d{13}$/.test(id)) {
+        errors.patientIdNumber = 'SA ID must be 13 digits (e.g. 800101 5009 088)'
+      } else if (!luhnCheck(id)) {
+        errors.patientIdNumber = 'ID number is invalid (failed checksum)'
+      }
     }
     if (!form.patientCell.trim()) {
       errors.patientCell = 'Cell phone is required'
-    } else if (!/^\+?[\d\s\-()]{7,}$/.test(form.patientCell)) {
-      errors.patientCell = 'Please enter a valid phone number'
+    } else {
+      // SA mobile: 0[6-8]x xxx xxxx — 10 digits
+      const cell = form.patientCell.replace(/[\s\-()]/g, '')
+      if (!/^0[6-8]\d{8}$/.test(cell)) {
+        errors.patientCell = 'Enter a valid SA mobile (e.g. 082 123 4567)'
+      }
     }
     if (!form.patientAddress.trim()) {
       errors.patientAddress = 'Address is required'
+    } else {
+      const addr = form.patientAddress.trim()
+      if (!/\d/.test(addr) || addr.length < 10) {
+        errors.patientAddress = 'Please include street number and full address'
+      }
     }
 
     setFieldErrors(errors)
