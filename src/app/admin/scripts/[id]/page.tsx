@@ -123,7 +123,7 @@ export default function ScriptDetailPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id,
+          scriptId: id,
           medications,
           specialInstructions,
         }),
