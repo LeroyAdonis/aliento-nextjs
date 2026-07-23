@@ -58,6 +58,7 @@ export default function ScriptDetailPage() {
   const [medications, setMedications] = useState<Medication[]>([])
   const [specialInstructions, setSpecialInstructions] = useState('')
   const [generating, setGenerating] = useState(false)
+  const [sending, setSending] = useState(false)
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState('')
 
@@ -79,7 +80,13 @@ export default function ScriptDetailPage() {
           : [{ ...EMPTY_MED }]
       )
       setSpecialInstructions(s.specialInstructions || '')
-      setGeneratedUrl(s.scriptPdfUrl || null)
+      // If scriptPdfUrl contains raw HTML, create a blob URL for preview
+      if (s.scriptPdfUrl && (s.scriptPdfUrl.startsWith('<!DOCTYPE') || s.scriptPdfUrl.startsWith('<html') || s.scriptPdfUrl.startsWith('<'))) {
+        const blob = new Blob([s.scriptPdfUrl], { type: 'text/html' })
+        setGeneratedUrl(URL.createObjectURL(blob))
+      } else {
+        setGeneratedUrl(s.scriptPdfUrl || null)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load script')
     } finally {
@@ -133,13 +140,38 @@ export default function ScriptDetailPage() {
         throw new Error(data.error || 'Failed to generate script')
       }
       const data = await res.json()
-      setGeneratedUrl(data.previewUrl)
-      setScript(prev => prev ? { ...prev, status: 'completed', scriptPdfUrl: data.previewUrl } : prev)
+      if (data.html) {
+        const blob = new Blob([data.html], { type: 'text/html' })
+        setGeneratedUrl(URL.createObjectURL(blob))
+      }
+      setScript(prev => prev ? { ...prev, status: 'completed' } : prev)
       setSuccessMessage('Script generated successfully!')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setGenerating(false)
+    }
+  }
+
+  async function sendToPatient() {
+    setSending(true)
+    setSuccessMessage('')
+    setError('')
+    try {
+      const res = await fetch('/api/scripts/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scriptId: id }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: 'Failed to send' }))
+        throw new Error(data.error || 'Failed to send to patient')
+      }
+      setSuccessMessage('Script sent to patient successfully!')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong')
+    } finally {
+      setSending(false)
     }
   }
 
@@ -406,13 +438,15 @@ export default function ScriptDetailPage() {
                   <ExternalLink size={14} />
                 </a>
                 <button
-                  onClick={() => {
-                    setSuccessMessage('Script link sent to patient! (Demo — send integration pending)')
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-blush-500 hover:bg-blush-600 text-white rounded-xl font-medium text-sm transition-all"
+                  onClick={sendToPatient}
+                  disabled={sending}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-blush-500 hover:bg-blush-600 disabled:bg-blush-300 text-white rounded-xl font-medium text-sm transition-all"
                 >
-                  <Send size={16} />
-                  Send to Patient
+                  {sending ? (
+                    <><Loader2 size={16} className="animate-spin" /> Sending...</>
+                  ) : (
+                    <><Send size={16} /> Send to Patient</>
+                  )}
                 </button>
               </>
             )}
