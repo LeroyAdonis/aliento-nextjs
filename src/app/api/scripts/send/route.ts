@@ -6,7 +6,6 @@ import { scripts } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { sendEmail } from '@/lib/email'
 import { Resend } from 'resend'
-import { generateScriptHtml, type ScriptData } from '@/lib/script-pdf'
 
 const resend = new Resend(process.env.RESEND_API_KEY || '')
 
@@ -51,28 +50,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, reason: 'no_api_key' }, { status: 500 })
     }
 
-    // Build script data for HTML generation
-    const scriptData: ScriptData = {
-      id: script.id,
-      patientName: script.patientName,
-      patientEmail: script.patientEmail,
-      patientIdNumber: script.patientIdNumber,
-      patientCell: script.patientCell,
-      patientAddress: script.patientAddress,
-      medications: (script.medications as ScriptData['medications']) ?? [],
-      type: script.type,
-      specialInstructions: script.specialInstructions,
-      createdAt: script.createdAt,
-      completedAt: script.completedAt,
-    }
-    const scriptHtml = generateScriptHtml(scriptData)
+    const link = `https://alientomd.com/prescription/${script.id}`
 
-    // Send to patient via Resend (HTML email with prescription inline)
     const patientResult = await resend.emails.send({
       from: 'Aliento Health <notifications@alientomd.com>',
       to: script.patientEmail,
       subject: `Your Prescription — ${script.patientName}`,
-      html: buildPatientEmailHtml(script, scriptHtml),
+      html: buildPatientEmailHtml(script, link),
     })
 
     if (patientResult.error) {
@@ -80,7 +64,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to send email to patient' }, { status: 500 })
     }
 
-    // Send copy to doctor via existing email utility
     const doctorResult = await sendEmail({
       purpose: 'notification',
       subject: `Script Copy — ${script.patientName} (${script.id})`,
@@ -99,40 +82,28 @@ export async function POST(req: Request) {
   }
 }
 
-function buildPatientEmailHtml(script: Record<string, any>, scriptHtml: string): string {
-  const dateStr = new Date(script.createdAt).toLocaleDateString('en-ZA', {
-    timeZone: 'Africa/Johannesburg',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-
+function buildPatientEmailHtml(script: Record<string, any>, link: string): string {
   return `<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8"/>
-  <title>Your Prescription</title>
-</head>
+<head><meta charset="utf-8"/><title>Your Prescription</title></head>
 <body style="font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;margin:0;padding:32px 0;color:#111827">
   <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)">
     <div style="background:#4a7c59;padding:24px 32px;text-align:center">
-      <h1 style="margin:0;color:#fff;font-size:20px;font-weight:700">Your Prescription</h1>
+      <h1 style="margin:0;color:#fff;font-size:20px;font-weight:700">Your Prescription is Ready</h1>
       <p style="margin:6px 0 0;color:#a7c4b0;font-size:14px">Aliento Health</p>
     </div>
-    <div style="padding:24px 32px">
-      <p style="font-size:15px;margin:0 0 16px">Dear <strong>${script.patientName}</strong>,</p>
-      <p style="font-size:14px;color:#4b5563;margin:0 0 8px;line-height:1.6">
-        Please find your prescription attached below. You may present this at your pharmacy.
+    <div style="padding:32px;text-align:center">
+      <p style="font-size:15px;margin:0 0 12px">Dear <strong>${script.patientName}</strong>,</p>
+      <p style="font-size:14px;color:#4b5563;margin:0 0 24px;line-height:1.6">
+        Dr Leegale Adonis has issued you a prescription. Click below to view and download it.  
+        You will need your SA ID number to access it.
       </p>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0">
-        <tr><td style="color:#6b7280;padding:4px 0;width:120px">Script ID</td><td style="padding:4px 0;font-weight:600">${script.id}</td></tr>
-        <tr><td style="color:#6b7280;padding:4px 0">Date</td><td style="padding:4px 0">${dateStr}</td></tr>
-      </table>
-
-      <!-- Embedded Prescription -->
-      <div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-top:16px;">
-        ${scriptHtml}
-      </div>
+      <a href="${link}" style="display:inline-block;background:#4a7c59;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600">
+        View Your Prescription
+      </a>
+      <p style="font-size:12px;color:#9ca3af;margin-top:16px">
+        Script ID: ${script.id}
+      </p>
     </div>
     <div style="padding:16px 32px;background:#f9fafb;text-align:center">
       <p style="margin:0;font-size:12px;color:#9ca3af">Aliento Health · This is a computer-generated prescription.</p>
