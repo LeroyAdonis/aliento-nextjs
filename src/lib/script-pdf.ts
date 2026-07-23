@@ -420,8 +420,8 @@ export function generateScriptHtml(script: ScriptData): string {
       <div class="signature-line">
         <div class="sig-label">Prescriber Signature</div>
         <div class="sig-space"></div>
-        <div style="font-family: 'Dancing Script', cursive; font-size: 20px; color: #1a1a1a; margin-top: 0; font-weight: 700;">
-          ${escHtml(DOCTOR.name)}
+        <div style="margin-top: -4px;">
+          <img src="/dr-leegale-signature.jpg" alt="Dr Leegale Adonis" style="height:36px;width:auto;display:block;" />
         </div>
       </div>
       <div class="stamp-area">
@@ -620,17 +620,33 @@ export function generateScriptPdfBuffer(script: ScriptData): Promise<Buffer> {
 
     doc.fontSize(9).fillColor('#888').font('Helvetica-Bold')
     doc.text('PRESCRIBER SIGNATURE', leftMargin, sigY + 8)
-    doc.moveTo(leftMargin, sigY + 30).lineTo(leftMargin + 200, sigY + 30).strokeColor('#333').lineWidth(1).stroke()
-    doc.fontSize(10).fillColor('#666').font('Helvetica')
-    doc.text(DOCTOR.name, leftMargin, sigY + 34)
+
+    // Embed real signature image
+    try {
+      const fs = require('fs')
+      const sigPath = require('path').join(process.cwd(), 'public', 'dr-leegale-signature.jpg')
+      if (fs.existsSync(sigPath)) {
+        doc.image(sigPath, leftMargin, sigY + 16, { height: 28 })
+      }
+    } catch {
+      // Fallback: typed name if image fails
+      doc.fontSize(10).fillColor('#666').font('Helvetica')
+      doc.text(DOCTOR.name, leftMargin, sigY + 20)
+    }
 
     // Stamp area
     const stampX = rightX - 100
-    doc.roundedRect(stampX, sigY + 4, 80, 60, 6).stroke(brandColor)
+    doc.fontSize(7).fillColor(brandColor).font('Helvetica-Bold')
+    doc.text('ALIENTO HEALTH', stampX, sigY + 4, { width: 80, align: 'center' })
+    doc.fontSize(6).fillColor('#666').font('Helvetica')
+    doc.text(`MP ${DOCTOR.mpNo}`, stampX, sigY + 14, { width: 80, align: 'center' })
+    doc.roundedRect(stampX, sigY + 22, 80, 30, 4).stroke(brandColor)
     doc.fontSize(8).fillColor(brandColor).font('Helvetica-Bold')
-    doc.text('Digital\nStamp', stampX + 10, sigY + 16, { width: 60, align: 'center' })
-    doc.fontSize(7).fillColor('#888').font('Helvetica')
-    doc.text(`Rx #${script.id.slice(0, 8).toUpperCase()}`, stampX + 10, sigY + 44, { width: 60, align: 'center' })
+    doc.text('Dr L Adonis', stampX + 4, sigY + 28, { width: 72, align: 'center' })
+    doc.fontSize(6).fillColor('#666').font('Helvetica')
+    doc.text(DOCTOR.qualifications.slice(0, 30), stampX + 4, sigY + 40, { width: 72, align: 'center' })
+    doc.fontSize(6).fillColor('#888').font('Helvetica')
+    doc.text(`Rx #${script.id.slice(0, 8).toUpperCase()}`, stampX + 4, sigY + 48, { width: 72, align: 'center' })
 
     // ── Footer ────────────────────────────────────────────────────────
     const footerY = Math.max(sigY + 80, doc.y + 20)
