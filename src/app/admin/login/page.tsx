@@ -7,7 +7,7 @@ import { Lock, Mail, AlertCircle } from 'lucide-react'
 export default function AdminLoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/admin'
+  const redirectTo = searchParams.get('redirect') || '/admin/scripts'
   const [email, setEmail] = useState('')
   const [secret, setSecret] = useState('')
   const [error, setError] = useState('')
