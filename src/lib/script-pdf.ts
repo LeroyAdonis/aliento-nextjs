@@ -420,17 +420,17 @@ export function generateScriptHtml(script: ScriptData): string {
     <!-- Signature & stamp -->
     <div class="signature-area">
       <div class="signature-line">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Prescriber Signature</div>
-          <div style="flex:1;border-bottom:1px solid #333;height:0;"></div>
-        </div>
-        <div style="margin-top:4px;max-width:220px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 319" width="220" height="auto" style="width:220px;display:block;fill:none;stroke:#1a1a1a;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
-            ${SIGNATURE_SVG.replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '')}
-          </svg>
-        </div>
-        <div style="font-size:11px;color:#555;margin-top:2px;font-weight:500;">
-          ${escHtml(DOCTOR.name)}
+        <div class="signature-block" style="display:flex;flex-direction:column;align-items:flex-start;width:240px;">
+          <div style="margin-bottom:-8px;z-index:1;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 319" width="220" height="auto" style="width:220px;display:block;fill:none;stroke:#1a1a1a;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
+              ${SIGNATURE_SVG.replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '')}
+            </svg>
+          </div>
+          <div style="width:100%;border-bottom:1px solid #333;margin-bottom:6px;"></div>
+          <div style="font-size:0.75rem;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;">Prescriber Signature</div>
+          <div style="font-size:0.875rem;font-weight:600;color:#111827;margin-top:2px;">
+            ${escHtml(DOCTOR.name)}
+          </div>
         </div>
       </div>
       <div class="stamp-area">
