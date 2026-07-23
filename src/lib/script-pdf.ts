@@ -472,7 +472,7 @@ const PDFDocument = require('pdfkit')
 /**
  * Generate a real A4 PDF buffer for a prescription using pdfkit.
  */
-export function generateScriptPdfBuffer(script: ScriptData): Promise<Buffer> {
+export function generateScriptPdfBuffer(script: ScriptData, sigBuffer?: Buffer): Promise<Buffer> {
   const doc = new PDFDocument({ size: 'A4', margin: 50 })
   const buffers: Buffer[] = []
 
@@ -622,14 +622,14 @@ export function generateScriptPdfBuffer(script: ScriptData): Promise<Buffer> {
     doc.text('PRESCRIBER SIGNATURE', leftMargin, sigY + 8)
 
     // Embed real signature image
-    try {
-      const fs = require('fs')
-      const sigPath = require('path').join(process.cwd(), 'public', 'dr-leegale-signature.jpg')
-      if (fs.existsSync(sigPath)) {
-        doc.image(sigPath, leftMargin, sigY + 16, { height: 28 })
+    if (sigBuffer) {
+      try {
+        doc.image(sigBuffer, leftMargin, sigY + 16, { height: 28 })
+      } catch {
+        doc.fontSize(10).fillColor('#666').font('Helvetica')
+        doc.text(DOCTOR.name, leftMargin, sigY + 20)
       }
-    } catch {
-      // Fallback: typed name if image fails
+    } else {
       doc.fontSize(10).fillColor('#666').font('Helvetica')
       doc.text(DOCTOR.name, leftMargin, sigY + 20)
     }

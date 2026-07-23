@@ -64,7 +64,19 @@ export async function POST(req: Request) {
       completedAt: script.completedAt,
     }
 
-    const pdfBuffer = await generateScriptPdfBuffer(scriptData)
+    // Read signature image for PDF
+    let sigBuffer: Buffer | undefined
+    try {
+      const fs = require('fs')
+      const sigPath = require('path').join(process.cwd(), 'public', 'dr-leegale-signature.jpg')
+      if (fs.existsSync(sigPath)) {
+        sigBuffer = fs.readFileSync(sigPath)
+      }
+    } catch {
+      // Signature image not available — PDF will use typed name
+    }
+
+    const pdfBuffer = await generateScriptPdfBuffer(scriptData, sigBuffer)
 
     if (!process.env.RESEND_API_KEY) {
       console.warn('[scripts/send] RESEND_API_KEY not set — skipping send')
