@@ -36,14 +36,23 @@ export default function NewScriptPage() {
     if (!form.patientName.trim()) {
       errors.patientName = 'Patient name is required'
     }
-    if (form.patientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.patientEmail)) {
+    if (!form.patientEmail.trim()) {
+      errors.patientEmail = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.patientEmail)) {
       errors.patientEmail = 'Please enter a valid email address'
     }
-    if (form.patientCell && !/^\+?[\d\s\-()]{7,}$/.test(form.patientCell)) {
+    if (!form.patientIdNumber.trim()) {
+      errors.patientIdNumber = 'ID number is required'
+    } else if (form.patientIdNumber.trim().length < 5) {
+      errors.patientIdNumber = 'ID number seems too short'
+    }
+    if (!form.patientCell.trim()) {
+      errors.patientCell = 'Cell phone is required'
+    } else if (!/^\+?[\d\s\-()]{7,}$/.test(form.patientCell)) {
       errors.patientCell = 'Please enter a valid phone number'
     }
-    if (form.patientIdNumber && form.patientIdNumber.trim().length < 5) {
-      errors.patientIdNumber = 'ID number seems too short'
+    if (!form.patientAddress.trim()) {
+      errors.patientAddress = 'Address is required'
     }
 
     setFieldErrors(errors)
@@ -127,7 +136,7 @@ export default function NewScriptPage() {
             {/* Email & ID Number row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-warm-600 mb-1.5">Email</label>
+                <label className="block text-sm font-medium text-warm-600 mb-1.5">Email <span className="text-blush-500">*</span></label>
                 <div className="relative">
                   <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
                   <input
@@ -136,6 +145,7 @@ export default function NewScriptPage() {
                     value={form.patientEmail}
                     onChange={handleChange}
                     placeholder="patient@email.com"
+                    required
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
                   {fieldErrors.patientEmail && (
@@ -144,7 +154,7 @@ export default function NewScriptPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-warm-600 mb-1.5">ID Number</label>
+                <label className="block text-sm font-medium text-warm-600 mb-1.5">ID Number <span className="text-blush-500">*</span></label>
                 <div className="relative">
                   <IdCard size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
                   <input
@@ -153,6 +163,7 @@ export default function NewScriptPage() {
                     value={form.patientIdNumber}
                     onChange={handleChange}
                     placeholder="ID / Passport number"
+                    required
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
                   {fieldErrors.patientIdNumber && (
@@ -165,7 +176,7 @@ export default function NewScriptPage() {
             {/* Cell & Address row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-warm-600 mb-1.5">Cell Phone</label>
+                <label className="block text-sm font-medium text-warm-600 mb-1.5">Cell Phone <span className="text-blush-500">*</span></label>
                 <div className="relative">
                   <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
                   <input
@@ -174,6 +185,7 @@ export default function NewScriptPage() {
                     value={form.patientCell}
                     onChange={handleChange}
                     placeholder="+27 XX XXX XXXX"
+                    required
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
                   />
                   {fieldErrors.patientCell && (
@@ -182,7 +194,7 @@ export default function NewScriptPage() {
                 </div>
               </div>
               <div className="sm:col-span-1">
-                <label className="block text-sm font-medium text-warm-600 mb-1.5">Address</label>
+                <label className="block text-sm font-medium text-warm-600 mb-1.5">Address <span className="text-blush-500">*</span></label>
                 <div className="relative">
                   <MapPin size={16} className="absolute left-3 top-3 text-warm-400" />
                   <textarea
@@ -191,8 +203,12 @@ export default function NewScriptPage() {
                     onChange={handleChange}
                     placeholder="Street, City, Province"
                     rows={2}
+                    required
                     className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all resize-none"
                   />
+                  {fieldErrors.patientAddress && (
+                    <p className="text-xs text-red-500 mt-1">{fieldErrors.patientAddress}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -216,7 +232,7 @@ export default function NewScriptPage() {
             </button>
             <button
               type="submit"
-              disabled={loading || !form.patientName.trim()}
+              disabled={loading || !form.patientName.trim() || !form.patientEmail.trim() || !form.patientIdNumber.trim() || !form.patientCell.trim() || !form.patientAddress.trim()}
               className="flex items-center gap-2 px-6 py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
