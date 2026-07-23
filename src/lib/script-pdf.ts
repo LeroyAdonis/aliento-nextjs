@@ -630,14 +630,10 @@ export function generateScriptPdfBuffer(script: ScriptData): Promise<Buffer> {
     doc.fontSize(9).fillColor('#888').font('Helvetica-Bold')
     doc.text('PRESCRIBER SIGNATURE', leftMargin, sigY + 8)
 
-    // Render signature SVG inline
-    try {
-      const SVGtoPDF = require('svg-to-pdfkit')
-      SVGtoPDF(doc, SIGNATURE_SVG, leftMargin, sigY + 12, { preserveAspectRatio: 'xMinYMin meet', width: 200 })
-    } catch {
-      doc.fontSize(10).fillColor('#666').font('Helvetica')
-      doc.text(DOCTOR.name, leftMargin, sigY + 20)
-    }
+    // Render signature (typed name in PDF, SVG in HTML preview)
+    doc.moveTo(leftMargin, sigY + 30).lineTo(leftMargin + 200, sigY + 30).strokeColor('#333').lineWidth(1).stroke()
+    doc.fontSize(10).fillColor('#666').font('Helvetica')
+    doc.text(DOCTOR.name, leftMargin, sigY + 34)
 
     // Stamp area
     const stampX = rightX - 100
