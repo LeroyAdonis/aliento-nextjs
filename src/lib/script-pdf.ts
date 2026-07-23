@@ -422,8 +422,10 @@ export function generateScriptHtml(script: ScriptData): string {
       <div class="signature-line">
         <div class="sig-label">Prescriber Signature</div>
         <div class="sig-space"></div>
-        <div style="margin-top: -4px;">
-          ${SIGNATURE_SVG}
+        <div style="margin-top: -4px; max-width: 200px; height: 52px; overflow: hidden;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 319" width="200" height="52" style="width:200px;height:52px;">
+            ${SIGNATURE_SVG.replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '')}
+          </svg>
         </div>
       </div>
       <div class="stamp-area">
