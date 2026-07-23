@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 }
 
 const navLinks = [
-  { href: '/admin', label: 'Dashboard' },
   { href: '/admin/scripts', label: 'Scripts' },
   { href: '/admin/scripts/new', label: 'New Script' },
+  { href: '/admin/structure', label: 'Blog' },
 ]
 
 export default function AdminLayout({
