@@ -1,0 +1,130 @@
+# AI Draft Assistant — Aliento Health (Design Spec)
+
+**Date:** 2026-08-23
+**Status:** Approved (grilling session, 7 rounds)
+**Author:** Ricky (Hermes Agent) + Leroy
+**Repo:** `/root/aliento-nextjs` · **Live:** alientomd.com
+
+---
+
+## 1. Context & Goal
+
+Aliento Health (Dr Leegale Franscesca Adonis — MBBCH, MBA, FCPHM (SA), MMed Comm Health, PhD) is a solo Johannesburg private practice running online prescriptions, sick notes, second opinions and consults at alientomd.com. The doctor does all document creation and signing herself; every script/sick note is currently typed manually from a patient questionnaire.
+
+**Goal:** Integrate AI into day-to-day operations so Dr Leegale reviews-and-signs instead of types. Position Aliento as the first SA practice marketing **"AI-drafted, doctor-signed"** documents — competitive research confirms zero SA competitors claim this lane (see `/root/.hermes/ai-medical-recon.md`).
+
+**Market/regulatory context (verified 2026-08):**
+- HPCSA Booklet 20 (Sept 2025, rev. Nov 2025) explicitly permits **assistive AI** — AI never the final decision-maker, practitioner always accountable, disclosure required, opt-out must not disadvantage patients.
+- E-scripts are settled law (Medicines Act Reg 33 + AES signatures).
+- No SA competitor markets AI-drafted documents with doctor review, WhatsApp-native HPCSA-compliant AI flows, or follow-up/adherence automation.
+
+## 2. Locked Decisions (from grilling)
+
+| # | Decision |
+|---|---|
+| 1 | **Ops-first.** AI assists the doctor internally; patient-facing AI (WhatsApp intake) is phase 2. |
+| 2 | **Scope A+C+D:** (A) AI-drafted scripts + sick notes — one engine, two templates; (C) kills manual re-keying of questionnaires; (D) AI-drafted content/SEO moat. |
+| 3 | **Review surface:** admin dashboard, one-click flow. Dr Leegale edits drafts, never accepts blindly. |
+| 4 | **AI path:** OpenRouter → Gemini (free tier) via the existing ILALI AI gateway pattern (OpenAI-compatible endpoint, key in `~/.hermes/keys`). Pseudonymize PII before the call; reinsert after. |
+| 5 | **Consent:** patient-facing consent line + opt-out on every questionnaire; "How Aliento uses AI" disclosure page. Required by HPCSA Booklet 20; used as trust/marketing signal. |
+| 6 | **Success metrics:** (a) questionnaire → signed & sent turnaround < 5 min; (b) ≥ 3 hrs/week of doctor typing saved; (c) hard rule — AI never signs; 100% doctor review. |
+| 7 | **Volume:** 10–30 docs/week, scripts-heavy. Free-tier Gemini has ample headroom. |
+
+## 3. Non-Goals (v1)
+
+- No autonomous/AI-only document generation or sending.
+- No patient-facing chat, WhatsApp flow, or AI triage (phase 2).
+- No new infra, no new paid services (free-tier only).
+- No PDF generation changes — existing HTML-based pipeline stays.
+
+## 4. Architecture (Approach A — in-app AI engine)
+
+```
+Patient fills questionnaire (existing)   ← + consent/opt-out line + disclosure link
+        ↓
+Admin opens script/sick-note detail     ← "✨ AI Draft" button
+        ↓
+POST /api/ai/draft { type, questionnaire, medications? }
+        ↓
+Pseudonymize (strip name/ID/contact) → OpenRouter → Gemini (gateway)
+        ↓
+Structured draft returned → fills editable fields (symptoms/reason text
+        OR suggested medication rows + note)
+        ↓
+Dr Leegale reviews/edits → Generate PDF (existing) → Sign → Send (existing)
+```
+
+## 5. Components
+
+### 5.1 `src/lib/ai-draft.ts`
+- **Pseudonymizer:** strips name, SA ID number, phone, email, address from questionnaire text before the API call; placeholder tokens (e.g. `[PATIENT]`, `[ID]`) reinserted into the returned draft.
+- **Gateway client:** OpenAI-compatible POST to the AI gateway (OpenRouter → `google/gemini` free model, same pattern as ILALI). Key from env (`AI_GATEWAY_URL`, `AI_GATEWAY_KEY` — mirror `.env.vercel` conventions).
+- **Prompt builder per type:**
+  - **Sick note:** input = start/end dates + symptoms + reason; output = clean clinical summary sentence(s) in a professional-but-warm tone (matches her "knowledgeable friend who happens to be a doctor" voice).
+  - **Script:** input = questionnaire + existing medication rows; output = suggested medication rows (name, dosage, frequency, duration) + prescriber note. Drafts must not invent medication names beyond what the patient reported — flag uncertainty, never fabricate.
+- **Response parsing:** structured JSON (`{ draft: { ...fields } }`); fallback to raw text on parse failure.
+
+### 5.2 `src/app/api/ai/draft/route.ts`
+- POST only. Validates `type` ∈ {script, sick-note} and required questionnaire fields.
+- Calls `ai-draft.ts`; returns `{ ok, draft }`.
+- Server-side only — no client-side AI keys.
+- Basic rate limiting (per-IP or per-admin session; generous — 10–30/week workload).
+
+### 5.3 Admin UI
+- **Script detail** (`/admin/scripts/[id]`): "✨ AI Draft" button → loading state → fills medication rows + note area. Doctor edits rows as today.
+- **Sick note admin** (wherever sick notes are managed; if no admin surface exists yet, add minimal one — verify during implementation): "✨ AI Draft" fills symptoms/reason fields.
+- Diff-friendly: drafts land in the existing editable fields; nothing is auto-accepted.
+
+### 5.4 Content engine (D)
+- AI draft button in the posts/health-topics editor.
+- Prompt = her voice: "explain like a knowledgeable friend over tea; no jargon; evidence-based".
+- High-intent SEO starters: "online sick note South Africa", "online prescription SA", "what a sick note needs to say", "how to get a repeat prescription online" + 1–2 health explainers.
+- She edits and publishes; cadence weekly.
+
+### 5.5 Consent & disclosure
+- Checkbox on each questionnaire: "I consent to AI assisting my doctor in preparing my documents. I can opt out."
+- Opt-out = AI button hidden for that patient; manual flow unchanged (existing forms still work).
+- Public page: `/how-we-use-ai` — plain-language disclosure (HPCSA Booklet 20 compliance + trust signal).
+
+## 6. Safety & Compliance
+
+- **AI never signs.** Every generated document passes through the existing doctor-review → generate → sign flow.
+- **No PII to the model.** Pseudonymizer is mandatory; log shows token placeholders only.
+- **Prompt hardening:** "You are drafting for a licensed medical practitioner to review. Never invent facts, medications, or diagnoses. Mark anything uncertain as [REVIEW]."
+- **Audit:** every AI draft request logged (timestamp, type, patient pseudonym, model) in DB table `ai_draft_log` (additive Drizzle migration).
+- **Disclosure + opt-out** per HPCSA Booklet 20.
+
+## 7. Edge Cases
+
+| Case | Handling |
+|---|---|
+| Gemini down / timeout | Route returns friendly error; manual flow unchanged. Draft button disabled with "AI unavailable — type manually". |
+| Draft parse failure | Fallback: return raw text into the textarea for editing. |
+| Questionnaire too thin (no symptoms/reason) | Button disabled until required fields present. |
+| Medication name invented by model | Prompt forbids fabrication; doctor reviews every row anyway. |
+| Opted-out patient | AI button hidden; manual flow identical. |
+| PII detection miss (e.g. unusual ID format) | Pseudonymizer uses regex for SA ID (13 digits + Luhn), phone (0[6-8]…), email; strips anything matching `[PATIENT]`-style tokens. |
+
+## 8. Testing & Rollout
+
+1. **Template QA (gate):** run 5 real de-identified questionnaires through the draft engine; Dr Leegale approves the output style before it ships to prod UI.
+2. **Unit:** pseudonymizer round-trip (PII removed → tokens reinserted), prompt builder per type, route validation.
+3. **Manual E2E:** questionnaire → draft → edit → generate → preview → send on staging.
+4. **Live:** feature-flag via env (`AI_DRAFT_ENABLED`) — default on, flip off instantly if needed.
+5. **Success check (2 weeks):** turnaround time and hours-saved review with Dr Leegale; iterate on prompt/template.
+
+## 9. Rollout Order
+
+1. `src/lib/ai-draft.ts` + `/api/ai/draft` route (sick note template first — simplest)
+2. Script template + admin UI button on script detail
+3. Consent checkbox + `/how-we-use-ai` page
+4. `ai_draft_log` table
+5. Content engine (D) — posts editor draft button + first 4–6 SEO pages
+6. Template QA gate with Dr Leegale before public launch
+
+## 10. Open Items (confirm during implementation)
+
+- Sick-note admin surface — does one exist? (Site has patient-facing questionnaire + confirmed pages; verify admin management path for sick notes.)
+- Content system: Sanity (`sanity`/`next-sanity` in deps) vs local markdown (`gray-matter`) — verify which health-topics/blog use, then wire the draft button into the real editor.
+- Exact gateway env vars to add to `.env.vercel` (name them `AI_GATEWAY_URL` / `AI_GATEWAY_KEY`).
+- Consent copy final wording.
