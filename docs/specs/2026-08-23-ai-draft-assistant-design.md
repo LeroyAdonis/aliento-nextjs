@@ -37,6 +37,20 @@ Aliento Health (Dr Leegale Franscesca Adonis — MBBCH, MBA, FCPHM (SA), MMed Co
 - No new infra, no new paid services (free-tier only).
 - No PDF generation changes — existing HTML-based pipeline stays.
 
+## 3.1 Usability Principles — Designed for a Non-Tech-Savvy Doctor
+
+Dr Leegale is not tech-savvy. The AI must never add cognitive load. Non-negotiables:
+
+1. **One obvious action per screen.** The primary action is always a single, big, plain-English button. No nested menus, no mode toggles, no jargon ("draft", "send", "preview" only — terms she already knows).
+2. **The existing flow never changes shape.** AI fills the SAME fields she already edits. She never learns a new screen to benefit from AI.
+3. **Zero blank-page anxiety.** If she opens a script/note from a questionnaire and clicks "✨ Write draft for me", the fields fill visibly with a clear banner: *"AI draft ready — please review and edit before sending."* The banner disappears once she edits or generates.
+4. **Failures are friendly and non-blocking.** If AI is unavailable: button stays visible, click shows *"AI is unavailable right now — no problem, you can type as usual."* Manual flow is always fully working. Never an error page, never a spinner that dies silently.
+5. **Everything is reversible and safe.** Editing a draft never locks anything; Generate → Preview → Send stays exactly as today. No auto-send, no auto-sign, no surprises.
+6. **Big targets, high contrast, generous spacing.** 44px+ hit areas, 16px+ base font, existing warm/sage palette. Works on her desktop; must not break on a small laptop.
+7. **Trust labels.** Every AI-filled field is visibly marked (subtle "AI" chip) so she always knows what the machine wrote vs what she wrote. This is also the HPCSA disclosure made visible.
+
+**Usability acceptance gate (must pass before live):** Dr Leegale completes one script + one sick note from questionnaire → signed & sent **without assistance**, on staging, first try. If she hesitates or asks "how do I…", the flow is not done.
+
 ## 4. Architecture (Approach A — in-app AI engine)
 
 ```
@@ -81,18 +95,30 @@ Dr Leegale reviews/edits → Generate PDF (existing) → Sign → Send (existing
 - High-intent SEO starters: "online sick note South Africa", "online prescription SA", "what a sick note needs to say", "how to get a repeat prescription online" + 1–2 health explainers.
 - She edits and publishes; cadence weekly.
 
-### 5.5 Consent & disclosure
+### 5.5 Consent, disclosure & records
 - Checkbox on each questionnaire: "I consent to AI assisting my doctor in preparing my documents. I can opt out."
+- **Consent is recorded, not implied:** each consent/opt-out stored with timestamp in DB (`patient_ai_consent` table: questionnaire submission id, consent bool, opted-out bool, timestamp). POPIA requires demonstrable consent.
 - Opt-out = AI button hidden for that patient; manual flow unchanged (existing forms still work).
-- Public page: `/how-we-use-ai` — plain-language disclosure (HPCSA Booklet 20 compliance + trust signal).
+- Public page: `/how-we-use-ai` — plain-language disclosure (HPCSA Booklet 20 compliance + trust signal). Links from questionnaire + footer.
 
-## 6. Safety & Compliance
+## 6. Legal & Compliance (POPIA + HPCSA)
 
-- **AI never signs.** Every generated document passes through the existing doctor-review → generate → sign flow.
-- **No PII to the model.** Pseudonymizer is mandatory; log shows token placeholders only.
+### Clinical governance (HPCSA Booklet 20)
+- **AI never signs.** Every generated document passes through the existing doctor-review → generate → sign flow. AI is strictly assistive; Dr Leegale remains fully accountable for every document.
+- **Disclosure + opt-out** before any AI use; opt-out must not disadvantage the patient (manual flow identical).
+- **AI use is part of the clinical record:** every AI draft logged and linked to the final document ID, so the patient file shows what the AI produced and what the doctor changed.
 - **Prompt hardening:** "You are drafting for a licensed medical practitioner to review. Never invent facts, medications, or diagnoses. Mark anything uncertain as [REVIEW]."
-- **Audit:** every AI draft request logged (timestamp, type, patient pseudonym, model) in DB table `ai_draft_log` (additive Drizzle migration).
-- **Disclosure + opt-out** per HPCSA Booklet 20.
+
+### POPIA
+- **Data minimization:** only the questionnaire fields needed for the draft leave the system; pseudonymizer strips name, SA ID (13-digit + Luhn), phone (0[6-8]…), email, address before the API call; tokens reinserted after.
+- **Consent with a record:** `patient_ai_consent` table stores consent/opt-out + timestamp (demonstrable consent).
+- **Processor reality:** document that OpenRouter → Google (Gemini) may process data outside SA. The disclosure page states this plainly ("AI services may process your information outside South Africa").
+- **Retention:** `ai_draft_log` contains NO PII (pseudonyms only) and is retained 12 months, then purged by cron. Consent records retained per POPIA processing limits. No patient-identifiable data in AI logs.
+- **Patient rights:** access/correction/deletion requests handled through existing contact channels; logs are pseudonymised so a request can be honoured without exposing model traffic.
+- **Breach readiness:** if the AI gateway or logs are breached, existing practice breach procedure applies (notify Information Regulator + affected patients per POPIA timelines).
+
+### Audit
+- `ai_draft_log` table (additive Drizzle migration): timestamp, type, patient pseudonym, questionnaire summary hash, model, prompt version, success/failure. No PII.
 
 ## 7. Edge Cases
 
@@ -108,10 +134,11 @@ Dr Leegale reviews/edits → Generate PDF (existing) → Sign → Send (existing
 ## 8. Testing & Rollout
 
 1. **Template QA (gate):** run 5 real de-identified questionnaires through the draft engine; Dr Leegale approves the output style before it ships to prod UI.
-2. **Unit:** pseudonymizer round-trip (PII removed → tokens reinserted), prompt builder per type, route validation.
-3. **Manual E2E:** questionnaire → draft → edit → generate → preview → send on staging.
-4. **Live:** feature-flag via env (`AI_DRAFT_ENABLED`) — default on, flip off instantly if needed.
-5. **Success check (2 weeks):** turnaround time and hours-saved review with Dr Leegale; iterate on prompt/template.
+2. **Usability gate (must pass before live):** Dr Leegale completes one script + one sick note from questionnaire → signed & sent **without assistance**, on staging, first try. If she hesitates or asks "how do I…", the flow is not done.
+3. **Unit:** pseudonymizer round-trip (PII removed → tokens reinserted), prompt builder per type, route validation.
+4. **Manual E2E:** questionnaire → draft → edit → generate → preview → send on staging.
+5. **Live:** feature-flag via env (`AI_DRAFT_ENABLED`) — default on, flip off instantly if needed.
+6. **Success check (2 weeks):** turnaround time and hours-saved review with Dr Leegale; iterate on prompt/template.
 
 ## 9. Rollout Order
 
