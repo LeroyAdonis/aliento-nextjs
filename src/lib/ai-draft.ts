@@ -92,7 +92,7 @@ export async function draftSickNote(
 ): Promise<SickNoteDraft> {
   const userMessage = [
     'Patient questionnaire (JSON):',
-    questionnaireRaw,
+    trimQuestionnaire(questionnaireRaw),
     '',
     SICK_NOTE_INSTRUCTIONS,
   ].join('\n')
@@ -114,7 +114,7 @@ export async function draftScript(
 ): Promise<ScriptDraft> {
   const userMessage = [
     'Patient questionnaire (JSON):',
-    questionnaireRaw,
+    trimQuestionnaire(questionnaireRaw),
     '',
     'Current medication rows (JSON):',
     JSON.stringify(currentMeds),
@@ -167,7 +167,7 @@ interface GatewayPart {
   text?: string
 }
 
-const GATEWAY_TIMEOUT_MS = 45000
+const GATEWAY_TIMEOUT_MS = 90000
 
 const DISABLED_TOOLS = {
   bash: false,
@@ -282,6 +282,17 @@ async function runDraft(
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
+
+/**
+ * Cap questionnaire payloads sent to the shared free gateway — larger
+ * prompts hit the latency ceiling and time out. 3000 chars keeps the
+ * clinical signal (dates, symptoms, reason) while staying fast.
+ */
+function trimQuestionnaire(raw: string): string {
+  return raw.length > 3000
+    ? `${raw.slice(0, 3000)}\n…[questionnaire truncated for length]`
+    : raw
+}
 
 function joinSystem(perTypeInstructions: string): string {
   return `${SHARED_SYSTEM_PROMPT}\n\n${perTypeInstructions}`
