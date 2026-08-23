@@ -18,6 +18,8 @@ import {
   CheckCircle2,
   ExternalLink,
   FileDown,
+  Info,
+  Sparkles,
 } from 'lucide-react'
 import { format } from 'date-fns'
 
@@ -44,7 +46,33 @@ type Script = {
   completedAt: string | null
 }
 
+type ScriptDraftResponse = {
+  ok?: boolean
+  draft?: {
+    medications?: DraftMedRow[]
+    instructions?: unknown
+  }
+}
+
+type DraftMedRow = {
+  name?: unknown
+  dosage?: unknown
+  frequency?: unknown
+  duration?: unknown
+}
+
 const EMPTY_MED: Medication = { name: '', dosage: '', quantity: '', refills: '' }
+
+function toMedicationRow(med: DraftMedRow): Medication {
+  const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '')
+  const dosageParts = [str(med.dosage), str(med.frequency), str(med.duration)].filter(Boolean)
+  return {
+    name: str(med.name),
+    dosage: dosageParts.join(', '),
+    quantity: '',
+    refills: '',
+  }
+}
 
 export default function ScriptDetailPage() {
   const params = useParams()
@@ -61,6 +89,10 @@ export default function ScriptDetailPage() {
   const [sending, setSending] = useState(false)
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState('')
+  const [drafting, setDrafting] = useState(false)
+  const [aiBanner, setAiBanner] = useState('')
+  const [aiNotice, setAiNotice] = useState('')
+  const [showAiChips, setShowAiChips] = useState(false)
 
   async function fetchScript() {
     setLoading(true)
@@ -113,11 +145,17 @@ export default function ScriptDetailPage() {
     })
   }, [])
 
+  const clearAiHighlights = useCallback(() => {
+    setAiBanner('')
+    setShowAiChips(false)
+  }, [])
+
   const updateMed = useCallback((index: number, field: keyof Medication, value: string) => {
     setMedications(prev =>
       prev.map((m, i) => (i === index ? { ...m, [field]: value } : m))
     )
-  }, [])
+    clearAiHighlights()
+  }, [clearAiHighlights])
 
   const filledCount = medications.filter(m => m.name.trim() !== '').length
 
@@ -172,6 +210,45 @@ export default function ScriptDetailPage() {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setSending(false)
+    }
+  }
+
+  async function handleDraft() {
+    setDrafting(true)
+    setAiBanner('')
+    setAiNotice('')
+    try {
+      const res = await fetch('/api/ai/draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'script', scriptId: id }),
+      })
+      if (!res.ok) {
+        setAiNotice(
+          res.status === 403
+            ? 'This patient opted out of AI assistance — no problem, you can type as usual.'
+            : 'AI is unavailable right now — no problem, you can type as usual.'
+        )
+        return
+      }
+      const data = (await res.json()) as ScriptDraftResponse
+      if (data.ok && data.draft) {
+        const rows = Array.isArray(data.draft.medications)
+          ? data.draft.medications.map(toMedicationRow).filter(m => m.name !== '')
+          : []
+        setMedications(rows.length > 0 ? rows : [{ ...EMPTY_MED }])
+        setSpecialInstructions(
+          typeof data.draft.instructions === 'string' ? data.draft.instructions : ''
+        )
+        setAiBanner('AI draft ready — please review and edit before sending.')
+        setShowAiChips(true)
+      } else {
+        setAiNotice('AI is unavailable right now — no problem, you can type as usual.')
+      }
+    } catch {
+      setAiNotice('AI is unavailable right now — no problem, you can type as usual.')
+    } finally {
+      setDrafting(false)
     }
   }
 
@@ -313,14 +390,44 @@ export default function ScriptDetailPage() {
                 — Total: <strong className="text-warm-700">{filledCount}</strong> item{filledCount !== 1 ? 's' : ''}
               </span>
             </div>
-            <button
-              onClick={addRow}
-              className="flex items-center gap-1.5 text-sm font-medium text-sage-600 hover:text-sage-700 transition-colors"
-            >
-              <Plus size={16} />
-              Add Medication
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleDraft}
+                disabled={drafting}
+                className="flex items-center gap-2 px-6 py-3 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {drafting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Drafting…
+                  </>
+                ) : (
+                  <>✨ Write draft for me</>
+                )}
+              </button>
+              <button
+                onClick={addRow}
+                className="flex items-center gap-1.5 text-sm font-medium text-sage-600 hover:text-sage-700 transition-colors"
+              >
+                <Plus size={16} />
+                Add Medication
+              </button>
+            </div>
           </div>
+
+          {aiBanner && (
+            <div className="flex items-center gap-3 bg-sage-50 border border-sage-200 rounded-2xl px-5 py-4 mb-4 text-sm text-sage-800">
+              <Sparkles size={18} className="text-sage-600 shrink-0" />
+              <span>{aiBanner}</span>
+            </div>
+          )}
+
+          {aiNotice && (
+            <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 mb-4 text-sm text-amber-800">
+              <Info size={18} className="text-amber-600 shrink-0 mt-0.5" />
+              <span>{aiNotice}</span>
+            </div>
+          )}
 
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -345,13 +452,20 @@ export default function ScriptDetailPage() {
                 {medications.map((med, index) => (
                   <tr key={index} className="border-b border-warm-100">
                     <td className="px-3 py-2">
-                      <input
-                        type="text"
-                        value={med.name}
-                        onChange={e => updateMed(index, 'name', e.target.value)}
-                        placeholder="e.g. Amoxicillin"
-                        className="w-full bg-cream-50 border border-warm-200 rounded-lg px-3 py-2 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
-                      />
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={med.name}
+                          onChange={e => updateMed(index, 'name', e.target.value)}
+                          placeholder="e.g. Amoxicillin"
+                          className={`w-full bg-cream-50 border border-warm-200 rounded-lg px-3 py-2 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all ${showAiChips ? 'pr-9' : ''}`}
+                        />
+                        {showAiChips && (
+                          <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-sage-100 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-sage-700">
+                            AI
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-3 py-2">
                       <input
@@ -408,7 +522,10 @@ export default function ScriptDetailPage() {
           </h2>
           <textarea
             value={specialInstructions}
-            onChange={e => setSpecialInstructions(e.target.value)}
+            onChange={e => {
+              setSpecialInstructions(e.target.value)
+              clearAiHighlights()
+            }}
             placeholder="Any special instructions for the patient (e.g., take with food, avoid alcohol)..."
             rows={4}
             className="w-full bg-cream-50 border border-warm-200 rounded-xl px-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all resize-none"
