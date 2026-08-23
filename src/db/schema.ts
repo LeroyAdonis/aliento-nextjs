@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, jsonb } from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, integer, jsonb, boolean } from 'drizzle-orm/pg-core'
 
 export const payments = pgTable('payments', {
   paymentId: text('payment_id').primaryKey(),
@@ -36,4 +36,23 @@ export const scripts = pgTable('scripts', {
   scriptPdfUrl: text('script_pdf_url'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   completedAt: timestamp('completed_at'),
+})
+
+export const aiDraftLogs = pgTable('ai_draft_logs', {
+  id: text('id').primaryKey(),
+  documentType: text('document_type').notNull(),   // 'sick-note' | 'script' | 'blog'
+  documentId: text('document_id'),                 // script id / questionnaire id / post slug
+  patientPseudonym: text('patient_pseudonym'),     // sha256 token, NEVER raw PII
+  questionnaireHash: text('questionnaire_hash'),   // sha256 of rawData — no PII
+  model: text('model'),
+  status: text('status').notNull().default('ok'),  // 'ok' | 'failed'
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
+export const patientAiConsent = pgTable('patient_ai_consent', {
+  id: text('id').primaryKey(),
+  questionnaireId: text('questionnaire_id').notNull(),
+  consent: boolean('consent').notNull().default(true), // true = consented, false = opted out
+  source: text('source').notNull(),                    // 'sick-note' | 'prescription' | 'second-opinion' | 'consult'
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 })
