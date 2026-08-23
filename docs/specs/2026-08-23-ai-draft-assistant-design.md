@@ -89,11 +89,12 @@ Dr Leegale reviews/edits → Generate PDF (existing) → Sign → Send (existing
 - **Sick note admin** (wherever sick notes are managed; if no admin surface exists yet, add minimal one — verify during implementation): "✨ AI Draft" fills symptoms/reason fields.
 - Diff-friendly: drafts land in the existing editable fields; nothing is auto-accepted.
 
-### 5.4 Content engine (D)
-- AI draft button in the posts/health-topics editor.
-- Prompt = her voice: "explain like a knowledgeable friend over tea; no jargon; evidence-based".
-- High-intent SEO starters: "online sick note South Africa", "online prescription SA", "what a sick note needs to say", "how to get a repeat prescription online" + 1–2 health explainers.
-- She edits and publishes; cadence weekly.
+### 5.4 Content engine (D) — AI blog writer
+- **"✨ Draft with AI" button in the posts editor** (`/admin/posts/new` + `/admin/posts/edit/[slug]`, TipTap). One click → title suggestions + excerpt + HTML content land in the editor for her to edit. She still publishes via the existing flow — AI never auto-publishes.
+- **Style reference from her own writing:** the prompt is few-shot with 2–3 of her **existing published posts** (fetched from Sanity, e.g. the epilepsy explainer) so the draft matches her real voice: *"a knowledgeable friend who happens to be a doctor, explaining over tea — evidence-based, no jargon, warm but not fluffy."*
+- **Inputs:** topic/title (or a brief sentence from her) + optional category → draft. A "regenerate" button for a second take.
+- **High-intent SEO starters:** "online sick note South Africa", "online prescription SA", "what a sick note needs to say", "how to get a repeat prescription online" + 1–2 health explainers.
+- **Cadence:** weekly; she edits, publishes, and over time her published posts enrich the style corpus (reference pool = latest 3 published posts).
 
 ### 5.5 Consent, disclosure & records
 - Checkbox on each questionnaire: "I consent to AI assisting my doctor in preparing my documents. I can opt out."
