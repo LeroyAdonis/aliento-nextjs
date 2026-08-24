@@ -55,8 +55,48 @@ export default async function Home() {
 
   const featuredPost = posts[0]
 
+  const orgPhysicianJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'MedicalOrganization',
+        '@id': 'https://alientomd.com/#org',
+        name: 'Aliento Health',
+        url: 'https://alientomd.com',
+        email: 'info@alientomd.com',
+        logo: 'https://alientomd.com/logo-icon.svg',
+        areaServed: 'ZA',
+        priceRange: 'R250',
+      },
+      {
+        '@type': 'Physician',
+        '@id': 'https://alientomd.com/#dr-adonis',
+        name: 'Dr Leegale Franscesca Adonis',
+        honorificSuffix: 'MBBCh, MBA, FCPHM (SA), MMed Community Health, PhD',
+        worksFor: { '@id': 'https://alientomd.com/#org' },
+        url: 'https://alientomd.com/about',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Johannesburg',
+          addressCountry: 'ZA',
+        },
+        medicalSpecialty: ['PublicHealth', 'GeneralPractice'],
+        knowsAbout: [
+          'Preventive care',
+          'Screening',
+          'Chronic disease management',
+          'Health promotion',
+        ],
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgPhysicianJsonLd) }}
+      />
       <Hero />
       <StreamServices />
       {featuredPost && <FeaturedArticle post={featuredPost} />}

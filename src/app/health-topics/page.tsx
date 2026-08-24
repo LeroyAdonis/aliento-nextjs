@@ -8,9 +8,10 @@ import { fallbackPosts, fallbackCategories } from '@/lib/health-topics-fallbacks
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Health Topics',
+  title: 'Doctor-Written Health Articles',
   description:
     'Browse expert-backed articles on nutrition, mental health, screening, medical conditions, research, and wellness.',
+  alternates: { canonical: 'https://alientomd.com/health-topics' },
 }
 
 export default async function HealthTopicsPage() {

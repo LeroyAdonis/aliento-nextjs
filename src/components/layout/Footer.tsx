@@ -7,6 +7,9 @@ const exploreLinks = [
   { label: 'Health Topics', href: '/health-topics' },
   { label: 'About',         href: '/about' },
   { label: 'Consult',       href: '/consult' },
+  { label: 'Prescriptions', href: '/prescription' },
+  { label: 'Sick Notes',    href: '/sick-note' },
+  { label: 'Second Opinions', href: '/second-opinion' },
   { label: 'Contact',       href: '/contact' },
   { label: 'How we use AI', href: '/how-we-use-ai' },
 ]

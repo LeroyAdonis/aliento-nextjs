@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'How We Use AI',
   description:
     'How Aliento uses AI to assist Dr Adonis in preparing your documents — and the choices you have.',
+  alternates: { canonical: 'https://alientomd.com/how-we-use-ai' },
 }
 
 export default function HowWeUseAiPage() {

@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { FileText, ArrowRight, ClipboardList, Clock, CreditCard, CheckCircle2 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Sick Note — Aliento Health',
+  title: 'Sick Note Online South Africa',
   description:
-    'Request a sick leave assessment online. R250 — doctor evaluates and provides a recommendation within 24 hours.',
+    'Request a sick leave assessment online. R250 — doctor evaluates and provides a medical certificate recommendation within 24 hours.',
+  alternates: { canonical: 'https://alientomd.com/sick-note' },
 }
 
 const steps = [

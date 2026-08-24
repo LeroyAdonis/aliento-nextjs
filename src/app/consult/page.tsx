@@ -6,7 +6,8 @@ import { ConsultBookingPanel } from '@/components/consult/ConsultBookingPanel'
 export const metadata: Metadata = {
   title: 'Book a Virtual Consultation',
   description:
-    'Book a virtual face-to-face medical consultation. R250 for 20 min or R500 for 35 min.',
+    'Book a virtual face-to-face medical consultation with a South African doctor. R250 for 20 min or R500 for 35 min — no medical aid needed.',
+  alternates: { canonical: 'https://alientomd.com/consult' },
 }
 
 const steps = [

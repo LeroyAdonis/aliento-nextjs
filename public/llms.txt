@@ -1,0 +1,15 @@
+# Aliento Health
+> South African online medical practice led by Dr Leegale Franscesca Adonis
+> (MBBCh, MBA, FCPHM (SA), MMed Community Health, PhD), Johannesburg.
+> Virtual GP consultations R250 (20 min); prescriptions, sick notes and
+> second opinions issued after doctor review, usually within 24 hours.
+> Cash-pay patients welcome; no medical aid required.
+
+- [Home](https://alientomd.com/)
+- [Virtual consultation](https://alientomd.com/consult)
+- [Prescriptions](https://alientomd.com/prescription)
+- [Sick notes](https://alientomd.com/sick-note)
+- [Second opinions](https://alientomd.com/second-opinion)
+- [About Dr Adonis](https://alientomd.com/about)
+- [Health articles](https://alientomd.com/health-topics)
+- [AI transparency](https://alientomd.com/how-we-use-ai)

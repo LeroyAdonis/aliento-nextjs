@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { FileText, ArrowRight, Shield, Clock, CreditCard, CheckCircle2 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Get a Prescription — Aliento Health',
+  title: 'Repeat Prescription Online South Africa',
   description:
     'Request a medication script refill online. R250 — doctor reviews and issues your repeat script within 24 hours.',
+  alternates: { canonical: 'https://alientomd.com/prescription' },
 }
 
 const steps = [

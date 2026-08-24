@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { ArrowRight, Stethoscope, Clock, CreditCard, MessageSquare } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Second Opinion — Aliento Health',
+  title: 'Second Medical Opinion Online South Africa',
   description:
     'Get an independent second opinion on your diagnosis. R250 — doctor reviews your case.',
+  alternates: { canonical: 'https://alientomd.com/second-opinion' },
 }
 
 const steps = [
