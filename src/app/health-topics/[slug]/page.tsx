@@ -41,8 +41,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://alientomd.com'
+  const encodedSlug = encodeURIComponent(slug)
   const base: Metadata = {
-    alternates: { canonical: `${siteUrl}/health-topics/${slug}` },
+    alternates: { canonical: `${siteUrl}/health-topics/${encodedSlug}` },
   }
   try {
     const post = await getPostBySlug(slug)
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         description: post.excerpt ?? '',
         openGraph: {
           type: 'article',
-          url: `${siteUrl}/health-topics/${slug}`,
+          url: `${siteUrl}/health-topics/${encodedSlug}`,
           title: post.title,
           description: post.excerpt ?? '',
           publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
@@ -71,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: fallback.excerpt ?? '',
       openGraph: {
         type: 'article',
-        url: `${siteUrl}/health-topics/${slug}`,
+        url: `${siteUrl}/health-topics/${encodedSlug}`,
         title: fallback.title,
         description: fallback.excerpt ?? '',
         publishedTime: fallback.publishedAt ? new Date(fallback.publishedAt).toISOString() : undefined,
@@ -106,7 +107,7 @@ export default async function HealthTopicsPostPage({ params }: Props) {
     image: coverImageUrl || undefined,
     datePublished: article.publishedAt ? new Date(article.publishedAt).toISOString() : undefined,
     dateModified: article.publishedAt ? new Date(article.publishedAt).toISOString() : undefined,
-    mainEntityOfPage: `${siteUrl}/health-topics/${slug}`,
+    mainEntityOfPage: `${siteUrl}/health-topics/${encodeURIComponent(slug)}`,
     author: {
       '@type': 'Person',
       name: article.author || 'Dr Leegale Adonis',

@@ -5,7 +5,7 @@ import type { SanityPost } from '@/lib/sanity'
 
 const BASE = 'https://alientomd.com'
 
-export const dynamic = 'force-dynamic' // re-evaluate on deploy; Sanity posts included
+export const revalidate = 3600 // cache sitemap 1h — Sanity blips can't break GSC fetches
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticRoutes,
     ...posts.map((p) => ({
-      url: `${BASE}/health-topics/${p.slug.current}`,
+      url: `${BASE}/health-topics/${encodeURIComponent(p.slug.current)}`,
       lastModified: p.publishedAt ? new Date(p.publishedAt) : new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
