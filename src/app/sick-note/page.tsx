@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { FileText, ArrowRight, ClipboardList, Clock, CreditCard, CheckCircle2 } from 'lucide-react'
+import FaqAccordion from '@/components/sections/FaqAccordion'
 
 export const metadata: Metadata = {
   title: 'Sick Note Online South Africa',
@@ -33,6 +34,46 @@ const included = [
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 flat fee, no hidden costs' },
   { icon: CheckCircle2, label: 'Digital delivery', detail: 'PDF certificate sent to your inbox' },
 ]
+
+const faqItems = [
+  {
+    question: 'How do I get a sick note online in South Africa?',
+    answer:
+      'Complete the online sick leave assessment questionnaire. A registered medical practitioner reviews your submission and, if clinically appropriate, issues a medical certificate within 24 hours.',
+  },
+  {
+    question: 'How much does an online sick note cost?',
+    answer: 'R250 per sick leave assessment at Aliento. There are no hidden fees.',
+  },
+  {
+    question: 'Will my employer accept an online medical certificate?',
+    answer:
+      "A certificate issued after a proper consultation with a registered medical practitioner meets the BCEA requirement that it be issued and signed by a medical practitioner; final acceptance is at the employer's discretion.",
+  },
+  {
+    question: 'How quickly will I get my sick note?',
+    answer:
+      'The doctor reviews your assessment and issues the certificate within 24 hours of submission.',
+  },
+  {
+    question: 'Can I get a sick note for more than two days?',
+    answer:
+      'The assessment determines what is clinically appropriate. Longer periods may require a fuller consultation, which the doctor will advise on.',
+  },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+}
 
 export default function SickNotePage() {
   return (
@@ -123,6 +164,21 @@ export default function SickNotePage() {
           Explore our health articles <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
         </Link>
       </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-20 bg-cream-100">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-12 text-center">
+            Frequently asked questions
+          </h2>
+          <FaqAccordion items={faqItems} />
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     </div>
   )
 }

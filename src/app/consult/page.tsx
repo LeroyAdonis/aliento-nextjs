@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { Video, Clock, CreditCard, Monitor, ArrowRight, FileText } from 'lucide-react'
 import { ConsultBookingPanel } from '@/components/consult/ConsultBookingPanel'
+import FaqAccordion from '@/components/sections/FaqAccordion'
 
 export const metadata: Metadata = {
   title: 'Book a Virtual Consultation',
@@ -34,6 +35,47 @@ const included = [
   { icon: Clock, label: 'Flexible sessions', detail: '20-minute or 35-minute slots' },
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 or R500, paid upfront' },
 ]
+
+const faqItems = [
+  {
+    question: 'How does a virtual consultation work?',
+    answer:
+      'Book a time that suits you, complete a short health questionnaire, then meet Dr Adonis in a private face-to-face video call at your scheduled time.',
+  },
+  {
+    question: 'What happens during the video consultation?',
+    answer:
+      'Dr Adonis discusses your symptoms, asks the questions a thorough doctor would ask, and agrees a plan with you — the same standard of care as an in-person visit, from the comfort of home.',
+  },
+  {
+    question: 'How much does an online doctor consultation cost in South Africa?',
+    answer:
+      'R250 for a 20-minute consultation, or R500 for a 35-minute consultation. There is no medical aid required and no hidden fees.',
+  },
+  {
+    question: 'Do I need medical aid to book?',
+    answer:
+      'No. Aliento is cash-pay: you pay for the consultation directly, and no medical scheme membership or referral is needed.',
+  },
+  {
+    question: 'What if I need a follow-up?',
+    answer:
+      'If a follow-up is clinically appropriate, Dr Adonis will advise you during your consultation and discuss the options with you.',
+  },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+}
 
 export default function ConsultPage() {
   return (
@@ -133,6 +175,21 @@ export default function ConsultPage() {
           Explore our health articles <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
         </Link>
       </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-20 bg-cream-100">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-12 text-center">
+            Frequently asked questions
+          </h2>
+          <FaqAccordion items={faqItems} />
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     </div>
   )
 }

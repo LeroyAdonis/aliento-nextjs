@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Stethoscope, Clock, CreditCard, MessageSquare } from 'lucide-react'
+import FaqAccordion from '@/components/sections/FaqAccordion'
 
 export const metadata: Metadata = {
   title: 'Second Medical Opinion Online South Africa',
@@ -33,6 +34,46 @@ const included = [
   { icon: Clock, label: 'Prompt turnaround', detail: 'Review completed within 48 hours' },
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 flat fee, no hidden costs' },
 ]
+
+const faqItems = [
+  {
+    question: 'What is a second opinion?',
+    answer:
+      'An independent review of your diagnosis or treatment plan by another doctor — in this case Dr Adonis — who has not been involved in your previous care.',
+  },
+  {
+    question: 'When should I get one?',
+    answer:
+      'People seek second opinions when facing a major diagnosis, before a procedure, when treatment is not working, or simply for peace of mind. It is your right as a patient.',
+  },
+  {
+    question: 'How much does it cost?',
+    answer: 'R250 for a second opinion review at Aliento.',
+  },
+  {
+    question: 'What do I need to provide?',
+    answer:
+      'Your completed questionnaire plus any relevant records, test results or letters you have. The more context you can share, the more useful the review.',
+  },
+  {
+    question: "Will it replace my main doctor's care?",
+    answer:
+      'No. A second opinion adds an independent perspective; your main doctor continues to coordinate your care. Aliento does not take over ongoing treatment.',
+  },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+}
 
 export default function SecondOpinionPage() {
   return (
@@ -123,6 +164,21 @@ export default function SecondOpinionPage() {
           Explore our health articles <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
         </Link>
       </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-20 bg-cream-100">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-12 text-center">
+            Frequently asked questions
+          </h2>
+          <FaqAccordion items={faqItems} />
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     </div>
   )
 }

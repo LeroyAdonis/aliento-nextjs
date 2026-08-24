@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { FileText, ArrowRight, Shield, Clock, CreditCard, CheckCircle2 } from 'lucide-react'
+import FaqAccordion from '@/components/sections/FaqAccordion'
 
 export const metadata: Metadata = {
   title: 'Repeat Prescription Online South Africa',
@@ -33,6 +34,46 @@ const included = [
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 flat fee, no hidden costs' },
   { icon: CheckCircle2, label: 'Electronic delivery', detail: 'PDF sent securely to your inbox' },
 ]
+
+const faqItems = [
+  {
+    question: 'How do I renew a prescription online?',
+    answer:
+      'Complete the online questionnaire about your medication and medical history. A registered doctor reviews it and, if appropriate, issues your repeat script within 24 hours.',
+  },
+  {
+    question: 'How much does an online prescription cost?',
+    answer: 'R250 per prescription review at Aliento. No hidden fees.',
+  },
+  {
+    question: 'Which medications can be prescribed online?',
+    answer:
+      'Repeat prescriptions for ongoing, stable conditions are most suitable. Certain medicines — including some controlled substances — require a fuller consultation; the doctor will advise you.',
+  },
+  {
+    question: 'How long does the doctor take to review?',
+    answer:
+      'Prescriptions are reviewed and issued within 24 hours of your questionnaire being submitted.',
+  },
+  {
+    question: 'How do I get my medication?',
+    answer:
+      'Once issued, your script is sent to the pharmacy of your choice for collection or delivery. The pharmacy handles dispensing.',
+  },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+}
 
 export default function PrescriptionPage() {
   return (
@@ -123,6 +164,21 @@ export default function PrescriptionPage() {
           Explore our health articles <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
         </Link>
       </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-20 bg-cream-100">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12">
+          <h2 className="text-2xl lg:text-3xl font-display font-semibold text-warm-900 mb-12 text-center">
+            Frequently asked questions
+          </h2>
+          <FaqAccordion items={faqItems} />
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     </div>
   )
 }
