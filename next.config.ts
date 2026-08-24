@@ -26,24 +26,35 @@ const nextConfig: NextConfig = {
     ],
   },
  async redirects() {
- return [
- {
- source: '/blog',
- destination: '/health-topics',
- permanent: true,
- },
- {
- source: '/blog/:slug',
- destination: '/health-topics/:slug',
- permanent: true,
- },
- {
- source: '/services',
- destination: '/',
- permanent: false,
- },
- ]
- },
+return [
+{
+source: '/blog',
+destination: '/health-topics',
+permanent: true,
+},
+{
+source: '/blog/:slug',
+destination: '/health-topics/:slug',
+permanent: true,
+},
+{
+source: '/services',
+destination: '/',
+permanent: false,
+},
+// Sanity slug cleanups (2026-08-24): old URLs had raw spaces/commas/capitals
+{
+source: '/health-topics/Explanation%20of%20Autoimmune%20Diseases',
+destination: '/health-topics/autoimmune-diseases-explained',
+permanent: true,
+},
+{
+source: '/health-topics/Hypertension%2C%20High%20Blood%20Pressure%2C%20%20BP',
+destination: '/health-topics/hypertension',
+permanent: true,
+},
+]
+},
 }
 
 export default nextConfig
