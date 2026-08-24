@@ -47,3 +47,5 @@ lint_output.txt
 
 # graphify cache (auto-generated binary hashes)
 graphify-out/cache/
+# Added by code-review-graph
+.code-review-graph/
