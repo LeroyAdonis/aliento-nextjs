@@ -7,7 +7,7 @@ import { db } from '@/db'
 import { aiDraftLogs, patientAiConsent, questionnaires, scripts } from '@/db/schema'
 import { desc, eq } from 'drizzle-orm'
 import { createHash, randomUUID } from 'node:crypto'
-import { draftBlogPost, draftScript, draftSickNote } from '@/lib/ai-draft'
+import { draftBlogPost, draftScript, draftSickNote, draftModelLabel } from '@/lib/ai-draft'
 import type { DraftMedication } from '@/lib/ai-draft'
 
 interface AiDraftBody {
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
             documentType: 'blog',
             documentId,
             patientPseudonym,
-            model: 'opencode/big-pickle',
+            model: draftModelLabel(),
             status: 'ok',
           })
         } catch (logErr) {
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
             documentType: 'blog',
             documentId,
             patientPseudonym,
-            model: 'opencode/big-pickle',
+            model: draftModelLabel(),
             status: 'failed',
           })
         } catch (logErr) {
@@ -199,7 +199,7 @@ export async function POST(req: Request) {
           documentId,
           patientPseudonym,
           questionnaireHash,
-          model: 'opencode/big-pickle',
+          model: draftModelLabel(),
           status: 'ok',
         })
       } catch (logErr) {
@@ -217,7 +217,7 @@ export async function POST(req: Request) {
           documentId,
           patientPseudonym,
           questionnaireHash,
-          model: 'opencode/big-pickle',
+          model: draftModelLabel(),
           status: 'failed',
         })
       } catch (logErr) {

@@ -291,6 +291,16 @@ async function runDraft(
 }
 
 /**
+ * Label for audit logs — reflects the actual provider in use (NIM fast path
+ * when the key is present, else the opencode gateway).
+ */
+export function draftModelLabel(): string {
+  return process.env.NVIDIA_API_KEY
+    ? process.env.AI_DRAFT_NIM_MODEL || 'openai/gpt-oss-20b'
+    : 'opencode/big-pickle'
+}
+
+/**
  * NVIDIA NIM free-tier chat (fast: ~10s vs 85s for big-pickle). Benchmarked
  * 2026-08-24: openai/gpt-oss-20b → clean JSON object, warm voice, SA context.
  * max_tokens 3000 — 2000 truncates a full blog draft mid-string.
