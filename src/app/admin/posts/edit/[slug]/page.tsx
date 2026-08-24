@@ -6,19 +6,15 @@ import { Save, ArrowLeft, Check, AlertCircle, Eye, X, Loader2, Sparkles, Info } 
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import TiptapEditor from '@/components/editor/TiptapEditor'
+import AiDraftModal, { type AiDraft } from '@/components/editor/AiDraftModal'
+import DOMPurify from 'dompurify'
 
 const categories = ['Chronic Care', 'Wellness', 'Nutrition', 'Mental Health', 'Tips & Guides', 'Medical Insights']
 
-function renderPreview(title: string, content: string) {
-  return content
-    .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold mt-8 mb-3 text-warm-900">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold mt-10 mb-4 text-warm-900">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold mt-10 mb-4 text-warm-900">$1</h1>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-warm-800">$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/^- (.*$)/gim, '<li class="ml-4 mb-1">• $1</li>')
-    .replace(/\n\n/g, '</p><p class="mb-4 leading-relaxed">')
-    .replace(/\n/g, '<br />')
+function sanitizePreview(content: string): string {
+  // content is HTML from TipTap; sanitize before rendering in preview
+  if (typeof window === 'undefined') return ''
+  return DOMPurify.sanitize(content)
 }
 
 export default function EditPostPage() {
@@ -43,6 +39,8 @@ export default function EditPostPage() {
   const [drafting, setDrafting] = useState(false)
   const [aiBanner, setAiBanner] = useState('')
   const [aiNotice, setAiNotice] = useState('')
+  const [aiDraft, setAiDraft] = useState<AiDraft | null>(null)
+  const [aiDraftOpen, setAiDraftOpen] = useState(false)
 
   const fetchPost = async () => {
     try {
@@ -126,16 +124,13 @@ export default function EditPostPage() {
       }
       const data = await res.json()
       if (data.ok && data.draft) {
-        if (typeof data.draft.contentHtml === 'string' && data.draft.contentHtml.trim()) {
-          setContent(data.draft.contentHtml)
-        }
-        if (typeof data.draft.title === 'string' && data.draft.title.trim() && !title.trim()) {
-          setTitle(data.draft.title)
-        }
-        if (typeof data.draft.excerpt === 'string' && data.draft.excerpt.trim() && !excerpt.trim()) {
-          setExcerpt(data.draft.excerpt)
-        }
-        setAiBanner('AI draft ready — please review and edit before publishing.')
+        // Keep the draft out of the editor until the user reviews it and clicks "Save to Editor"
+        setAiDraft({
+          title: typeof data.draft.title === 'string' ? data.draft.title : '',
+          excerpt: typeof data.draft.excerpt === 'string' ? data.draft.excerpt : '',
+          contentHtml: typeof data.draft.contentHtml === 'string' ? data.draft.contentHtml : '',
+        })
+        setAiDraftOpen(true)
       } else {
         setAiNotice('AI is unavailable right now — no problem, you can write the post as usual.')
       }
@@ -144,6 +139,22 @@ export default function EditPostPage() {
     } finally {
       setDrafting(false)
     }
+  }
+
+  const handleSaveDraftToEditor = () => {
+    if (!aiDraft) return
+    if (aiDraft.title.trim() && !title.trim()) {
+      setTitle(aiDraft.title)
+    }
+    if (aiDraft.excerpt.trim() && !excerpt.trim()) {
+      setExcerpt(aiDraft.excerpt)
+    }
+    setContent(aiDraft.contentHtml)
+    setAiDraftOpen(false)
+    setAiBanner('AI draft saved to editor — please review and edit before publishing.')
+    setTimeout(() => {
+      document.getElementById('editor-area')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
   }
 
   if (loading) {
@@ -212,8 +223,8 @@ export default function EditPostPage() {
 
               {/* Article body */}
               <div 
-                className="text-warm-700 text-lg leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: renderPreview(title, content) }}
+                className="prose prose-warm max-w-none text-warm-700 text-lg leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: sanitizePreview(content) }}
               />
 
               {/* Tags */}
@@ -231,6 +242,17 @@ export default function EditPostPage() {
           </div>
         </div>
       )}
+
+      {/* AI Draft Preview Modal */}
+      <AiDraftModal
+        draft={aiDraft}
+        open={aiDraftOpen}
+        category={category}
+        onSave={handleSaveDraftToEditor}
+        onClose={() => setAiDraftOpen(false)}
+        onRegenerate={handleAiDraft}
+        regenerating={drafting}
+      />
 
       {/* Header */}
       <div className="bg-warm-900 text-white py-4">
@@ -353,7 +375,7 @@ export default function EditPostPage() {
               )}
             </div>
 
-            <div>
+            <div id="editor-area">
               <TiptapEditor
                 content={content}
                 onChange={setContent}

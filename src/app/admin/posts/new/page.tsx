@@ -6,6 +6,7 @@ import { Save, ArrowLeft, Check, AlertCircle, Eye, X, Loader2, Sparkles, Info } 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import TiptapEditor from '@/components/editor/TiptapEditor'
+import AiDraftModal, { type AiDraft } from '@/components/editor/AiDraftModal'
 import DOMPurify from 'dompurify'
 
 const categories = ['Chronic Care', 'Wellness', 'Nutrition', 'Mental Health', 'Tips & Guides', 'Medical Insights']
@@ -33,6 +34,8 @@ export default function NewPostPage() {
   const [drafting, setDrafting] = useState(false)
   const [aiBanner, setAiBanner] = useState('')
   const [aiNotice, setAiNotice] = useState('')
+  const [aiDraft, setAiDraft] = useState<AiDraft | null>(null)
+  const [aiDraftOpen, setAiDraftOpen] = useState(false)
 
   const generateSlug = () => {
     return title.toLowerCase()
@@ -97,16 +100,13 @@ export default function NewPostPage() {
       }
       const data = await res.json()
       if (data.ok && data.draft) {
-        if (typeof data.draft.contentHtml === 'string' && data.draft.contentHtml.trim()) {
-          setContent(data.draft.contentHtml)
-        }
-        if (typeof data.draft.title === 'string' && data.draft.title.trim() && !title.trim()) {
-          setTitle(data.draft.title)
-        }
-        if (typeof data.draft.excerpt === 'string' && data.draft.excerpt.trim() && !excerpt.trim()) {
-          setExcerpt(data.draft.excerpt)
-        }
-        setAiBanner('AI draft ready — please review and edit before publishing.')
+        // Keep the draft out of the editor until the user reviews it and clicks "Save to Editor"
+        setAiDraft({
+          title: typeof data.draft.title === 'string' ? data.draft.title : '',
+          excerpt: typeof data.draft.excerpt === 'string' ? data.draft.excerpt : '',
+          contentHtml: typeof data.draft.contentHtml === 'string' ? data.draft.contentHtml : '',
+        })
+        setAiDraftOpen(true)
       } else {
         setAiNotice('AI is unavailable right now — no problem, you can write the post as usual.')
       }
@@ -115,6 +115,22 @@ export default function NewPostPage() {
     } finally {
       setDrafting(false)
     }
+  }
+
+  const handleSaveDraftToEditor = () => {
+    if (!aiDraft) return
+    if (aiDraft.title.trim() && !title.trim()) {
+      setTitle(aiDraft.title)
+    }
+    if (aiDraft.excerpt.trim() && !excerpt.trim()) {
+      setExcerpt(aiDraft.excerpt)
+    }
+    setContent(aiDraft.contentHtml)
+    setAiDraftOpen(false)
+    setAiBanner('AI draft saved to editor — please review and edit before publishing.')
+    setTimeout(() => {
+      document.getElementById('editor-area')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
   }
 
   return (
@@ -189,6 +205,17 @@ export default function NewPostPage() {
           </div>
         </div>
       )}
+
+      {/* AI Draft Preview Modal */}
+      <AiDraftModal
+        draft={aiDraft}
+        open={aiDraftOpen}
+        category={category}
+        onSave={handleSaveDraftToEditor}
+        onClose={() => setAiDraftOpen(false)}
+        onRegenerate={handleAiDraft}
+        regenerating={drafting}
+      />
 
       {/* Header */}
       <div className="bg-warm-900 text-white py-4">
@@ -311,7 +338,7 @@ export default function NewPostPage() {
               )}
             </div>
 
-            <div>
+            <div id="editor-area">
               <TiptapEditor
                 content={content}
                 onChange={setContent}
