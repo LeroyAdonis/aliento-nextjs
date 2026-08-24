@@ -1,5 +1,5 @@
 import { createClient } from 'next-sanity'
-import { createImageUrlBuilder } from '@sanity/image-url'
+import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url'
 import { z } from 'zod'
 
 // Validate environment variables
@@ -24,8 +24,8 @@ export const client = createClient({
 
 const builder = createImageUrlBuilder(client)
 
-export function urlFor(source: any) {
- return builder.image(source)
+export function urlFor(source: unknown) {
+ return builder.image(source as SanityImageSource)
 }
 
 // ── Types ──

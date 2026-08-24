@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/db'
-import { questionnaires } from '@/db/schema'
+import { patientAiConsent, questionnaires } from '@/db/schema'
 import { sendEmail } from '@/lib/email'
 import { randomUUID } from 'crypto'
 
@@ -10,6 +10,7 @@ const bodySchema = z.object({
   patientName: z.string().min(1, 'patientName is required'),
   patientEmail: z.string().email('Invalid email address'),
   data: z.record(z.string(), z.unknown()),
+  aiConsent: z.boolean().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -34,6 +35,17 @@ export async function POST(req: NextRequest) {
       rawData: JSON.stringify(data),
       stream,
     })
+
+    try {
+      await db.insert(patientAiConsent).values({
+        id: randomUUID(),
+        questionnaireId: id,
+        consent: parsed.data.aiConsent ?? true,
+        source: stream,
+      })
+    } catch (consentError) {
+      console.error('Failed to record AI consent:', consentError)
+    }
 
     // Stream-aware email notification
     const streamLabel = stream === 'consult' ? 'Consultation' : stream.charAt(0).toUpperCase() + stream.slice(1)

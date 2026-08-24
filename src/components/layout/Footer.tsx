@@ -8,6 +8,7 @@ const exploreLinks = [
   { label: 'About',         href: '/about' },
   { label: 'Consult',       href: '/consult' },
   { label: 'Contact',       href: '/contact' },
+  { label: 'How we use AI', href: '/how-we-use-ai' },
 ]
 
 const topicLinks = [

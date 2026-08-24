@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm, useFormContext, FormProvider } from 'react-hook-form'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Loader2, CreditCard } from 'lucide-react'
+import Link from 'next/link'
 import { z } from 'zod'
 
 // ─── Shared step schemas ─────────────────────────────────────────────────────
@@ -95,7 +96,34 @@ export function PersonalInfoStepFields() {
 
 // ─── StreamWizard ────────────────────────────────────────────────────────────
 
-type WizardData = Record<string, string>
+/** AI consent — rendered on the final step of every stream */
+export function AiConsentFields() {
+  const { register } = useFormContext()
+
+  return (
+    <div className="mt-6 pt-6 border-t border-warm-200">
+      <label className="flex items-start gap-3 cursor-pointer">
+        <input
+          {...register('aiConsent')}
+          type="checkbox"
+          defaultChecked
+          className="mt-0.5 w-5 h-5 rounded border border-warm-300 accent-sage-600 flex-shrink-0"
+        />
+        <span className="text-sm text-warm-700 leading-relaxed">
+          I consent to AI assisting my doctor in preparing my documents. I can opt out at any time.{' '}
+          <Link
+            href="/how-we-use-ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sage-600 underline underline-offset-2 hover:text-sage-700 font-medium"
+          >
+            How we use AI
+          </Link>
+        </span>
+      </label>
+    </div>
+  )
+}
 
 export function StreamWizard({ steps, packageId, successPath, cancelPath, accentColor, streamLabel }: StreamWizardProps) {
   const [currentStep, setCurrentStep] = useState(0)
@@ -110,7 +138,7 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
 
   const methods = useForm<Combined>({
     mode: 'onTouched',
-    defaultValues: {},
+    defaultValues: { aiConsent: true } as any,
   })
 
   const isLast = currentStep === steps.length - 1
@@ -153,7 +181,27 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
     setSubmitError(null)
 
     try {
-      const allValues = methods.getValues() as unknown as WizardData
+      const allValues = methods.getValues() as unknown as Record<string, unknown>
+
+      // Submit the questionnaire (incl. AI consent) before initiating payment
+      const questionnaireRes = await fetch('/api/stream-questionnaire', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stream: successPath.split('/')[1],
+          patientName: `${allValues.firstName} ${allValues.lastName}`,
+          patientEmail: allValues.email,
+          aiConsent: allValues.aiConsent,
+          data: { ...allValues },
+        }),
+      })
+
+      const questionnaireResult = await questionnaireRes.json()
+
+      if (!questionnaireRes.ok) {
+        throw new Error(questionnaireResult.error || 'Questionnaire submission failed')
+      }
+
       const res = await fetch('/api/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -238,6 +286,7 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
                 {steps[currentStep].title}
               </h2>
               <StepComponent />
+              {isLast && <AiConsentFields />}
             </div>
           </motion.div>
         </AnimatePresence>

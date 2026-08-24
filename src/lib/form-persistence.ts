@@ -77,11 +77,35 @@ export function useLocalStorageState<T>(
   key: string,
   initial: T,
 ): [T, (value: T | ((prev: T) => T)) => void, () => void] {
-  const [state, setState] = useState<T>(initial)
+  // Initialize state from localStorage to avoid SSR hydration mismatch
+  // The initializer function runs only on the first render
+  const [state, setState] = useState<T>(() => {
+    if (typeof window === 'undefined') return initial
+    try {
+      const raw = window.localStorage.getItem(STORAGE_PREFIX + key)
+      if (raw) return JSON.parse(raw) as T
+    } catch {
+      // ignore
+    }
+    return initial
+  })
 
+  // Sync localStorage changes from other tabs/windows
   useEffect(() => {
-    const saved = read<T>(key)
-    if (saved !== null) setState(saved)
+    if (typeof window === 'undefined') return
+
+    function onStorage(event: StorageEvent) {
+      if (event.key === STORAGE_PREFIX + key && event.newValue) {
+        try {
+          setState(JSON.parse(event.newValue) as T)
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
   }, [key])
 
   const set = (value: T | ((prev: T) => T)) => {
