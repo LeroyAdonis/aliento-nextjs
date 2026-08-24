@@ -5,13 +5,14 @@ import { db } from '@/db'
 import { aiDraftLogs, patientAiConsent, questionnaires, scripts } from '@/db/schema'
 import { desc, eq } from 'drizzle-orm'
 import { createHash, randomUUID } from 'node:crypto'
-import { draftScript, draftSickNote } from '@/lib/ai-draft'
+import { draftBlogPost, draftScript, draftSickNote } from '@/lib/ai-draft'
 import type { DraftMedication } from '@/lib/ai-draft'
 
 interface AiDraftBody {
   type?: string
   questionnaireId?: string
   scriptId?: string
+  topic?: string
 }
 
 function sha256(value: string): string {
@@ -47,13 +48,66 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
     }
 
-    if (body.type !== 'sick-note' && body.type !== 'script') {
+    if (body.type !== 'sick-note' && body.type !== 'script' && body.type !== 'blog') {
       return NextResponse.json(
-        { error: 'type must be "sick-note" or "script"' },
+        { error: 'type must be "sick-note", "script" or "blog"' },
         { status: 400 }
       )
     }
-    const type: 'sick-note' | 'script' = body.type
+    const type: 'sick-note' | 'script' | 'blog' = body.type
+
+    // Blog drafts have no questionnaire — draft straight from the topic.
+    if (type === 'blog') {
+      const topic = typeof body.topic === 'string' ? body.topic.trim() : ''
+      if (topic.length < 3) {
+        return NextResponse.json(
+          { error: 'topic is required when type is "blog"' },
+          { status: 400 }
+        )
+      }
+
+      const documentId = 'blog-' + randomUUID()
+      const patientPseudonym = sha256(topic)
+
+      try {
+        const draft = await draftBlogPost(topic, [])
+
+        try {
+          await db.insert(aiDraftLogs).values({
+            id: 'log_' + randomUUID(),
+            documentType: 'blog',
+            documentId,
+            patientPseudonym,
+            model: 'opencode/big-pickle',
+            status: 'ok',
+          })
+        } catch (logErr) {
+          console.error('[api/ai/draft] failed to persist ok log', logErr)
+        }
+
+        return NextResponse.json({ ok: true, draft })
+      } catch (err) {
+        console.error('[api/ai/draft]', err)
+
+        try {
+          await db.insert(aiDraftLogs).values({
+            id: 'log_' + randomUUID(),
+            documentType: 'blog',
+            documentId,
+            patientPseudonym,
+            model: 'opencode/big-pickle',
+            status: 'failed',
+          })
+        } catch (logErr) {
+          console.error('[api/ai/draft] failed to persist failed log', logErr)
+        }
+
+        return NextResponse.json(
+          { error: 'AI draft is unavailable right now — please write the post manually.' },
+          { status: 503 }
+        )
+      }
+    }
 
     let scriptRow: typeof scripts.$inferSelect | undefined
     let questionnaireId: string

@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Save, ArrowLeft, Check, AlertCircle, Eye, X } from 'lucide-react'
+import { Save, ArrowLeft, Check, AlertCircle, Eye, X, Loader2, Sparkles, Info } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import TiptapEditor from '@/components/editor/TiptapEditor'
@@ -39,10 +39,10 @@ export default function EditPostPage() {
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
   const [showPreview, setShowPreview] = useState(false)
-
-  useEffect(() => {
-    fetchPost()
-  }, [slug])
+  const [aiTopic, setAiTopic] = useState('')
+  const [drafting, setDrafting] = useState(false)
+  const [aiBanner, setAiBanner] = useState('')
+  const [aiNotice, setAiNotice] = useState('')
 
   const fetchPost = async () => {
     try {
@@ -66,6 +66,10 @@ export default function EditPostPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchPost()
+  }, [slug, fetchPost])
 
   const handleSave = async () => {
     setSaving(true)
@@ -101,6 +105,44 @@ export default function EditPostPage() {
       setError(err.message)
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleAiDraft() {
+    const topic = aiTopic.trim()
+    if (topic.length < 3) return
+    setDrafting(true)
+    setAiBanner('')
+    setAiNotice('')
+    try {
+      const res = await fetch('/api/ai/draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'blog', topic }),
+      })
+      if (!res.ok) {
+        setAiNotice('AI is unavailable right now — no problem, you can write the post as usual.')
+        return
+      }
+      const data = await res.json()
+      if (data.ok && data.draft) {
+        if (typeof data.draft.contentHtml === 'string' && data.draft.contentHtml.trim()) {
+          setContent(data.draft.contentHtml)
+        }
+        if (typeof data.draft.title === 'string' && data.draft.title.trim() && !title.trim()) {
+          setTitle(data.draft.title)
+        }
+        if (typeof data.draft.excerpt === 'string' && data.draft.excerpt.trim() && !excerpt.trim()) {
+          setExcerpt(data.draft.excerpt)
+        }
+        setAiBanner('AI draft ready — please review and edit before publishing.')
+      } else {
+        setAiNotice('AI is unavailable right now — no problem, you can write the post as usual.')
+      }
+    } catch {
+      setAiNotice('AI is unavailable right now — no problem, you can write the post as usual.')
+    } finally {
+      setDrafting(false)
     }
   }
 
@@ -263,6 +305,52 @@ export default function EditPostPage() {
                 rows={2}
                 className="w-full bg-white rounded-xl border border-warm-200 p-4 text-lg text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 resize-none"
               />
+            </div>
+
+            {/* AI draft */}
+            <div className="bg-white rounded-2xl border border-warm-200 p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles size={18} className="text-sage-500" />
+                <h3 className="font-display font-semibold text-warm-900">AI Draft</h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  placeholder="e.g. 5 tips for managing winter allergies"
+                  value={aiTopic}
+                  onChange={(e) => setAiTopic(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !drafting) handleAiDraft()
+                  }}
+                  className="flex-1 bg-warm-50 border border-warm-200 rounded-lg px-3 py-2 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
+                />
+                <button
+                  onClick={handleAiDraft}
+                  disabled={drafting || aiTopic.trim().length < 3}
+                  className="flex items-center gap-2 px-4 py-2 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                >
+                  {drafting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Drafting…
+                    </>
+                  ) : (
+                    <>Write draft for me</>
+                  )}
+                </button>
+              </div>
+              {aiBanner && (
+                <div className="flex items-center gap-3 bg-sage-50 border border-sage-200 rounded-2xl px-5 py-4 mt-4 text-sm text-sage-800">
+                  <Sparkles size={18} className="text-sage-600 shrink-0" />
+                  <span>{aiBanner}</span>
+                </div>
+              )}
+              {aiNotice && (
+                <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 mt-4 text-sm text-amber-800">
+                  <Info size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                  <span>{aiNotice}</span>
+                </div>
+              )}
             </div>
 
             <div>
