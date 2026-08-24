@@ -167,7 +167,7 @@ interface GatewayPart {
   text?: string
 }
 
-const GATEWAY_TIMEOUT_MS = 90000
+const GATEWAY_TIMEOUT_MS = 240000 // blog drafts measured 85s on free big-pickle; give headroom
 
 const DISABLED_TOOLS = {
   bash: false,

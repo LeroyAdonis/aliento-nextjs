@@ -1,4 +1,6 @@
 export const dynamic = 'force-dynamic'
+// Blog drafts on the shared free gateway can take 85s+ — needs > default (60s)
+export const maxDuration = 300
 
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
