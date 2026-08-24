@@ -91,16 +91,13 @@ export default async function HealthTopicsPostPage({ params }: Props) {
     post = null
   }
 
-  // Sanity returned a real post — render it.
-  if (post) return <BlogPostContent post={post} />
-
-  // No Sanity post yet — check fallbacks before giving up.
-  const fallback = fallbackPosts.find((p) => p.slug.current === slug) ?? null
-  if (!fallback) notFound()
+  // Resolve article: real Sanity post, or fallback post, or 404
+  const article =
+    post ?? fallbackPosts.find((p) => p.slug.current === slug) ?? null
+  if (!article) notFound()
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://alientomd.com'
-  const coverImageUrl = getCoverImageUrl(post ?? fallback, siteUrl)
-  const article = post ?? fallback
+  const coverImageUrl = getCoverImageUrl(article, siteUrl)
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
