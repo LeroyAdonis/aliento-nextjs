@@ -264,21 +264,72 @@ async function sendGatewayMessage(
 }
 
 /**
- * Full draft round-trip: session → pseudonymised message → token
- * restoration on the model's reply.
+ * Full draft round-trip: NIM first (fast, free), opencode gateway as
+ * automatic fallback. Pseudonymisation happens once, both paths restore.
  */
 async function runDraft(
   userMessage: string,
   system: string,
   knownPii?: KnownPatientPii,
 ): Promise<string> {
+  const pseudonymized = pseudonymizeText(userMessage, knownPii)
+
+  if (process.env.NVIDIA_API_KEY) {
+    try {
+      const nimText = await runDraftNim(pseudonymized.text, system)
+      return restoreTokens(nimText, pseudonymized.map)
+    } catch (err) {
+      console.warn('[ai-draft] NIM failed, falling back to opencode gateway:', (err as Error).message)
+    }
+  }
+
   const config = getGatewayConfig()
   const sessionId = await createSession(config)
-
-  const pseudonymized = pseudonymizeText(userMessage, knownPii)
   const rawModelText = await sendGatewayMessage(config, sessionId, system, pseudonymized.text)
 
   return restoreTokens(rawModelText, pseudonymized.map)
+}
+
+/**
+ * NVIDIA NIM free-tier chat (fast: ~10s vs 85s for big-pickle). Benchmarked
+ * 2026-08-24: openai/gpt-oss-20b → clean JSON object, warm voice, SA context.
+ * max_tokens 3000 — 2000 truncates a full blog draft mid-string.
+ */
+async function runDraftNim(userText: string, system: string): Promise<string> {
+  const model = process.env.AI_DRAFT_NIM_MODEL || 'openai/gpt-oss-20b'
+  const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.NVIDIA_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: userText },
+      ],
+      max_tokens: 3000,
+      temperature: 0.7,
+      response_format: { type: 'json_object' },
+    }),
+    signal: AbortSignal.timeout(120000),
+  })
+
+  if (!response.ok) {
+    throw new Error(`NIM gateway unavailable (${response.status})`)
+  }
+
+  const data = (await response.json()) as {
+    choices?: { message?: { content?: string } }[]
+  }
+  const text = data.choices?.[0]?.message?.content?.trim()
+
+  if (!text) {
+    throw new Error('NIM returned empty response')
+  }
+
+  return text
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
