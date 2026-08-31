@@ -3,7 +3,15 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || '')
+let resend: Resend | null = null
+
+// Lazy init — constructing at module scope throws at build time when the key is unset.
+function getResend(): Resend {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 interface SendPdfBody {
   to: string
@@ -35,7 +43,7 @@ export async function POST(req: Request) {
           .replace(/>/g, '&gt;')}</p>`
       : ''
 
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
       from: 'Aliento Health <notifications@alientomd.com>',
       to: [body.to],
       subject: body.subject || 'Prescription — Aliento Health',

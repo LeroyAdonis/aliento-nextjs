@@ -3,7 +3,15 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || '')
+let resend: Resend | null = null
+
+// Lazy init — constructing at module scope throws at build time when the key is unset.
+function getResend(): Resend {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 export async function GET(req: Request) {
   try {
@@ -14,7 +22,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Missing ?id=<resend message id>' }, { status: 400 })
     }
 
-    const { data, error } = await resend.emails.get(messageId)
+    const { data, error } = await getResend().emails.get(messageId)
 
     if (error) {
       return NextResponse.json({ error: 'Resend lookup failed', detail: error }, { status: 500 })

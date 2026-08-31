@@ -7,7 +7,15 @@ import { eq } from 'drizzle-orm'
 import { sendEmail } from '@/lib/email'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || '')
+let resend: Resend | null = null
+
+// Lazy init — constructing at module scope throws at build time when the key is unset.
+function getResend(): Resend {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 interface SendScriptBody {
   scriptId: string
@@ -52,7 +60,7 @@ export async function POST(req: Request) {
 
     const link = `https://alientomd.com/prescription/${script.id}`
 
-    const patientResult = await resend.emails.send({
+    const patientResult = await getResend().emails.send({
       from: 'Aliento Health <notifications@alientomd.com>',
       to: script.patientEmail,
       subject: `Your Prescription — ${script.patientName}`,

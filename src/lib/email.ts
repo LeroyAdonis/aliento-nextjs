@@ -1,6 +1,15 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || '')
+let resend: Resend | null = null
+
+// Lazy init — constructing Resend at module scope throws at build time when
+// RESEND_API_KEY is not set (Next.js collects page data during `next build`).
+function getResend(): Resend {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 type EmailPurpose = 'questionnaire' | 'contact' | 'notification' | 'booking'
 
@@ -24,7 +33,7 @@ export async function sendEmail(params: {
     return { success: false, reason: 'no_api_key' }
   }
 
-  const { data, error } = await resend.emails.send({
+  const { data, error } = await getResend().emails.send({
     from: FROM_ADDRESSES[params.purpose],
     to: RECIPIENT,
     subject: params.subject,
