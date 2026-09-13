@@ -11,9 +11,9 @@ import CharacterCount from '@tiptap/extension-character-count'
 import {
   Bold, Italic, Underline as UnderlineIcon, Strikethrough,
   Heading1, Heading2, Heading3, List, ListOrdered,
-  Quote, Undo, Redo, ImageIcon, LinkIcon, Minus, Type
+  Quote, Undo, Redo, ImageIcon, LinkIcon, Minus
 } from 'lucide-react'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 interface TiptapEditorProps {
   content: string
@@ -54,6 +54,9 @@ function ToolbarDivider() {
 
 export default function TiptapEditor({ content, onChange, placeholder }: TiptapEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  // Last value pushed into the editor, so we can tell an external change
+  // from an echo of our own onUpdate.
+  const lastApplied = useRef<string | null>(null)
 
   const editor = useEditor({
     extensions: [
@@ -87,6 +90,23 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
       },
     },
   })
+
+  // Tiptap only reads `content` when the editor mounts, so anything the parent
+  // swaps in later (an AI draft via "Save to Editor", or a post loading into the
+  // edit page) was silently dropped and the body stayed empty. Push external
+  // changes in explicitly, without re-emitting onUpdate (that would loop) and
+  // without touching the doc while the user is typing.
+  useEffect(() => {
+    if (!editor) return
+    const next = content || ''
+    if (next === lastApplied.current) return
+    if (next === editor.getHTML()) {
+      lastApplied.current = next
+      return
+    }
+    editor.commands.setContent(next, { emitUpdate: false })
+    lastApplied.current = next
+  }, [content, editor])
 
   const handleImageUpload = useCallback(async (file: File) => {
     if (!editor) return
