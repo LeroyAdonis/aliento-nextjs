@@ -254,14 +254,14 @@ export default function NewScriptPage() {
             <button
               type="button"
               onClick={() => router.push('/admin/scripts')}
-              className="px-5 py-2.5 text-sm font-medium text-warm-600 bg-white border border-warm-200 rounded-xl hover:bg-cream-50 transition-all"
+              className="px-5 py-3 sm:py-2.5 text-sm font-medium text-warm-600 bg-white border border-warm-200 rounded-xl hover:bg-cream-50 transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !form.patientName.trim() || !form.patientIdNumber.trim() || !form.patientCell.trim() || !form.patientAddress.trim()}
-              className="flex items-center gap-2 px-6 py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center gap-2 flex-1 sm:flex-none px-6 py-3 sm:py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

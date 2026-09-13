@@ -302,7 +302,7 @@ export default function ScriptDetailPage() {
     <div className="min-h-screen bg-cream-100">
       {/* Header */}
       <header className="bg-white border-b border-warm-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push('/admin/scripts')}
@@ -382,7 +382,7 @@ export default function ScriptDetailPage() {
 
         {/* Medication Table */}
         <section className="bg-white rounded-2xl border border-warm-200 p-6">
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
             <div className="flex items-center gap-2">
               <Pill size={18} className="text-sage-500" />
               <h2 className="font-display font-semibold text-warm-800 text-lg">Medications</h2>
@@ -429,7 +429,7 @@ export default function ScriptDetailPage() {
             </div>
           )}
 
-          <div className="overflow-x-auto">
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-warm-200">
@@ -510,6 +510,79 @@ export default function ScriptDetailPage() {
             </table>
           </div>
 
+          {/* Mobile: one card per medication (the 4-column table is unusable at 390px) */}
+          <div className="sm:hidden space-y-3">
+            {medications.map((med, index) => (
+              <div key={index} className="rounded-2xl border border-warm-200 bg-cream-50/70 p-3.5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-warm-500">
+                    Medication {index + 1}
+                  </span>
+                  <button
+                    onClick={() => removeRow(index)}
+                    disabled={medications.length <= 1}
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-warm-400 hover:text-red-500 hover:bg-red-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Remove medication"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-warm-600 mb-1">Medication name</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={med.name}
+                      onChange={e => updateMed(index, 'name', e.target.value)}
+                      placeholder="e.g. Amoxicillin"
+                      className={`w-full bg-white border border-warm-200 rounded-lg px-3 py-2.5 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all ${showAiChips ? 'pr-9' : ''}`}
+                    />
+                    {showAiChips && (
+                      <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-sage-100 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-sage-700">
+                        AI
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-warm-600 mb-1">Dosage</label>
+                  <input
+                    type="text"
+                    value={med.dosage}
+                    onChange={e => updateMed(index, 'dosage', e.target.value)}
+                    placeholder="e.g. 500mg — 1 tablet daily for 5 days"
+                    className="w-full bg-white border border-warm-200 rounded-lg px-3 py-2.5 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-warm-600 mb-1">Quantity</label>
+                    <input
+                      type="text"
+                      value={med.quantity}
+                      onChange={e => updateMed(index, 'quantity', e.target.value)}
+                      placeholder="e.g. 30"
+                      className="w-full bg-white border border-warm-200 rounded-lg px-3 py-2.5 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-warm-600 mb-1">Refills</label>
+                    <input
+                      type="text"
+                      value={med.refills}
+                      onChange={e => updateMed(index, 'refills', e.target.value)}
+                      placeholder="e.g. 2"
+                      className="w-full bg-white border border-warm-200 rounded-lg px-3 py-2.5 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <p className="text-xs text-warm-400 mt-3">
             Only rows with a medication name entered will be included on the PDF.
           </p>
@@ -540,8 +613,8 @@ export default function ScriptDetailPage() {
         )}
 
         {/* Actions */}
-        <div className="flex items-center justify-between gap-4 pt-2">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-3">
             {generatedUrl && (
               <>
                 <a
@@ -557,7 +630,7 @@ export default function ScriptDetailPage() {
                 <button
                   onClick={sendToPatient}
                   disabled={sending}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-blush-500 hover:bg-blush-600 disabled:bg-blush-300 text-white rounded-xl font-medium text-sm transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 bg-blush-500 hover:bg-blush-600 disabled:bg-blush-300 text-white rounded-xl font-medium text-sm transition-all"
                 >
                   {sending ? (
                     <><Loader2 size={16} className="animate-spin" /> Sending...</>
@@ -572,7 +645,7 @@ export default function ScriptDetailPage() {
           <button
             onClick={handleGenerate}
             disabled={generating || filledCount === 0}
-            className="flex items-center gap-2 px-6 py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {generating ? (
               <>

@@ -22,7 +22,7 @@ export default function AdminLayout({
     <div className="min-h-screen bg-white">
       {/* Admin Top Nav */}
       <header className="border-b border-warm-200 bg-white sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-14 flex-wrap gap-x-3">
           <div className="flex items-center gap-8">
             <Link href="/admin" className="font-bold text-warm-900 tracking-tight">
               Aliento <span className="text-blush-600">Admin</span>
@@ -46,6 +46,17 @@ export default function AdminLayout({
             ← Back to site
           </Link>
         </div>
+        <nav className="flex md:hidden items-center gap-4 overflow-x-auto w-full px-4 sm:px-6 lg:px-8 py-2.5 border-b border-warm-100 bg-white">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="shrink-0 text-sm font-medium text-warm-600 hover:text-blush-600 transition-colors py-2.5"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </header>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}

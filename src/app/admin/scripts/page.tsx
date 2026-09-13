@@ -201,7 +201,7 @@ export default function AdminScriptsPage() {
         {!loading && filteredAndSorted.length > 0 && (
           <div className="bg-white rounded-2xl border border-warm-200 overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[680px]">
                 <thead>
                   <tr className="border-b border-warm-200 bg-cream-50">
                     <th className="text-left px-5 py-3.5">
@@ -306,6 +306,9 @@ export default function AdminScriptsPage() {
                 </tbody>
               </table>
             </div>
+            <p className="sm:hidden px-5 py-2.5 text-xs text-warm-400 border-t border-warm-100">
+              Swipe the table sideways to see every column.
+            </p>
           </div>
         )}
       </main>
