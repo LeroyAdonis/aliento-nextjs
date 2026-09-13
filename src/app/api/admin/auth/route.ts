@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
-const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase())
+// filter(Boolean) matters: an unset/empty ADMIN_EMAILS used to parse to [''],
+// so length > 0 was always true and EVERY email was rejected with a 403 —
+// a hard lockout for all admins. Empty list now means "no email allow-list".
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '')
+  .split(',')
+  .map(e => e.trim().toLowerCase())
+  .filter(Boolean)
 const COOKIE_NAME = 'admin_session'
 const COOKIE_MAX_AGE = 60 * 60 * 8 // 8 hours
 

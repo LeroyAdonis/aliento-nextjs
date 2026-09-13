@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Lock, Mail, AlertCircle } from 'lucide-react'
 
@@ -8,13 +8,26 @@ export default function AdminLoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect') || '/admin/scripts'
-  const [email, setEmail] = useState('')
-  const [secret, setSecret] = useState('')
+  const emailRef = useRef<HTMLInputElement>(null)
+  const secretRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Read the values from the DOM instead of React state. Password managers and
+    // browser autofill fill these fields WITHOUT firing change events, so a
+    // state-driven `disabled` guard used to leave the button permanently dead
+    // ("nothing happens when I click Sign In"). The DOM value is always correct.
+    const email = (emailRef.current?.value || '').trim()
+    const secret = secretRef.current?.value || ''
+
+    if (!email || !secret) {
+      setError('Please enter both your email and the admin passcode.')
+      return
+    }
+
     setLoading(true)
     setError('')
 
@@ -51,13 +64,15 @@ export default function AdminLoginPage() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-warm-600 mb-1.5">Email</label>
+            <label htmlFor="admin-email" className="block text-sm font-medium text-warm-600 mb-1.5">Email</label>
             <div className="relative">
               <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
               <input
+                id="admin-email"
+                ref={emailRef}
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="username"
                 placeholder="you@email.com"
                 required
                 className="w-full bg-cream-50 border border-warm-200 rounded-xl pl-10 pr-4 py-3 text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
@@ -66,11 +81,13 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-warm-600 mb-1.5">Passcode</label>
+            <label htmlFor="admin-passcode" className="block text-sm font-medium text-warm-600 mb-1.5">Passcode</label>
             <input
+              id="admin-passcode"
+              ref={secretRef}
+              name="password"
               type="password"
-              value={secret}
-              onChange={(e) => setSecret(e.target.value)}
+              autoComplete="current-password"
               placeholder="Enter admin passcode..."
               required
               className="w-full bg-cream-50 border border-warm-200 rounded-xl px-4 py-3 text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
@@ -86,7 +103,7 @@ export default function AdminLoginPage() {
 
           <button
             type="submit"
-            disabled={loading || !secret || !email}
+            disabled={loading}
             className="w-full py-3.5 bg-warm-900 hover:bg-warm-800 text-white rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Signing in...' : 'Sign In'}
