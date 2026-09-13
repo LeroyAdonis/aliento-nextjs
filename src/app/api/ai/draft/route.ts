@@ -9,6 +9,7 @@ import { desc, eq } from 'drizzle-orm'
 import { createHash, randomUUID } from 'node:crypto'
 import { draftBlogPost, draftScript, draftSickNote, draftModelLabel } from '@/lib/ai-draft'
 import type { DraftMedication } from '@/lib/ai-draft'
+import { reportAiFailure } from '@/lib/ai-failure-report'
 
 interface AiDraftBody {
   type?: string
@@ -90,6 +91,13 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true, draft })
       } catch (err) {
         console.error('[api/ai/draft]', err)
+
+        await reportAiFailure({
+          feature: 'blog',
+          model: draftModelLabel(),
+          errorMessage: err instanceof Error ? err.message : String(err),
+          documentId,
+        })
 
         try {
           await db.insert(aiDraftLogs).values({
@@ -209,6 +217,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true, draft })
     } catch (err) {
       console.error('[api/ai/draft]', err)
+
+      await reportAiFailure({
+        feature: type,
+        model: draftModelLabel(),
+        errorMessage: err instanceof Error ? err.message : String(err),
+        documentId,
+      })
 
       try {
         await db.insert(aiDraftLogs).values({
