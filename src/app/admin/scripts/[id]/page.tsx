@@ -20,6 +20,7 @@ import {
   FileDown,
   Info,
   Sparkles,
+  Building2,
 } from 'lucide-react'
 import { format } from 'date-fns'
 
@@ -93,6 +94,12 @@ export default function ScriptDetailPage() {
   const [aiBanner, setAiBanner] = useState('')
   const [aiNotice, setAiNotice] = useState('')
   const [showAiChips, setShowAiChips] = useState(false)
+  const [showPharmacyPanel, setShowPharmacyPanel] = useState(false)
+  const [pharmacyEmail, setPharmacyEmail] = useState('')
+  const [ccDoctor, setCcDoctor] = useState(true)
+  const [sendingToPharmacy, setSendingToPharmacy] = useState(false)
+  const [pharmacyNotice, setPharmacyNotice] = useState('')
+  const [pharmacyError, setPharmacyError] = useState('')
 
   async function fetchScript() {
     setLoading(true)
@@ -210,6 +217,39 @@ export default function ScriptDetailPage() {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setSending(false)
+    }
+  }
+
+  async function sendToPharmacy() {
+    const email = pharmacyEmail.trim()
+    setPharmacyNotice('')
+    setPharmacyError('')
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setPharmacyError('Enter the pharmacy’s email address')
+      return
+    }
+
+    setSendingToPharmacy(true)
+    try {
+      const res = await fetch('/api/scripts/send-pharmacy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scriptId: id, pharmacyEmail: email, ccDoctor }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        console.error('[send-pharmacy]', data)
+        throw new Error(data.error || 'Could not send the script. Please try again.')
+      }
+      setPharmacyNotice(`Script sent to ${email}`)
+    } catch (err) {
+      console.error('[send-pharmacy]', err)
+      setPharmacyError(
+        err instanceof Error ? err.message : 'Could not send the script. Please try again.'
+      )
+    } finally {
+      setSendingToPharmacy(false)
     }
   }
 
@@ -612,6 +652,82 @@ export default function ScriptDetailPage() {
           </div>
         )}
 
+        {/* Send to pharmacy */}
+        {showPharmacyPanel && (
+          <section className="bg-white rounded-2xl border border-sage-200 p-5 sm:p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Building2 size={18} className="text-sage-600" />
+              <h2 className="font-display font-semibold text-warm-800 text-lg">Send to Pharmacy</h2>
+            </div>
+
+            <div>
+              <label htmlFor="pharmacy-email" className="block text-sm font-medium text-warm-600 mb-1.5">
+                Pharmacy email address
+              </label>
+              <input
+                id="pharmacy-email"
+                type="email"
+                value={pharmacyEmail}
+                onChange={e => {
+                  setPharmacyEmail(e.target.value)
+                  setPharmacyNotice('')
+                  setPharmacyError('')
+                }}
+                placeholder="pharmacy@example.com"
+                className="w-full bg-cream-50 border border-warm-200 rounded-xl px-4 py-3 text-sm text-warm-700 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-200 focus:border-sage-400 transition-all"
+              />
+            </div>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={ccDoctor}
+                onChange={e => setCcDoctor(e.target.checked)}
+                className="w-5 h-5 rounded border border-warm-300 accent-sage-600"
+              />
+              <span className="text-sm text-warm-700">Also send a copy to Dr Adonis</span>
+            </label>
+
+            {pharmacyNotice && (
+              <div className="flex items-center gap-2 bg-sage-50 border border-sage-200 rounded-xl px-4 py-3 text-sm text-sage-800">
+                <CheckCircle2 size={16} className="text-sage-600 shrink-0" />
+                <span>{pharmacyNotice}</span>
+              </div>
+            )}
+
+            {pharmacyError && (
+              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
+                {pharmacyError}
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <button
+                onClick={sendToPharmacy}
+                disabled={sendingToPharmacy}
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-3 bg-sage-600 hover:bg-sage-700 disabled:bg-sage-300 text-white rounded-xl font-medium text-sm transition-all"
+              >
+                {sendingToPharmacy ? (
+                  <><Loader2 size={16} className="animate-spin" /> Sending...</>
+                ) : (
+                  <><Send size={16} /> Send script</>
+                )}
+              </button>
+              <button
+                onClick={() => {
+                  setShowPharmacyPanel(false)
+                  setPharmacyEmail('')
+                  setPharmacyNotice('')
+                  setPharmacyError('')
+                }}
+                className="inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 border border-warm-200 text-warm-600 rounded-xl font-medium text-sm hover:bg-cream-50 transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </section>
+        )}
+
         {/* Actions */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <div className="flex flex-wrap items-center gap-3">
@@ -637,6 +753,16 @@ export default function ScriptDetailPage() {
                   ) : (
                     <><Send size={16} /> Send to Patient</>
                   )}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPharmacyPanel(v => !v)
+                    setPharmacyNotice('')
+                    setPharmacyError('')
+                  }}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 bg-white border border-sage-300 text-sage-700 hover:bg-sage-50 rounded-xl font-medium text-sm transition-all"
+                >
+                  <Building2 size={16} /> Send to Pharmacy
                 </button>
               </>
             )}
