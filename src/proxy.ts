@@ -4,7 +4,15 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
 const COOKIE_NAME = 'admin_session'
 
 const isAuthenticated = (request: NextRequest): boolean => {
-  if (!ADMIN_SECRET) return true
+  if (!ADMIN_SECRET) {
+    // Fail CLOSED in production: a missing ADMIN_SECRET used to return true here and make
+    // every /admin route public. The open path is kept for local/dev convenience only.
+    if (process.env.NODE_ENV === 'production') {
+      console.error('[proxy] ADMIN_SECRET is not set — denying /admin access')
+      return false
+    }
+    return true
+  }
   const cookie = request.cookies.get(COOKIE_NAME)
   return cookie?.value === ADMIN_SECRET
 }

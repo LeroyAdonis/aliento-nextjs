@@ -15,15 +15,33 @@ export async function POST(request: NextRequest) {
   try {
     const { secret, email } = await request.json()
 
+    // The secret check runs first so a wrong passcode never reveals allow-list information.
     if (!ADMIN_SECRET || secret !== ADMIN_SECRET) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    if (email && ADMIN_EMAILS.length > 0) {
-      const normalized = email.toLowerCase().trim()
-      if (!ADMIN_EMAILS.includes(normalized)) {
-        return NextResponse.json({ error: 'Email not authorised for admin access' }, { status: 403 })
-      }
+    // An email is REQUIRED. Without this, a POST of {secret} alone skipped the allow-list
+    // entirely and still issued a valid admin cookie.
+    const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : ''
+    if (!normalizedEmail) {
+      return NextResponse.json(
+        { error: 'Email is required for admin access' },
+        { status: 400 }
+      )
+    }
+
+    // Fail closed: an empty allow-list means the deployment is misconfigured, not that
+    // every email is welcome.
+    if (ADMIN_EMAILS.length === 0) {
+      console.error('[admin/auth] ADMIN_EMAILS is empty — refusing all admin logins')
+      return NextResponse.json(
+        { error: 'Admin allow-list not configured' },
+        { status: 500 }
+      )
+    }
+
+    if (!ADMIN_EMAILS.includes(normalizedEmail)) {
+      return NextResponse.json({ error: 'Email not authorised for admin access' }, { status: 403 })
     }
 
     const response = NextResponse.json({ success: true, email })
