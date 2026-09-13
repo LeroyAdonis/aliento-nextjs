@@ -13,7 +13,7 @@ import {
   Heading1, Heading2, Heading3, List, ListOrdered,
   Quote, Undo, Redo, ImageIcon, LinkIcon, Minus
 } from 'lucide-react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useReducer, useRef } from 'react'
 
 interface TiptapEditorProps {
   content: string
@@ -57,6 +57,10 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
   // Last value pushed into the editor, so we can tell an external change
   // from an echo of our own onUpdate.
   const lastApplied = useRef<string | null>(null)
+  // setContent with emitUpdate:false fires no update event, so nothing would
+  // re-render and the word/character counter below would stay at 0 while the
+  // editor visibly held the whole article. Bump this to refresh the counts.
+  const [, refreshCounts] = useReducer((n: number) => n + 1, 0)
 
   const editor = useEditor({
     extensions: [
@@ -106,6 +110,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
     }
     editor.commands.setContent(next, { emitUpdate: false })
     lastApplied.current = next
+    refreshCounts()
   }, [content, editor])
 
   const handleImageUpload = useCallback(async (file: File) => {
