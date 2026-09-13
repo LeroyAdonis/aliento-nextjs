@@ -16,7 +16,7 @@ const streams = [
     title: 'Virtual Consult',
     description:
       'Talk face-to-face with a healthcare professional from the comfort of your home.',
-    price: 'R250 – R500',
+    price: 'R700',
     href: '/consult',
     cardBg: 'bg-sage-50/70',
     cardBorder: 'border-sage-200',
@@ -28,10 +28,10 @@ const streams = [
   },
   {
     icon: Pill,
-    title: 'Get a Prescription',
+    title: 'Request a Prescription',
     description:
-      'Quick, online prescription renewals and new scripts for common conditions.',
-    price: 'R250',
+      'A medical doctor will review your request and get in touch with you.',
+    price: 'R500',
     href: '/prescription',
     cardBg: 'bg-blush-50/70',
     cardBorder: 'border-blush-200',
@@ -46,7 +46,7 @@ const streams = [
     title: 'Sick Leave Assessment',
     description:
       'Get a valid medical certificate and return-to-work guidance — no clinic queues.',
-    price: 'R250',
+    price: 'R500',
     href: '/sick-note',
     cardBg: 'bg-cream-50/70',
     cardBorder: 'border-cream-300',

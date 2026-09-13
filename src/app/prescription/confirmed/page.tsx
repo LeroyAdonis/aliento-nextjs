@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { CheckCircle2, ArrowRight, FileText } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Prescription Refill — Payment Confirmed',
-  description: 'Your prescription refill payment has been confirmed.',
+  title: 'Prescription — Request Under Review',
+  description: 'Your prescription request is currently being reviewed by a medical doctor.',
 }
 
 export default function PrescriptionConfirmedPage() {
@@ -18,16 +18,15 @@ export default function PrescriptionConfirmedPage() {
         </div>
 
         <h1 className="text-3xl lg:text-4xl font-display font-semibold text-warm-900 mb-4">
-          Payment Confirmed!
+          Your request is currently being reviewed
         </h1>
 
         <p className="text-lg text-warm-500 leading-relaxed mb-3">
-          Your prescription refill request has been received by{' '}
+          Your prescription request has been received by{' '}
           <span className="font-semibold text-warm-700">Dr. Leegale Adonis</span>.
         </p>
         <p className="text-warm-400 text-sm mb-10">
-          A confirmation has been sent to your email. Your prescription will be reviewed
-          and issued shortly. If submitted before 14:00, expect same-day service.
+          A medical doctor will review your request and get in touch with you. A confirmation has been sent to your email. Your prescription will be emailed once issued.
         </p>
 
         {/* Next Steps */}
@@ -36,10 +35,10 @@ export default function PrescriptionConfirmedPage() {
             <FileText size={16} className="text-blush-600" /> Next Steps
           </h3>
           <ol className="text-sm text-warm-600 space-y-2 list-decimal list-inside">
-            <li>Check your email for payment confirmation</li>
-            <li>Your prescription will be reviewed by Dr. Adonis</li>
-            <li>Electronic prescription sent to your inbox as a PDF</li>
-            <li>Take the PDF to your pharmacy of choice</li>
+            <li>We have received your prescription request</li>
+            <li>A medical doctor reviews your request</li>
+            <li>The doctor gets in touch with you</li>
+            <li>Your prescription is emailed once issued</li>
           </ol>
         </div>
 

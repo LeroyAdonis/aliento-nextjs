@@ -4,16 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Loader2, CreditCard, FileText } from 'lucide-react'
 import { useLocalStorageState } from '@/lib/form-persistence'
-
-const options = [
-  { id: 'consult-20', label: '20 minutes', price: 'R250' },
-  { id: 'consult-35', label: '35 minutes', price: 'R500' },
-] as const
-
-type PackageId = (typeof options)[number]['id']
+import { getDisplayPrice } from '@/lib/pricing'
 
 export function ConsultBookingPanel() {
-  const [selectedPackage, setSelectedPackage] = useLocalStorageState<PackageId>('consult-package-v1', 'consult-20')
   const [name, setName, clearName] = useLocalStorageState<string>('consult-name-v1', '')
   const [email, setEmail, clearEmail] = useLocalStorageState<string>('consult-email-v1', '')
   const [loading, setLoading] = useState(false)
@@ -46,7 +39,7 @@ export function ConsultBookingPanel() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          packageId: selectedPackage,
+          packageId: 'consult',
           buyerName: name,
           buyerEmail: email,
           successPath: '/consult/book',
@@ -83,25 +76,12 @@ export function ConsultBookingPanel() {
 
   return (
     <div className="rounded-3xl border border-warm-200 bg-white p-6 lg:p-8 shadow-sm">
-      <h3 className="text-2xl font-display font-semibold text-warm-900 mb-3">Choose consultation duration</h3>
-      <p className="text-sm text-warm-500 mb-6">Pay securely with PayFast first. Booking unlocks instantly after successful payment confirmation.</p>
+      <h3 className="text-2xl font-display font-semibold text-warm-900 mb-3">Book your consultation</h3>
+      <p className="text-sm text-warm-500 mb-6">Payment is required first, then your booking calendar unlocks below.</p>
 
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            onClick={() => setSelectedPackage(option.id)}
-            className={`rounded-2xl border px-4 py-4 text-left transition ${
-              selectedPackage === option.id
-                ? 'border-sage-400 bg-sage-50'
-                : 'border-warm-200 hover:border-warm-300'
-            }`}
-          >
-            <div className="text-sm text-warm-500">{option.label}</div>
-            <div className="text-lg font-display font-semibold text-warm-900">{option.price}</div>
-          </button>
-        ))}
+      <div className="rounded-2xl border border-sage-200 bg-sage-50 p-5 mb-6">
+        <div className="text-sm text-warm-500">Medical Consultation — {getDisplayPrice('consult')} — 35 minutes</div>
+        <div className="text-lg font-display font-semibold text-warm-900">{getDisplayPrice('consult')}</div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 mb-4">

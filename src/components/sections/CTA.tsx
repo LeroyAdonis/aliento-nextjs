@@ -6,7 +6,7 @@ import { ArrowRight, Video, Clock, Shield } from 'lucide-react'
 
 const highlights = [
   { icon: Video,  label: 'Zoom & Teams',   detail: 'Your preferred platform' },
-  { icon: Clock,  label: 'R500 / hour',    detail: '30 min or 1-hour sessions' },
+  { icon: Clock,  label: 'R700 / consult',  detail: '35-minute virtual consultation' },
   { icon: Shield, label: 'Visual consults', detail: 'Show rashes, lumps, swelling' },
 ]
 

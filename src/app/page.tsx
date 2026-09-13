@@ -66,7 +66,7 @@ export default async function Home() {
         email: 'info@alientomd.com',
         logo: 'https://alientomd.com/logo-icon.svg',
         areaServed: 'ZA',
-        priceRange: 'R250',
+        priceRange: 'R500–R700',
       },
       {
         '@type': 'Physician',

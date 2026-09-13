@@ -4,6 +4,7 @@ import { createPaymentGateRecord } from '@/lib/payment-gate'
 import { db } from '@/db'
 import { questionnaires } from '@/db/schema'
 import { sql } from 'drizzle-orm'
+import { SERVICE_PACKAGES } from '@/lib/pricing'
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,6 +34,14 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Validate package exists
+    if (!SERVICE_PACKAGES.some((p) => p.id === packageId)) {
+      return NextResponse.json(
+        { error: 'Our price list has just been updated. Please refresh the page and try again.' },
+        { status: 400 }
+      )
+    }
+
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     const paymentId = `${packageId}-${Date.now()}`
 
@@ -49,7 +58,7 @@ export async function POST(req: NextRequest) {
     const successUrl = new URL(successBase, origin)
     successUrl.searchParams.set('payment', 'success')
     successUrl.searchParams.set('paymentId', paymentId)
-    successUrl.searchParams.set('duration', packageId === 'consult-35' ? '35' : '20')
+    successUrl.searchParams.set('duration', '35')
 
     const formData = buildPayfastFormData({
       packageId,

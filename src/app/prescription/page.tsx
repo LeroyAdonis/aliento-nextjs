@@ -4,34 +4,34 @@ import { FileText, ArrowRight, Shield, Clock, CreditCard, CheckCircle2 } from 'l
 import FaqAccordion from '@/components/sections/FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Repeat Prescription Online South Africa',
+  title: 'Request a Prescription — Aliento',
   description:
-    'Request a medication script refill online. R250 — doctor reviews and issues your repeat script within 24 hours.',
+    'Request a Prescription — a medical doctor will review your request and get in touch with you. R500.',
   alternates: { canonical: 'https://alientomd.com/prescription' },
 }
 
 const steps = [
   {
     step: '01',
-    title: 'Complete the form',
-    body: 'Tell us about your prescription needs and provide your personal details.',
+    title: 'Request your prescription',
+    body: 'Complete the short form with your medication details and personal information.',
   },
   {
     step: '02',
-    title: 'Secure payment',
-    body: 'Pay R250 via Payfast. Your transaction is encrypted and safe.',
+    title: 'Doctor review',
+    body: 'A medical doctor reviews your request and assesses your prescription needs.',
   },
   {
     step: '03',
-    title: 'Receive your script',
-    body: 'Once reviewed, your prescription refill will be sent to your email.',
+    title: 'We get in touch',
+    body: 'The doctor contacts you with your prescription. Your script is emailed once issued.',
   },
 ]
 
 const included = [
   { icon: Shield, label: 'Doctor-reviewed', detail: 'Each request reviewed by a qualified GP' },
-  { icon: Clock, label: 'Fast turnaround', detail: 'Same-day service for requests before 14:00' },
-  { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 flat fee, no hidden costs' },
+  { icon: Clock, label: 'Fast turnaround', detail: 'Reviewed within 24 hours where possible' },
+  { icon: CreditCard, label: 'Transparent pricing', detail: 'R500 per request, no hidden costs' },
   { icon: CheckCircle2, label: 'Electronic delivery', detail: 'PDF sent securely to your inbox' },
 ]
 
@@ -43,7 +43,7 @@ const faqItems = [
   },
   {
     question: 'How much does an online prescription cost?',
-    answer: 'R250 per prescription review at Aliento. No hidden fees.',
+    answer: 'R500 per prescription request at Aliento. No hidden fees.',
   },
   {
     question: 'Which medications can be prescribed online?',
@@ -53,7 +53,7 @@ const faqItems = [
   {
     question: 'How long does the doctor take to review?',
     answer:
-      'Prescriptions are reviewed and issued within 24 hours of your questionnaire being submitted.',
+      'Prescriptions are reviewed and the doctor gets in touch within 24 hours of your questionnaire being submitted.',
   },
   {
     question: 'How do I get my medication?',
@@ -89,16 +89,15 @@ export default function PrescriptionPage() {
               <div className="w-8 h-px bg-blush-400" />
             </div>
             <h1 className="text-4xl lg:text-5xl font-display font-semibold text-warm-900 mb-6 leading-tight">
-              Get a Prescription Refill, <span className="italic text-blush-700">hassle-free.</span>
+              Request a Prescription, <span className="italic text-blush-700">a doctor will be in touch.</span>
             </h1>
             <p className="text-lg text-warm-500 max-w-2xl leading-relaxed mb-6">
-              Need a repeat prescription? Submit your request online, pay securely, and receive
-              your electronic prescription via email — no waiting room required.
+              Request a Prescription — a medical doctor will review your request and get in touch with you.
             </p>
             <ul className="text-sm text-warm-600 space-y-2 mb-8">
-              <li>• R250 — flat fee</li>
-              <li>• Doctor-reviewed within hours</li>
-              <li>• Secure PDF delivery</li>
+              <li>• R500 — per request</li>
+              <li>• Reviewed by a medical doctor</li>
+              <li>• Electronic delivery by email</li>
             </ul>
 
             {/* CTA */}

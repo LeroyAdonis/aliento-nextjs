@@ -114,7 +114,7 @@ function ReviewStep() {
       </div>
 
       <p className="text-xs text-warm-400 text-center">
-        Total: <strong className="text-warm-800">R250</strong> — Rendered securely via Payfast.
+        Total: <strong className="text-warm-800">R500</strong> — Rendered securely via Payfast.
       </p>
     </div>
   )
@@ -155,7 +155,7 @@ export default function SickNoteQuestionnairePage() {
           <div className="w-8 h-px bg-warm-300" />
         </div>
         <h1 className="text-3xl font-display font-semibold text-warm-900">Sick Leave Assessment</h1>
-        <p className="text-warm-500 text-sm mt-2">Complete the assessment to request your sick note. R250.</p>
+        <p className="text-warm-500 text-sm mt-2">Complete the assessment to request your sick note. R500.</p>
       </div>
       <StreamWizard
         steps={steps}

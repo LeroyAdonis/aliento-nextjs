@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { CheckCircle2, ArrowRight, ClipboardList } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Sick Leave Assessment — Payment Confirmed',
-  description: 'Your sick leave assessment payment has been confirmed.',
+  title: 'Sick Note — Request Under Review',
+  description: 'Your sick note request is currently being reviewed by a medical doctor.',
 }
 
 export default function SickNoteConfirmedPage() {
@@ -18,16 +18,15 @@ export default function SickNoteConfirmedPage() {
         </div>
 
         <h1 className="text-3xl lg:text-4xl font-display font-semibold text-warm-900 mb-4">
-          Payment Confirmed!
+          Your request is currently being reviewed
         </h1>
 
         <p className="text-lg text-warm-500 leading-relaxed mb-3">
-          Your sick leave assessment request has been received by{' '}
+          Your sick note assessment request has been received by{' '}
           <span className="font-semibold text-warm-700">Dr. Leegale Adonis</span>.
         </p>
         <p className="text-warm-400 text-sm mb-10">
-          A confirmation has been sent to your email. A doctor will assess your symptoms
-          and issue your sick note certificate shortly.
+          A medical doctor will review your request and get in touch with you. Your certificate will be emailed once issued.
         </p>
 
         {/* Next Steps */}
@@ -36,10 +35,10 @@ export default function SickNoteConfirmedPage() {
             <ClipboardList size={16} className="text-warm-500" /> Next Steps
           </h3>
           <ol className="text-sm text-warm-600 space-y-2 list-decimal list-inside">
-            <li>Check your email for payment confirmation</li>
-            <li>Your symptoms will be assessed by Dr. Adonis</li>
-            <li>Sick leave certificate sent to your inbox as a PDF</li>
-            <li>Forward the certificate to your employer as needed</li>
+            <li>We have received your sick note request</li>
+            <li>A medical doctor reviews your assessment</li>
+            <li>The doctor gets in touch with you</li>
+            <li>Your certificate is emailed once issued</li>
           </ol>
         </div>
 

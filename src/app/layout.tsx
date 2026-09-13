@@ -6,11 +6,11 @@ import { headers } from 'next/headers'
 export const metadata: Metadata = {
   metadataBase: new URL('https://alientomd.com'),
   title: {
-    default: 'Online Doctor South Africa — R250 Virtual GP Consultations | Aliento',
+    default: 'Online Doctor South Africa — R700 Virtual Consultations | Aliento',
     template: '%s | Aliento',
   },
   description:
-    'Consult a registered South African doctor online for R250. Sick notes, repeat prescriptions and second opinions reviewed by Dr Leegale Adonis within 24 hours.',
+    'Consult a registered South African doctor online for R700. Sick notes and prescription requests R500, second opinions R250 — all reviewed by Dr Leegale Adonis within 24 hours.',
   keywords: [
     'health promotion', 'health education', 'virtual consultation',
     'South Africa', 'preventive care', 'wellness', 'medical advice',

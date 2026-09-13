@@ -2,22 +2,15 @@
 
 import { useState } from 'react'
 import { ArrowRight, CreditCard, Clock, Loader2 } from 'lucide-react'
+import { getDisplayPrice } from '@/lib/pricing'
 
 const packages = [
   {
-    id: 'consult-20',
-    name: '20-Minute Consultation',
-    price: 'R250',
-    duration: '20 min',
-    description: 'Focused virtual consultation via Zoom or Teams',
-  },
-  {
-    id: 'consult-35',
-    name: '35-Minute Consultation',
-    price: 'R500',
+    id: 'consult',
+    name: 'Medical Consultation',
+    price: getDisplayPrice('consult'),
     duration: '35 min',
-    description: 'Extended virtual consultation for complex assessments',
-    popular: true,
+    description: '35-minute virtual consultation with Dr Leegale Adonis via Zoom or Teams',
   },
 ]
 
@@ -90,11 +83,6 @@ export function PayfastButton() {
                 : 'border-warm-200 bg-white hover:border-warm-300 hover:shadow-sm'
             }`}
           >
-            {pkg.popular && (
-              <span className="absolute -top-3 right-4 px-3 py-1 bg-primary-500 text-white text-xs font-medium rounded-full">
-                Popular
-              </span>
-            )}
             <div className="flex items-center gap-2 text-warm-400 text-sm mb-2">
               <Clock size={14} />
               {pkg.duration}

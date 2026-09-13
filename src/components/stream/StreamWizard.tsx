@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Loader2, CreditCard } from 'lucide-react'
 import Link from 'next/link'
 import { z } from 'zod'
+import { getDisplayPrice } from '@/lib/pricing'
 
 // ─── Shared step schemas ─────────────────────────────────────────────────────
 
@@ -22,7 +23,7 @@ export type PersonalInfo = z.infer<typeof personalInfoSchema>
 
 export interface StepDef {
   title: string
-  schema: z.ZodObject<any>
+  schema: z.ZodObject<z.ZodRawShape>
   Component: React.FC
 }
 
@@ -130,15 +131,17 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
   const [direction, setDirection] = useState(1)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
 
   const colors = accentMap[accentColor]
 
-  const combinedSchema = steps.reduce((acc, s) => acc.merge(s.schema), z.object({}) as z.ZodObject<any>)
+  const combinedSchema = steps.reduce((acc, s) => acc.merge(s.schema), z.object({}) as z.ZodObject<z.ZodRawShape>)
+  
   type Combined = z.infer<typeof combinedSchema>
 
   const methods = useForm<Combined>({
     mode: 'onTouched',
-    defaultValues: { aiConsent: true } as any,
+    defaultValues: { aiConsent: true } as Partial<Combined>,
   })
 
   const isLast = currentStep === steps.length - 1
@@ -153,7 +156,7 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
     const zodErrors = result.error.flatten().fieldErrors
     for (const [field, msgs] of Object.entries(zodErrors)) {
       if (msgs && msgs.length > 0) {
-        methods.setError(field as any, { message: msgs[0] })
+        methods.setError(field as keyof Combined, { message: msgs[0] })
       }
     }
     return false
@@ -179,9 +182,10 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
 
     setSubmitting(true)
     setSubmitError(null)
+    setPaymentError(null)
 
     try {
-      const allValues = methods.getValues() as unknown as Record<string, unknown>
+      const allValues = methods.getValues()
 
       // Submit the questionnaire (incl. AI consent) before initiating payment
       const questionnaireRes = await fetch('/api/stream-questionnaire', {
@@ -202,39 +206,47 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
         throw new Error(questionnaireResult.error || 'Questionnaire submission failed')
       }
 
-      const res = await fetch('/api/payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          packageId,
-          buyerEmail: allValues.email,
-          buyerName: `${allValues.firstName} ${allValues.lastName}`,
-          successPath,
-          cancelPath,
-        }),
-      })
+      // Payment step (separate concern)
+      try {
+        const res = await fetch('/api/payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            packageId,
+            buyerEmail: allValues.email,
+            buyerName: `${allValues.firstName} ${allValues.lastName}`,
+            successPath,
+            cancelPath,
+          }),
+        })
 
-      const result = await res.json()
+        const result = await res.json()
 
-      if (!res.ok) {
-        throw new Error(result.error || 'Payment initiation failed')
+        if (!res.ok) {
+          throw new Error(result.error || 'Payment initiation failed')
+        }
+
+        // Submit Payfast form
+        const form = document.createElement('form')
+        form.method = 'POST'
+        form.action = result.url
+        Object.entries(result.data).forEach(([key, value]) => {
+          const input = document.createElement('input')
+          input.type = 'hidden'
+          input.name = key
+          input.value = value as string
+          form.appendChild(input)
+        })
+        document.body.appendChild(form)
+        form.submit()
+      } catch (paymentErr) {
+        console.error('Payment error:', paymentErr)
+        setPaymentError('payment-failed')
       }
-
-      // Submit Payfast form
-      const form = document.createElement('form')
-      form.method = 'POST'
-      form.action = result.url
-      Object.entries(result.data).forEach(([key, value]) => {
-        const input = document.createElement('input')
-        input.type = 'hidden'
-        input.name = key
-        input.value = value as string
-        form.appendChild(input)
-      })
-      document.body.appendChild(form)
-      form.submit()
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      setSubmitError(err instanceof Error ? err.message : 'We could not submit your request. Please check your details and try again.')
+      setSubmitting(false)
+    } finally {
       setSubmitting(false)
     }
   }
@@ -294,7 +306,15 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
         {/* Submit error */}
         {submitError && (
           <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {submitError}
+            We could not submit your request. Please check your details and try again.
+          </div>
+        )}
+
+        {/* Payment failed — neutral reassuring notice */}
+        {paymentError === 'payment-failed' && (
+          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            <p className="font-semibold">Your request is currently being reviewed</p>
+            <p>A medical doctor will review your request and get in touch with you. A confirmation has been sent to your email.</p>
           </div>
         )}
 
@@ -318,7 +338,7 @@ export function StreamWizard({ steps, packageId, successPath, cancelPath, accent
             >
               {submitting
                 ? <><Loader2 size={16} className="animate-spin" /> Processing...</>
-                : <><CreditCard size={16} /> Pay & Submit — R250</>
+                : <><CreditCard size={16} /> Pay & Submit — {getDisplayPrice(packageId)}</>
               }
             </button>
           ) : (

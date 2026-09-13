@@ -5,8 +5,8 @@ import FaqAccordion from '@/components/sections/FaqAccordion'
 
 export const metadata: Metadata = {
   title: 'Sick Note Online South Africa',
-  description:
-    'Request a sick leave assessment online. R250 — doctor evaluates and provides a medical certificate recommendation within 24 hours.',
+    description:
+    'Request a sick leave assessment online. R500 — doctor evaluates and provides a medical certificate recommendation within 24 hours.',
   alternates: { canonical: 'https://alientomd.com/sick-note' },
 }
 
@@ -19,7 +19,7 @@ const steps = [
   {
     step: '02',
     title: 'Secure payment',
-    body: 'Pay R250 via Payfast. Your transaction is encrypted and safe.',
+    body: 'Pay R500 via Payfast. Your transaction is encrypted and safe.',
   },
   {
     step: '03',
@@ -31,7 +31,7 @@ const steps = [
 const included = [
   { icon: ClipboardList, label: 'Medical assessment', detail: 'Qualified GP reviews your symptoms' },
   { icon: Clock, label: 'Quick turnaround', detail: 'Certificate issued within hours' },
-  { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 flat fee, no hidden costs' },
+  { icon: CreditCard, label: 'Transparent pricing', detail: 'R500 flat fee, no hidden costs' },
   { icon: CheckCircle2, label: 'Digital delivery', detail: 'PDF certificate sent to your inbox' },
 ]
 
@@ -43,7 +43,7 @@ const faqItems = [
   },
   {
     question: 'How much does an online sick note cost?',
-    answer: 'R250 per sick leave assessment at Aliento. There are no hidden fees.',
+    answer: 'R500 per sick leave assessment at Aliento. There are no hidden fees.',
   },
   {
     question: 'Will my employer accept an online medical certificate?',
@@ -96,7 +96,7 @@ export default function SickNotePage() {
               doctor will assess your symptoms and issue your sick note — no clinic visit needed.
             </p>
             <ul className="text-sm text-warm-600 space-y-2 mb-8">
-              <li>• R250 — flat fee</li>
+              <li>• R500 — flat fee</li>
               <li>• Doctor-assessed certificate</li>
               <li>• Email delivery within hours</li>
             </ul>

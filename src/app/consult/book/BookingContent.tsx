@@ -17,14 +17,13 @@ export function BookingContent() {
   const [status, setStatus] = useState<PaymentStatus>('pending')
 
   const eventSlug = useMemo(() => {
-    const duration = searchParams.get('duration') === '35' ? '35' : '20'
-    return duration === '35'
-      ? process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_35 || ''
-      : process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_20 || ''
-  }, [searchParams])
+    return process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_35 || process.env.NEXT_PUBLIC_CALCOM_EVENT_SLUG_20 || ''
+  }, [])
 
   useEffect(() => {
     if (!paymentId) {
+       
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatus(() => 'failed')
       return
     }

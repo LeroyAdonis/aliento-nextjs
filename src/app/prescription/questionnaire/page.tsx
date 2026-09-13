@@ -109,9 +109,9 @@ function ReviewStep() {
         )}
       </div>
 
-      <p className="text-xs text-warm-400 text-center">
-        Total: <strong className="text-warm-800">R250</strong> — Rendered securely via Payfast.
-      </p>
+        <p className="text-xs text-warm-400 text-center">
+          Total: <strong className="text-warm-800">R500</strong> — Rendered securely via Payfast.
+        </p>
     </div>
   )
 }
@@ -150,8 +150,8 @@ export default function PrescriptionQuestionnairePage() {
           <span className="text-xs font-body font-semibold tracking-[0.2em] uppercase text-blush-500">Prescription refill</span>
           <div className="w-8 h-px bg-blush-400" />
         </div>
-        <h1 className="text-3xl font-display font-semibold text-warm-900">Request a Prescription Refill</h1>
-        <p className="text-warm-500 text-sm mt-2">Complete the steps below to request your refill. R250.</p>
+        <h1 className="text-3xl font-display font-semibold text-warm-900">Request a Prescription</h1>
+        <p className="text-warm-500 text-sm mt-2">Complete the steps below to request your prescription. A medical doctor will review your request and get in touch with you. R500.</p>
       </div>
       <StreamWizard
         steps={steps}

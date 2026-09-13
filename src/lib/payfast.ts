@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { SERVICE_PACKAGES } from './pricing'
 
 // ── Payfast Config ──
 export const PAYFAST_CONFIG = {
@@ -13,22 +14,7 @@ export const PAYFAST_URL = PAYFAST_CONFIG.sandboxMode
   : 'https://www.payfast.co.za/eng/process'
 
 // ── Consultation Packages ──
-export const CONSULTATION_PACKAGES = [
-  {
-    id: 'consult-20',
-    name: '20-Minute Consultation',
-    description: 'Quick virtual consultation via Zoom or Teams',
-    amount: 250,
-    duration: '20 min',
-  },
-  {
-    id: 'consult-35',
-    name: '35-Minute Consultation',
-    description: 'Extended virtual consultation via Zoom or Teams',
-    amount: 500,
-    duration: '35 min',
-  },
-] as const
+export const CONSULTATION_PACKAGES = SERVICE_PACKAGES.map(({ id, name, description, amount }) => ({ id, name, description, amount }))
 
 // ── Signature Generation ──
 export function generatePayfastSignature(

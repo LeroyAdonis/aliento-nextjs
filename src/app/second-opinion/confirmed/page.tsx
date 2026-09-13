@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { CheckCircle2, ArrowRight, Stethoscope } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Second Medical Opinion — Payment Confirmed',
-  description: 'Your second medical opinion payment has been confirmed.',
+  title: 'Second Opinion — Request Under Review',
+  description: 'Your second opinion request is currently being reviewed by a medical doctor.',
 }
 
 export default function SecondOpinionConfirmedPage() {
@@ -18,7 +18,7 @@ export default function SecondOpinionConfirmedPage() {
         </div>
 
         <h1 className="text-3xl lg:text-4xl font-display font-semibold text-warm-900 mb-4">
-          Payment Confirmed!
+          Your request is currently being reviewed
         </h1>
 
         <p className="text-lg text-warm-500 leading-relaxed mb-3">
@@ -26,8 +26,7 @@ export default function SecondOpinionConfirmedPage() {
           <span className="font-semibold text-warm-700">Dr. Leegale Adonis</span>.
         </p>
         <p className="text-warm-400 text-sm mb-10">
-          A confirmation has been sent to your email. Dr. Adonis will review your case
-          and provide a written opinion within 48 hours.
+          A medical doctor will review your request and get in touch with you. Your review will be emailed once complete.
         </p>
 
         {/* Next Steps */}
@@ -36,10 +35,10 @@ export default function SecondOpinionConfirmedPage() {
             <Stethoscope size={16} className="text-sage-600" /> Next Steps
           </h3>
           <ol className="text-sm text-warm-600 space-y-2 list-decimal list-inside">
-            <li>Check your email for payment confirmation</li>
-            <li>Your case will be reviewed by Dr. Adonis</li>
-            <li>Written second opinion sent to your inbox within 48 hours</li>
-            <li>Discuss the findings with your primary care provider</li>
+            <li>We have received your second opinion request</li>
+            <li>A medical doctor reviews your case</li>
+            <li>The doctor gets in touch with you</li>
+            <li>Your review is emailed once complete</li>
           </ol>
         </div>
 

@@ -99,7 +99,7 @@ export function ForgottenMiddle() {
                 <span className="italic text-sage-600">No waiting room required.</span>
               </h3>
               <p className="text-warm-600 leading-relaxed mb-6">
-                R250 for a 20-minute virtual consultation with a qualified doctor.
+                R700 for a 35-minute virtual consultation with a qualified doctor.
                 No medical aid needed. No waiting lists. No referrals.
                 Just clear, honest healthcare advice — from the comfort of your home.
               </p>
@@ -141,7 +141,7 @@ export function ForgottenMiddle() {
                   <div className="w-1.5 h-1.5 rounded-full bg-sage-500 mt-2 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-sage-700">Aliento</p>
-                    <p className="text-xs text-warm-500">R250 per consult, no queues, real access</p>
+                    <p className="text-xs text-warm-500">R700 per consult, no queues, real access</p>
                   </div>
                 </div>
               </div>
