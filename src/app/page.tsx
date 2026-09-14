@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getAllPosts, type SanityPost } from '@/lib/sanity'
 import { Hero } from '@/components/sections/Hero'
 import { StreamServices } from '@/components/sections/StreamServices'
@@ -7,6 +8,10 @@ import { ForgottenMiddle } from '@/components/sections/ForgottenMiddle'
 import { AboutDoctor } from '@/components/sections/AboutDoctor'
 import { RecentArticles } from '@/components/sections/RecentArticles'
 import { CTA } from '@/components/sections/CTA'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 const fallbackPosts: SanityPost[] = [
   {
