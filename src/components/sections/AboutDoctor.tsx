@@ -46,7 +46,7 @@ export function AboutDoctor() {
             <div className="mb-6">
               <p className="text-xl font-display font-semibold text-warm-900">Dr. Leegale Franscesca Adonis</p>
               <p className="text-sm text-sage-600">MBBCH, MBA, FCPHM (SA), MMed, Comm Health, PhD</p>
-              <p className="text-xs text-warm-400 mt-1">General Practitioner | Health Promotion Specialist</p>
+              <p className="text-xs text-warm-400 mt-1">Public Health Medicine Specialist | Preventive Care</p>
             </div>
 
             <div className="space-y-4 text-warm-600 leading-relaxed">

@@ -85,7 +85,7 @@ export default async function Home() {
           addressLocality: 'Johannesburg',
           addressCountry: 'ZA',
         },
-        medicalSpecialty: ['PublicHealth', 'GeneralPractice'],
+        medicalSpecialty: ['PublicHealth', 'PreventiveMedicine'],
         knowsAbout: [
           'Preventive care',
           'Screening',

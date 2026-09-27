@@ -29,7 +29,7 @@ const steps = [
 ]
 
 const included = [
-  { icon: Shield, label: 'Doctor-reviewed', detail: 'Each request reviewed by a qualified GP' },
+  { icon: Shield, label: 'Doctor-reviewed', detail: 'Each request reviewed by a qualified doctor' },
   { icon: Clock, label: 'Fast turnaround', detail: 'Reviewed within 24 hours where possible' },
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R500 per request, no hidden costs' },
   { icon: CheckCircle2, label: 'Electronic delivery', detail: 'PDF sent securely to your inbox' },

@@ -90,7 +90,7 @@ export function Header() {
                   Aliento
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.22em] text-sage-500 font-body font-medium">
-                  Health Promotion
+                  Preventive Care
                 </span>
               </div>
             </Link>

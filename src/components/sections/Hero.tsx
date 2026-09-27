@@ -37,7 +37,7 @@ export function Hero() {
           <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
             <div className="w-8 h-px bg-sage-400" />
             <span className="text-xs font-body font-semibold tracking-[0.22em] uppercase text-sage-500">
-              Health Promotion &amp; Education
+              Preventive Care &amp; Health Promotion
             </span>
             <div className="w-8 h-px bg-sage-400" />
           </motion.div>

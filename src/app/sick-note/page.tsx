@@ -29,7 +29,7 @@ const steps = [
 ]
 
 const included = [
-  { icon: ClipboardList, label: 'Medical assessment', detail: 'Qualified GP reviews your symptoms' },
+  { icon: ClipboardList, label: 'Medical assessment', detail: 'Qualified doctor reviews your symptoms' },
   { icon: Clock, label: 'Quick turnaround', detail: 'Certificate issued within hours' },
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R500 flat fee, no hidden costs' },
   { icon: CheckCircle2, label: 'Digital delivery', detail: 'PDF certificate sent to your inbox' },

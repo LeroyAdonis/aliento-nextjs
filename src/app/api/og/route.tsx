@@ -119,7 +119,7 @@ export async function GET(request: Request) {
               marginBottom: 16,
             }}
           >
-            {title === 'Aliento' ? 'Health Promotion &\nVirtual Consultations' : title}
+            {title === 'Aliento' ? 'Preventive Care &\nVirtual Consultations' : title}
           </div>
 
           <div

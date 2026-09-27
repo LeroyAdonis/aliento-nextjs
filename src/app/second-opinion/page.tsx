@@ -24,12 +24,12 @@ const steps = [
   {
     step: '03',
     title: 'Receive your review',
-    body: 'A qualified GP reviews your case and provides their professional opinion via email.',
+    body: 'A qualified doctor reviews your case and provides their professional opinion via email.',
   },
 ]
 
 const included = [
-  { icon: Stethoscope, label: 'Expert review', detail: 'Case reviewed by a qualified GP' },
+  { icon: Stethoscope, label: 'Expert review', detail: 'Case reviewed by a qualified doctor' },
   { icon: MessageSquare, label: 'Detailed opinion', detail: 'Written second opinion with rationale' },
   { icon: Clock, label: 'Prompt turnaround', detail: 'Review completed within 48 hours' },
   { icon: CreditCard, label: 'Transparent pricing', detail: 'R250 flat fee, no hidden costs' },
@@ -93,7 +93,7 @@ export default function SecondOpinionPage() {
             </h1>
             <p className="text-lg text-warm-500 max-w-2xl leading-relaxed mb-6">
               Facing a medical decision and want a second opinion? Submit your diagnosis details
-              and a qualified GP will provide an independent, professional review of your case.
+              and a qualified doctor will provide an independent, professional review of your case.
             </p>
             <ul className="text-sm text-warm-600 space-y-2 mb-8">
               <li>• R250 — flat fee</li>
