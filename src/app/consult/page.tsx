@@ -7,7 +7,7 @@ import FaqAccordion from '@/components/sections/FaqAccordion'
 export const metadata: Metadata = {
   title: 'Book a Virtual Consultation',
     description:
-    'Book a virtual face-to-face medical consultation with a South African doctor. R700 for a 35-minute session — no medical aid needed.',
+    'Book a virtual face-to-face medical consultation with a South African doctor. 20 minutes for R500 or 35 minutes for R700 — no medical aid needed.',
   alternates: { canonical: 'https://alientomd.com/consult' },
 }
 
@@ -15,7 +15,7 @@ const steps = [
   {
     step: '01',
     title: 'Choose your consultation',
-    body: 'One 35-minute virtual consultation, paid securely via PayFast checkout.',
+    body: 'Choose a 20- or 35-minute virtual consultation, paid securely via PayFast checkout.',
   },
   {
     step: '02',
@@ -32,8 +32,8 @@ const steps = [
 const included = [
   { icon: Video, label: 'Face-to-face via video', detail: 'Zoom primary, Teams secondary' },
   { icon: Monitor, label: 'Visual assessment', detail: 'Show rashes, lumps, or swelling on camera' },
-  { icon: Clock, label: 'Flexible sessions', detail: '35-minute slots' },
-  { icon: CreditCard, label: 'Transparent pricing', detail: 'R700, paid upfront' },
+  { icon: Clock, label: 'Flexible sessions', detail: '20 or 35-minute slots' },
+  { icon: CreditCard, label: 'Transparent pricing', detail: 'From R500, paid upfront' },
 ]
 
 const faqItems = [
@@ -50,7 +50,7 @@ const faqItems = [
   {
     question: 'How much does an online doctor consultation cost in South Africa?',
     answer:
-      'A virtual consultation with Dr Adonis is R700 for a 35-minute session. There is no medical aid required and no hidden fees.',
+      'A virtual consultation with Dr Adonis is R500 for 20 minutes or R700 for 35 minutes. There is no medical aid required and no hidden fees.',
   },
   {
     question: 'Do I need medical aid to book?',
@@ -97,6 +97,7 @@ export default function ConsultPage() {
               then your booking calendar unlocks securely.
             </p>
             <ul className="text-sm text-warm-600 space-y-2 mb-8">
+              <li>• R500 — 20-minute consultation</li>
               <li>• R700 — 35-minute consultation</li>
               <li>• No referral needed</li>
             </ul>

@@ -16,7 +16,7 @@ const streams = [
     title: 'Virtual Consult',
     description:
       'Talk face-to-face with a healthcare professional from the comfort of your home.',
-    price: 'R700',
+    price: 'From R500',
     href: '/consult',
     cardBg: 'bg-sage-50/70',
     cardBorder: 'border-sage-200',

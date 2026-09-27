@@ -6,8 +6,15 @@ import { getDisplayPrice } from '@/lib/pricing'
 
 const packages = [
   {
+    id: 'consult-20',
+    name: 'Medical Consultation (20 min)',
+    price: getDisplayPrice('consult-20'),
+    duration: '20 min',
+    description: '20-minute virtual consultation with Dr Leegale Adonis via Zoom or Teams',
+  },
+  {
     id: 'consult',
-    name: 'Medical Consultation',
+    name: 'Medical Consultation (35 min)',
     price: getDisplayPrice('consult'),
     duration: '35 min',
     description: '35-minute virtual consultation with Dr Leegale Adonis via Zoom or Teams',

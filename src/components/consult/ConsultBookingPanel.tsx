@@ -12,6 +12,7 @@ export function ConsultBookingPanel() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [needsQuestionnaire, setNeedsQuestionnaire] = useState(false)
+  const [duration, setDuration] = useState<'20' | '35'>('35')
 
   const handleCheckout = async () => {
     if (!name || !email) {
@@ -39,7 +40,7 @@ export function ConsultBookingPanel() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          packageId: 'consult',
+          packageId: duration === '20' ? 'consult-20' : 'consult',
           buyerName: name,
           buyerEmail: email,
           successPath: '/consult/book',
@@ -79,9 +80,26 @@ export function ConsultBookingPanel() {
       <h3 className="text-2xl font-display font-semibold text-warm-900 mb-3">Book your consultation</h3>
       <p className="text-sm text-warm-500 mb-6">Payment is required first, then your booking calendar unlocks below.</p>
 
-      <div className="rounded-2xl border border-sage-200 bg-sage-50 p-5 mb-6">
-        <div className="text-sm text-warm-500">Medical Consultation — {getDisplayPrice('consult')} — 35 minutes</div>
-        <div className="text-lg font-display font-semibold text-warm-900">{getDisplayPrice('consult')}</div>
+      <div className="mb-6">
+        <p className="text-sm text-warm-500 mb-3">Choose your session length</p>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => setDuration('20')}
+            className={`rounded-2xl border p-4 text-left transition-all ${duration === '20' ? 'border-sage-400 bg-sage-50 ring-2 ring-sage-200' : 'border-warm-200 bg-white hover:border-sage-300'}`}
+          >
+            <div className="text-sm font-body font-semibold text-warm-900">20 minutes</div>
+            <div className="text-lg font-display font-semibold text-warm-900">{getDisplayPrice('consult-20')}</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => setDuration('35')}
+            className={`rounded-2xl border p-4 text-left transition-all ${duration === '35' ? 'border-sage-400 bg-sage-50 ring-2 ring-sage-200' : 'border-warm-200 bg-white hover:border-sage-300'}`}
+          >
+            <div className="text-sm font-body font-semibold text-warm-900">35 minutes</div>
+            <div className="text-lg font-display font-semibold text-warm-900">{getDisplayPrice('consult')}</div>
+          </button>
+        </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 mb-4">
