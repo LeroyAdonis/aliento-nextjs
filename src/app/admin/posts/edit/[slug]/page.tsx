@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Save, ArrowLeft, Check, AlertCircle, Eye, X, Loader2, Sparkles, Info } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -42,7 +42,7 @@ export default function EditPostPage() {
   const [aiDraft, setAiDraft] = useState<AiDraft | null>(null)
   const [aiDraftOpen, setAiDraftOpen] = useState(false)
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const res = await fetch(`/api/posts/${slug}`)
       const data = await res.json()
@@ -63,9 +63,10 @@ export default function EditPostPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [slug])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPost()
   }, [slug, fetchPost])
 

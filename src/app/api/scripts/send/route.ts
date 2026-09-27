@@ -90,7 +90,7 @@ export async function POST(req: Request) {
   }
 }
 
-function buildPatientEmailHtml(script: Record<string, any>, link: string): string {
+function buildPatientEmailHtml(script: Record<string, unknown>, link: string): string {
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"/><title>Your Prescription</title></head>
@@ -121,8 +121,9 @@ function buildPatientEmailHtml(script: Record<string, any>, link: string): strin
 </html>`
 }
 
-function buildDoctorEmailHtml(script: Record<string, any>): string {
-  const dateStr = new Date(script.createdAt).toLocaleDateString('en-ZA', {
+function buildDoctorEmailHtml(script: Record<string, unknown>): string {
+  const createdAt = typeof script.createdAt === 'string' ? script.createdAt : String(script.createdAt)
+  const dateStr = new Date(createdAt).toLocaleDateString('en-ZA', {
     timeZone: 'Africa/Johannesburg',
     year: 'numeric',
     month: 'long',
@@ -133,13 +134,8 @@ function buildDoctorEmailHtml(script: Record<string, any>): string {
 
   const medRows = medications
     .map(
-      (m: Record<string, string>, i: number) =>
-        `<tr${i % 2 === 0 ? ' style="background:#f9fafb"' : ''}>
-          <td style="padding:8px 12px;font-size:13px">${m.name || '—'}</td>
-          <td style="padding:8px 12px;font-size:13px">${m.dosage || '—'}</td>
-          <td style="padding:8px 12px;font-size:13px">${m.quantity || '—'}</td>
-          <td style="padding:8px 12px;font-size:13px">${m.refills || '—'}</td>
-        </tr>`
+      (m: Record<string, unknown>, i: number) =>
+        `<tr${i % 2 === 0 ? ' style="background:#f9fafb"' : ''}>\n          <td style="padding:8px 12px;font-size:13px">${m.name || '—'}</td>\n          <td style="padding:8px 12px;font-size:13px">${m.dosage || '—'}</td>\n          <td style="padding:8px 12px;font-size:13px">${m.quantity || '—'}</td>\n          <td style="padding:8px 12px;font-size:13px">${m.refills || '—'}</td>\n        </tr>`
     )
     .join('')
 

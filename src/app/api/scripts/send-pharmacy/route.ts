@@ -69,7 +69,7 @@ export async function POST(req: Request) {
 
     const meds = Array.isArray(script.medications) ? script.medications : []
     const medSummary = meds
-      .map((m: Record<string, any>) => `${m.name || ''} ${m.dosage || ''} x${m.quantity ?? ''}`.trim())
+      .map((m: Record<string, unknown>) => `${m.name || ''} ${m.dosage || ''} x${m.quantity ?? ''}`.trim())
       .filter(Boolean)
       .join('; ')
 

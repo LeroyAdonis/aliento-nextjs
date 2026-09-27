@@ -49,3 +49,7 @@ lint_output.txt
 graphify-out/cache/
 # Added by code-review-graph
 .code-review-graph/
+
+# archives + python cache (junk)
+*.bak
+__pycache__/

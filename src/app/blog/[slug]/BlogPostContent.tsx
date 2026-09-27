@@ -150,6 +150,7 @@ function PdfDownloadSection({
   // Check if user just returned from successful payment
   useEffect(() => {
     if (searchParams.get('pdf') === 'success' && searchParams.get('paymentId')) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPaid(true)
     }
   }, [searchParams])

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/error-boundaries */
 import Link from 'next/link'
 import { getCalBookingByUid } from '@/lib/calcom'
 

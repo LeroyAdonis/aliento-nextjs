@@ -21,7 +21,7 @@ function apiCall(path) {
       path: path,
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer *** + apiKey
+        'Authorization': 'Bearer ' + apiKey
       }
     };
     const req = https.request(options, res => {

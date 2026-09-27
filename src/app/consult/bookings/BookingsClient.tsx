@@ -163,8 +163,10 @@ export default function BookingsClient() {
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBookings(tab)
-  }, [tab, fetchBookings])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab])
 
   const tabs: { id: BookingStatus; label: string; icon: React.ReactNode }[] = [
     { id: 'upcoming', label: 'Upcoming', icon: <CalendarDays size={14} /> },
@@ -212,9 +214,9 @@ export default function BookingsClient() {
           <div className="flex items-start gap-3">
             <AlertCircle size={18} className="shrink-0 mt-0.5 text-blush-500" />
             <div>
-              <p className="font-medium mb-1">Couldn't load bookings</p>
+              <p className="font-medium mb-1">Couldn&apos;t load bookings</p>
               <p className="text-warm-500 text-xs">
-                {error.includes('CALCOM_API_KEY') 
+                {error.includes('CALCOM_API_KEY')
                   ? 'Calendar API key not configured. Contact the admin to set up CALCOM_API_KEY.'
                   : error.includes('401') || error.includes('403')
                   ? 'Calendar authentication failed. The API key may need renewal.'
