@@ -96,7 +96,10 @@ def as_dark(frag: str) -> str:
     out = re.sub(r"<img[^>]*sig-dark-img[^>]*>", show, out, flags=re.S)
     # the wordmark cell and the handler cell each end up with exactly one visible image
     assert "sig-light-img" not in out and "sig-dark-img" not in out, "image classes survived the swap"
-    assert "display:inline-block" in out, "the inline mark lost its inline-block display in dark mode"
+    # Only assert this when the card HAS an inline image: the compact card has no mark, so the check would fail
+    # on a correct output. Assert the property that should hold for this input, not for every input.
+    if "inline-block" in frag:
+        assert "display:inline-block" in out, "the inline mark lost its inline-block display in dark mode"
     return out
 
 
