@@ -20,6 +20,13 @@
     .sig-light-img { display: none !important; }
     .sig-dark-img  { display: block !important; }
   }
+
+  /* NARROW SCREENS: a fixed 420px card on a 320px viewport does not shrink, it overflows. Take the full width
+     and let the serif name wrap onto a second line instead of being clipped. */
+  @media (max-width: 480px) {
+    .sig-card { width: 100% !important; }
+    .sig-name { font-size: 19px !important; }
+  }
   [data-ogsc] .sig-card, [data-ogsb] .sig-card { background: #1E2E24 !important; border-color: #2D4336 !important; }
   [data-ogsc] .sig-name, [data-ogsb] .sig-name { color: #FEFCF8 !important; }
   [data-ogsc] .sig-role, [data-ogsb] .sig-role { color: #B8D5C4 !important; }

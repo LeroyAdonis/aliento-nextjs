@@ -79,6 +79,23 @@ CSS = """
   .sig-link { color: var(--accent) !important; border-bottom-color: var(--linkrule) !important; }
   .sig-dot { color: var(--dot) !important; }
   .howto { max-width: 600px; margin-top: 34px; font-size: 12.5px; line-height: 1.7; color: var(--meta); }
+
+  /* The preview has to reproduce the email files' narrow-screen behaviour, or it reviews a layout that never
+     ships. Two ranges: below 660px the fixed 600px card must shrink to the page, and below 480px the descriptor
+     drops beneath the wordmark as a wrapping line — the same rules the email files carry in their media query,
+     which is the copy that matters. */
+  @media (max-width: 660px) {
+    .sig-card { width: 100%% !important; }
+    body { padding: 24px 10px 56px; }
+  }
+  @media (max-width: 480px) {
+    .sig-brand-cell { display: block !important; width: 100%% !important; }
+    .sig-descriptor {
+      display: block !important; width: 100%% !important; text-align: left !important; padding: 8px 0 0 0 !important;
+    }
+    .sig-descriptor br { display: none !important; }
+    .sig-name { font-size: 22px !important; }
+  }
   .howto code { background: rgba(127,127,127,.14); padding: 1px 5px; border-radius: 3px; }
 """ % DARK
 
@@ -98,11 +115,13 @@ SCRIPT = """
       stage.setAttribute('data-theme', resolved);
       stage.setAttribute('data-theme-mode', mode);
       // the two cards use different image files per theme, so a preview must swap them as a client would
+      // An image's own display matters: the mark is inline with the wordmark (inline-block), the rest are block.
+      // Forcing 'block' on the mark drops it onto its own line, so each image declares data-display and that wins.
       stage.querySelectorAll('.sig-light-img').forEach(function (el) {
-        el.style.display = resolved === 'dark' ? 'none' : 'block';
+        el.style.display = resolved === 'dark' ? 'none' : (el.dataset.display || 'block');
       });
       stage.querySelectorAll('.sig-dark-img').forEach(function (el) {
-        el.style.display = resolved === 'dark' ? 'block' : 'none';
+        el.style.display = resolved === 'dark' ? (el.dataset.display || 'block') : 'none';
       });
       document.querySelectorAll('[data-theme-btn]').forEach(function (b) {
         b.setAttribute('aria-pressed', String(b.dataset.themeBtn === mode));

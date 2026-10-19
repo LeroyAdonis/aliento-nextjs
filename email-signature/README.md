@@ -171,3 +171,50 @@ Live for review: `https://zahra.digitalwavetech.dev/email/aliento/aliento-signat
   `SENT` + `INBOX` labels confirmed on read-back.
 - **Not verified: Outlook desktop and Gmail's own dark mode.** The `[data-ogsc]` rules follow the documented
   pattern but no client here renders them, so treat Outlook dark as untested until a screenshot proves it.
+
+
+---
+
+## Narrow screens — the descriptor wraps, it does not squeeze
+
+Leroy, 2026-10-19: *"can we get the text after the logo to wrap on smaller screens."* It could not, and the reason
+was structural rather than a missing wrap rule: the wordmark and the descriptor were **two cells in one table
+row**, and two `<td>`s can only stack as blocks — so on a narrow screen the descriptor was either crushed into a
+narrow column beside the name or pushed past the card edge.
+
+The fix moves the mark **inline with the wordmark** (inside the same cell, `display:inline-block`,
+`vertical-align:middle`, 10px right margin). Desktop geometry is unchanged — the mark is still 20px wide with a
+10px gap, so the wordmark starts 30px in, measured identical before and after. What it buys is that the row now
+has only two cells, so the descriptor can become a block of its own and wrap as a normal line.
+
+```css
+@media (max-width: 480px) {
+  .sig-card { width: 100% !important; }
+  .sig-brand-cell { display: block !important; width: 100% !important; }
+  .sig-descriptor { display: block !important; width: 100% !important; text-align: left !important;
+                    padding: 8px 0 0 0 !important; }
+  .sig-descriptor br { display: none !important; }   /* the hard break is for the two-line desktop column only */
+}
+```
+
+Measured at five widths, `document.scrollWidth` against the viewport in every case — **no sideways scroll at 640,
+600, 470, 380 or 320px**:
+
+| Width | Card | Descriptor | Lines |
+|---|---|---|---|
+| 600px | 600 | beside the wordmark, right-aligned, left edge 230px | 2 (forced) |
+| 470px | 470 | below the wordmark, left, 27px | 1, wrapping |
+| 380px | 380 | below, 27px | 1, wrapping |
+| 320px | 320 | below, 27px, width 266px | **2, wrapping** |
+
+Two consequences worth knowing:
+
+- **An inline image cannot be revealed with `display:block`.** The dark-mode rule that shows the white mark would
+  have dropped it onto its own line, so the mark carries `data-display="inline-block"` and the dark rules use
+  `.sig-dark-img.sig-inline-img { display:inline-block !important }`. The preview's switch reads `data-display`
+  for the same reason, and the test-email generator restores `inline-block` for the mark rather than `block`.
+- **The compact card needed the same treatment** — a fixed 420px card does not shrink on a 320px viewport, it
+  overflows. It takes the full width below 480px and steps the serif name down to 19px so it can wrap.
+
+The preview page reproduces both ranges (below 660px the card fits the page; below 480px the descriptor drops),
+because a review page that does not wrap is reviewing a layout that never ships.

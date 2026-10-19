@@ -35,7 +35,7 @@ SCOPES = [
 ]
 
 TO = "leroyadonis3@gmail.com"
-SUBJECT = "Aliento signature — light and dark, straight from the file that ships"
+SUBJECT = "Aliento signature v2 — light and dark, and the small print now wraps on a phone"
 SIG = Path("/root/aliento-nextjs/email-signature/aliento-signature-full.html")
 PREVIEW_URL = "https://zahra.digitalwavetech.dev/email/aliento/aliento-signature-preview.html"
 
@@ -77,18 +77,22 @@ def as_dark(frag: str) -> str:
 
     def hide(tag_match: re.Match) -> str:
         tag = tag_match.group(0)
-        tag = re.sub(r"display:\s*block", "display:none", tag)
-        return tag.replace(' class="sig-light-img"', "")
+        # inline-block and block both have to go, or the mark keeps drawing next to its white twin
+        tag = re.sub(r"display:\s*(inline-block|block)", "display:none", tag)
+        return re.sub(r'\s*class="[^"]*sig-(?:light|dark)-img[^"]*"', "", tag)
 
     def show(tag_match: re.Match) -> str:
         tag = tag_match.group(0)
-        tag = re.sub(r"display:\s*none", "display:block", tag)
-        return tag.replace(' class="sig-dark-img"', "")
+        # honour data-display: the mark must come back as inline-block, not block, or it breaks the wordmark line
+        wanted = "inline-block" if "inline-block" in tag else "block"
+        tag = re.sub(r"display:\s*none", f"display:{wanted}", tag)
+        return re.sub(r'\s*class="[^"]*sig-(?:light|dark)-img[^"]*"', "", tag)
 
     out = re.sub(r"<img[^>]*sig-light-img[^>]*>", hide, out, flags=re.S)
     out = re.sub(r"<img[^>]*sig-dark-img[^>]*>", show, out, flags=re.S)
     # the wordmark cell and the handler cell each end up with exactly one visible image
     assert "sig-light-img" not in out and "sig-dark-img" not in out, "image classes survived the swap"
+    assert "display:inline-block" in out, "the inline mark lost its inline-block display in dark mode"
     return out
 
 
@@ -121,6 +125,10 @@ card can flip under you.</p>
 <p style="{NOTE}">The interactive preview flips between auto, light and dark with one button, and follows your
 phone's setting when set to auto: <a href="{PREVIEW_URL}" style="color:#3A5746;font-weight:600;">{PREVIEW_URL}</a></p>
 
+<p style="{NOTE}">This second version fixes one thing: the small uppercase line beside the wordmark now drops
+beneath it and wraps on a phone instead of being squeezed into a narrow column. Below 480px wide the card takes the
+full width and that line becomes a normal wrapping line. Worth checking on your phone.</p>
+
 <p style="{NOTE}" >A few honest notes. The name is set in Instrument Serif on the site; a mail client will not load
 that font, so it hands over to Georgia, which is what you see here. The handwritten signature and the mark are
 different files per theme, which is why the dark card has a light-ink signature. Nothing here has been tested in
@@ -132,6 +140,9 @@ confirm both before this goes to her.</p>
 
 
 PLAIN = f"""Hi Leroy,
+
+Updated version: on a phone the small uppercase line beside the wordmark now drops beneath it and wraps, instead
+of squeezing into a narrow column.
 
 Here is the Aliento signature in both of its states. This plain-text part is what a reader sees if their client
 refuses HTML, so it is deliberately the text of the signature rather than the design.
