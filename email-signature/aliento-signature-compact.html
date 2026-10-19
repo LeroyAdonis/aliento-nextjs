@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aliento — email signature, compact</title>
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<style>
+  /* Dark-mode switch — see the long note in aliento-signature-full.html. Same two mechanisms (prefers-color-scheme
+     plus Outlook.com's [data-ogsc]), same dark tokens: surface sage-900 #1E2E24, name cream-50 #FEFCF8
+     (13.93:1), title and links sage-200 #B8D5C4 (9.07:1), hairline #2D4336. Light defaults stay inline so a
+     client that strips <style> still renders the correct light card. */
+  @media (prefers-color-scheme: dark) {
+    .sig-card      { background: #1E2E24 !important; border-color: #2D4336 !important; }
+    .sig-name      { color: #FEFCF8 !important; }
+    .sig-role      { color: #B8D5C4 !important; }
+    .sig-rule      { border-top-color: #2D4336 !important; }
+    .sig-link      { color: #B8D5C4 !important; border-bottom-color: #3A5746 !important; }
+    .sig-light-img { display: none !important; }
+    .sig-dark-img  { display: block !important; }
+  }
+  [data-ogsc] .sig-card, [data-ogsb] .sig-card { background: #1E2E24 !important; border-color: #2D4336 !important; }
+  [data-ogsc] .sig-name, [data-ogsb] .sig-name { color: #FEFCF8 !important; }
+  [data-ogsc] .sig-role, [data-ogsb] .sig-role { color: #B8D5C4 !important; }
+  [data-ogsc] .sig-rule, [data-ogsb] .sig-rule { border-top-color: #2D4336 !important; }
+  [data-ogsc] .sig-link, [data-ogsb] .sig-link { color: #B8D5C4 !important; border-bottom-color: #3A5746 !important; }
+  [data-ogsc] .sig-light-img, [data-ogsb] .sig-light-img { display: none !important; }
+  [data-ogsc] .sig-dark-img, [data-ogsb] .sig-dark-img { display: block !important; }
+</style>
+</head>
+<!--
+  ALIENTO — COMPACT SIGNATURE (email-safe), light + dark
+
+  Same DNA and same live tokens as aliento-signature-full.html at a third of the weight: no mark image, no
+  handwritten signature, two contact routes. Light: cream-100 card, warm-900 name (13.46:1), sage-700 title and
+  links (7.55:1). Dark: sage-900 card, cream-50 name (13.93:1), sage-200 links (9.07:1).
+-->
+<body style="margin:0;padding:0;">
+
+<!-- paste from here ------------------------------------------------------->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="420" class="sig-card"
+       style="width:420px;border-collapse:collapse;background:#FDF8F0;border:1px solid #E5E1DB;">
+  <tr>
+    <td class="sig-name"
+        style="padding:18px 20px 0 20px;font-family:'Instrument Serif', Georgia, 'Times New Roman', serif;font-size:21px;line-height:1.2;font-weight:400;color:#2E2A26;">
+      Dr Leegale Franscesca Adonis
+    </td>
+  </tr>
+  <tr>
+    <td class="sig-role"
+        style="padding:6px 20px 0 20px;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:9px;line-height:1.4;font-weight:600;color:#3A5746;letter-spacing:1.5px;text-transform:uppercase;">
+      Public Health Medicine Specialist
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:14px 20px 0 20px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr><td class="sig-rule" style="border-top:1px solid #CCC6BC;font-size:0;line-height:0;">&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:14px 20px 0 20px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 10px 8px 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Email" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="padding:0 0 8px 0;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:12.5px;line-height:1.5;">
+            <a href="mailto:leegale@alientomd.com" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">leegale@alientomd.com</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 10px 0 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Phone" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:12.5px;line-height:1.5;">
+            <a href="tel:+27762367921" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">076 236 7921</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td style="padding:0 0 18px 0;font-size:0;line-height:0;">&nbsp;</td></tr>
+</table>
+<!-- to here --------------------------------------------------------------->
+
+</body>
+</html>

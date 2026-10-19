@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aliento — signature preview, light and dark</title>
+<!--
+  GENERATED FILE — do not edit. Built by scripts/build-signature-preview.py from
+  aliento-signature-full.html and aliento-signature-compact.html, so the preview can never show something the
+  email files do not contain.
+
+  What to look at here:
+    * the switcher proves both palettes side by side without changing your OS setting;
+    * "Auto" is the mode a real reader gets — it follows prefers-color-scheme and updates live;
+    * the dark card is not an inversion: it is the palette's own dark end (sage-900 surface, cream text).
+
+  This page is for review only. What gets pasted into a mail client is the email-safe file, whose dark mode is
+  the @media (prefers-color-scheme: dark) block plus Outlook.com's [data-ogsc] — not this JavaScript.
+-->
+<style>
+  :root {
+    --page: #FEFCF8; --card: #FDF8F0; --border: #E5E1DB; --rule: #CCC6BC;
+    --name: #2E2A26; --body: #433E34; --meta: #635B4E; --accent: #3A5746;
+    --linkrule: #8FBD9F; --dot: #9E4A38;
+  }
+  [data-theme="dark"] {
+    --page: #141a16; --card: #1E2E24; --border: #2D4336; --rule: #2D4336;
+    --name: #FEFCF8; --body: #E5E1DB; --meta: #B8D5C4; --accent: #B8D5C4;
+    --linkrule: #3A5746; --dot: #D9896A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 24px 64px; background: var(--page); color: var(--body);
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color .18s ease, color .18s ease;
+  }
+  header { max-width: 600px; margin: 0 0 28px; }
+  h1 {
+    font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 30px;
+    margin: 0 0 6px; color: var(--name);
+  }
+  .sub { font-size: 13px; line-height: 1.6; color: var(--meta); margin: 0 0 18px; }
+  .switch { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; }
+  .switch button {
+    font: inherit; font-size: 12px; font-weight: 600; letter-spacing: .3px;
+    padding: 7px 16px; border: 0; border-radius: 999px; cursor: pointer;
+    background: transparent; color: var(--meta);
+  }
+  .switch button[aria-pressed="true"] { background: var(--accent); color: var(--page); }
+  .resolved { font-size: 12px; color: var(--meta); margin-left: 10px; }
+  .caption {
+    font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--meta);
+    margin: 34px 0 10px;
+  }
+  .mail { background: var(--page); padding: 0; }
+  .intro { font-size: 14px; line-height: 1.65; margin: 0; padding: 22px 26px 6px; max-width: 600px; color: var(--body); }
+
+  /* the signature itself: every colour comes from a custom property so one attribute flips the whole card */
+  .sig-card { background: var(--card) !important; border-color: var(--border) !important; }
+  .sig-name { color: var(--name) !important; }
+  .sig-role, .sig-meta { color: var(--accent) !important; }
+  .sig-rule { border-top-color: var(--rule) !important; }
+  .sig-link { color: var(--accent) !important; border-bottom-color: var(--linkrule) !important; }
+  .sig-dot { color: var(--dot) !important; }
+  .howto { max-width: 600px; margin-top: 34px; font-size: 12.5px; line-height: 1.7; color: var(--meta); }
+  .howto code { background: rgba(127,127,127,.14); padding: 1px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Aliento signature — light and dark</h1>
+  <p class="sub">Both cards exactly as the email files carry them. <strong>Auto</strong> is what a reader gets:
+  it follows their operating system and updates the moment it changes.</p>
+  <div class="switch" role="group" aria-label="Signature theme">
+    <button type="button" data-theme-btn="auto" aria-pressed="true">Auto</button>
+    <button type="button" data-theme-btn="light" aria-pressed="false">Light</button>
+    <button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button>
+  </div>
+  <span class="resolved" id="sig-resolved"></span>
+</header>
+
+<div id="sig-stage" data-theme="light" data-theme-mode="auto">
+  <p class="caption">Full card — 600px</p>
+  <div class="mail">
+    <p class="intro">Hi Leroy,<br>Thank you for the referral &mdash; I will ring her on Tuesday.<br><br>Warm regards,</p>
+    
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="sig-card"
+       style="width:600px;border-collapse:collapse;background:#FDF8F0;border:1px solid #E5E1DB;">
+
+  <!-- wordmark row: mark, two-tone name, descriptor -->
+  <tr>
+    <td style="padding:26px 26px 0 26px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td width="20" valign="middle" style="width:20px;padding:0 10px 0 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark.png" class="sig-light-img"
+                 width="20" height="24" alt="Aliento" border="0"
+                 style="display:block;width:20px;height:24px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark-white.png" class="sig-dark-img"
+                 width="20" height="24" alt="" border="0" aria-hidden="true"
+                 style="display:none;width:20px;height:24px;border:0;">
+          </td>
+          <td valign="middle" class="sig-name"
+              style="font-family:'Instrument Serif', Georgia, 'Times New Roman', serif;font-size:19px;line-height:1.2;font-weight:400;color:#2E2A26;letter-spacing:0.2px;">
+            Aliento<span class="sig-dot" style="color:#9E4A38;font-size:1.15em;">&middot;</span>
+          </td>
+          <td valign="middle" align="right" class="sig-meta"
+              style="font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:9px;line-height:1.45;font-weight:600;color:#635B4E;letter-spacing:1.4px;text-transform:uppercase;">
+            Preventive Care<br>&amp; Virtual Consultations
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- hairline -->
+  <tr>
+    <td style="padding:16px 26px 0 26px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr><td class="sig-rule" style="border-top:1px solid #CCC6BC;font-size:0;line-height:0;">&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- handwritten signature -->
+  <tr>
+    <td style="padding:18px 26px 0 26px;">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/leegale-signature.png" class="sig-light-img"
+           width="122" height="46" alt="Leegale Adonis signature" border="0"
+           style="display:block;width:122px;height:46px;border:0;">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/leegale-signature-white.png" class="sig-dark-img"
+           width="122" height="46" alt="" border="0" aria-hidden="true"
+           style="display:none;width:122px;height:46px;border:0;">
+    </td>
+  </tr>
+
+  <!-- name in the display serif, title in the brand accent -->
+  <tr>
+    <td class="sig-name"
+        style="padding:12px 26px 0 26px;font-family:'Instrument Serif', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.15;font-weight:400;color:#2E2A26;">
+      Dr Leegale Franscesca Adonis
+    </td>
+  </tr>
+  <tr>
+    <td class="sig-role"
+        style="padding:8px 26px 0 26px;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:9.5px;line-height:1.4;font-weight:600;color:#3A5746;letter-spacing:1.6px;text-transform:uppercase;">
+      Public Health Medicine Specialist
+    </td>
+  </tr>
+
+  <!-- contact: three icon rows, each with a light and a dark glyph -->
+  <tr>
+    <td style="padding:20px 26px 0 26px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 12px 9px 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Email" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="padding:0 0 9px 0;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;">
+            <a href="mailto:leegale@alientomd.com" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">leegale@alientomd.com</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 12px 9px 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Phone" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="padding:0 0 9px 0;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;">
+            <a href="tel:+27762367921" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">076 236 7921</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 12px 0 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-globe-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Website" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-globe-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;">
+            <a href="https://alientomd.com" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">alientomd.com</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr><td style="padding:0 0 24px 0;font-size:0;line-height:0;">&nbsp;</td></tr>
+</table>
+
+  </div>
+
+  <p class="caption">Compact — 420px</p>
+  <div class="mail">
+    <p class="intro">Hi Leroy,<br>Noted, thanks &mdash; I will send the script through today.<br><br>Warm regards,</p>
+    
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="420" class="sig-card"
+       style="width:420px;border-collapse:collapse;background:#FDF8F0;border:1px solid #E5E1DB;">
+  <tr>
+    <td class="sig-name"
+        style="padding:18px 20px 0 20px;font-family:'Instrument Serif', Georgia, 'Times New Roman', serif;font-size:21px;line-height:1.2;font-weight:400;color:#2E2A26;">
+      Dr Leegale Franscesca Adonis
+    </td>
+  </tr>
+  <tr>
+    <td class="sig-role"
+        style="padding:6px 20px 0 20px;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:9px;line-height:1.4;font-weight:600;color:#3A5746;letter-spacing:1.5px;text-transform:uppercase;">
+      Public Health Medicine Specialist
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:14px 20px 0 20px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr><td class="sig-rule" style="border-top:1px solid #CCC6BC;font-size:0;line-height:0;">&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:14px 20px 0 20px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 10px 8px 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Email" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="padding:0 0 8px 0;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:12.5px;line-height:1.5;">
+            <a href="mailto:leegale@alientomd.com" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">leegale@alientomd.com</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="16" valign="middle" style="width:16px;padding:0 10px 0 0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-sage.png" class="sig-light-img"
+                 width="16" height="16" alt="Phone" border="0" style="display:block;width:16px;height:16px;border:0;">
+            <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-dark.png" class="sig-dark-img"
+                 width="16" height="16" alt="" border="0" aria-hidden="true" style="display:none;width:16px;height:16px;border:0;">
+          </td>
+          <td valign="middle" style="font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:12.5px;line-height:1.5;">
+            <a href="tel:+27762367921" class="sig-link"
+               style="color:#3A5746;font-weight:500;text-decoration:none;border-bottom:1px solid #8FBD9F;display:inline;line-height:1.5;-webkit-text-size-adjust:none;">076 236 7921</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td style="padding:0 0 18px 0;font-size:0;line-height:0;">&nbsp;</td></tr>
+</table>
+
+  </div>
+</div>
+
+<div class="howto">
+  <p><strong>What ships:</strong> the email-safe files carry inline light styles plus a
+  <code>@media (prefers-color-scheme: dark)</code> block and an Outlook.com <code>[data-ogsc]</code> fallback. A
+  client that strips <code>&lt;style&gt;</code> shows the light card, which is correct — not a broken one.</p>
+  <p><strong>Dark is a palette, not an inversion:</strong> sage-900 <code>#1E2E24</code> surface, cream-50
+  <code>#FEFCF8</code> name at 13.93:1, sage-200 <code>#B8D5C4</code> links at 9.07:1. Images swap
+  to their light-ink variants, because a dark-ink signature on a dark card is invisible.</p>
+</div>
+
+
+<script>
+  /* applySignatureTheme — the dynamic switch.
+     mode: 'auto' resolves from the operating system and keeps following it; 'light' and 'dark' pin it.
+     Returns the theme actually applied, so a caller can react to it (and so this is testable). */
+  (function () {
+    var stage = document.getElementById('sig-stage');
+    var resolvedEl = document.getElementById('sig-resolved');
+    var osDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applySignatureTheme(mode) {
+      mode = mode || 'auto';
+      var resolved = mode === 'auto' ? (osDark.matches ? 'dark' : 'light') : mode;
+      stage.setAttribute('data-theme', resolved);
+      stage.setAttribute('data-theme-mode', mode);
+      // the two cards use different image files per theme, so a preview must swap them as a client would
+      stage.querySelectorAll('.sig-light-img').forEach(function (el) {
+        el.style.display = resolved === 'dark' ? 'none' : 'block';
+      });
+      stage.querySelectorAll('.sig-dark-img').forEach(function (el) {
+        el.style.display = resolved === 'dark' ? 'block' : 'none';
+      });
+      document.querySelectorAll('[data-theme-btn]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.themeBtn === mode));
+      });
+      if (resolvedEl) resolvedEl.textContent = 'showing ' + resolved + ' (mode: ' + mode + ')';
+      return resolved;
+    }
+
+    // 'auto' has to stay honest when the OS flips while the page is open
+    if (osDark.addEventListener) {
+      osDark.addEventListener('change', function () {
+        if (stage.getAttribute('data-theme-mode') === 'auto') applySignatureTheme('auto');
+      });
+    }
+
+    document.querySelectorAll('[data-theme-btn]').forEach(function (b) {
+      b.addEventListener('click', function () { applySignatureTheme(b.dataset.themeBtn); });
+    });
+
+    window.applySignatureTheme = applySignatureTheme;
+    applySignatureTheme('auto');
+  })();
+</script>
+
+</body>
+</html>

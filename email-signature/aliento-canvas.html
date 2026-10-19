@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aliento — signature canvas (export to PNG)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<!--
+  ALIENTO — SIGNATURE CANVAS
+
+  Not the artefact you paste into a mail client. This is the design canvas the DWT signature used to get its
+  finish (html-email-design skill, references/dwt-signature-dna.md): real fonts, free CSS, and a "save as PNG"
+  step at the bottom. The paste-in versions are aliento-signature-full.html / -compact.html.
+
+  Unlike those, this file may load the site's real fonts — Instrument Serif (Google) and Satoshi (Fontshare) —
+  because it is opened in a browser, not in Outlook. That is the whole reason the canvas looks better: the
+  serif is the actual typeface rather than Georgia standing in for it.
+
+  Colours are the live site's @theme tokens from src/app/globals.css, not src/lib/design-system.ts.
+-->
+<style>
+  :root {
+    --card: #FDF8F0;        /* cream-100 */
+    --page: #FEFCF8;        /* cream-50  */
+    --hline: #E5E1DB;       /* warm-200  */
+    --rule: #CCC6BC;        /* warm-300  */
+    --ink: #2E2A26;         /* warm-900  */
+    --body: #433E34;        /* warm-700  */
+    --muted: #635B4E;       /* warm-600  */
+    --sage: #3A5746;        /* sage-700  */
+    --sage-soft: #8FBD9F;   /* sage-300  */
+    --blush: #9E4A38;       /* blush-800 */
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 48px;
+    background: var(--page);
+    color: var(--body);
+    font-family: 'Satoshi', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 44px;
+  }
+  .caption {
+    font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 -24px 2px;
+  }
+
+  .sig {
+    width: 600px;
+    background: var(--card);
+    border: 1px solid var(--hline);
+    border-radius: 4px;
+    padding: 26px;
+    box-shadow: 0 20px 44px -34px rgba(46, 42, 38, 0.45);
+  }
+  .sig .brand { display: flex; align-items: center; gap: 10px; }
+  .sig .brand img { width: 20px; height: 24px; display: block; }
+  .sig .wordmark {
+    font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; font-weight: 400;
+    color: var(--ink); letter-spacing: 0.2px;
+  }
+  .sig .wordmark span { color: var(--blush); }
+  .sig .descriptor {
+    margin-left: auto; text-align: right; font-size: 9px; font-weight: 700; line-height: 1.45;
+    letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted);
+  }
+  .sig hr { border: 0; border-top: 1px solid var(--rule); margin: 16px 0 0; }
+  .sig .hand { width: 122px; height: 46px; display: block; margin: 18px 0 0; }
+  .sig .name {
+    margin: 12px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px;
+    line-height: 1.15; font-weight: 400; color: var(--ink);
+  }
+  .sig .role {
+    margin: 8px 0 0; font-size: 9.5px; font-weight: 700; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--sage);
+  }
+  .sig .contact { margin: 20px 0 0; display: flex; flex-direction: column; gap: 9px; }
+  .sig .row { display: flex; align-items: center; gap: 12px; }
+  .sig .row img { width: 16px; height: 16px; display: block; }
+  .sig a {
+    color: var(--sage); font-weight: 500; font-size: 13px; text-decoration: none;
+    border-bottom: 1px solid var(--sage-soft);
+  }
+
+  .sig-compact { width: 420px; padding: 18px 20px; }
+  .sig-compact .name { margin: 0; font-size: 21px; }
+  .sig-compact .role { margin-top: 6px; font-size: 9px; letter-spacing: 1.5px; }
+  .sig-compact hr { margin-top: 14px; }
+  .sig-compact .contact { margin-top: 14px; gap: 8px; }
+  .sig-compact a { font-size: 12.5px; }
+
+  .howto { max-width: 600px; font-size: 13px; line-height: 1.7; color: var(--body); }
+  .howto h2 {
+    font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .howto ol { margin: 0; padding-left: 20px; }
+  .howto code {
+    background: #F3F1ED; padding: 1px 5px; border-radius: 3px; font-size: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+</style>
+</head>
+<body>
+
+<p class="caption">Aliento &middot; full card</p>
+<div class="sig">
+  <div class="brand">
+    <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark.png" alt="Aliento">
+    <span class="wordmark">Aliento<span>&middot;</span></span>
+    <span class="descriptor">Preventive Care<br>&amp; Virtual Consultations</span>
+  </div>
+  <hr>
+  <img class="hand" src="https://zahra.digitalwavetech.dev/email/aliento/leegale-signature.png" alt="Leegale Adonis signature">
+  <p class="name">Dr Leegale Franscesca Adonis</p>
+  <p class="role">Public Health Medicine Specialist</p>
+  <div class="contact">
+    <div class="row">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-sage.png" alt="Email">
+      <a href="mailto:leegale@alientomd.com">leegale@alientomd.com</a>
+    </div>
+    <div class="row">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-sage.png" alt="Phone">
+      <a href="tel:+27762367921">076 236 7921</a>
+    </div>
+    <div class="row">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-globe-sage.png" alt="Website">
+      <a href="https://alientomd.com">alientomd.com</a>
+    </div>
+  </div>
+</div>
+
+<p class="caption">Aliento &middot; compact</p>
+<div class="sig sig-compact">
+  <p class="name">Dr Leegale Franscesca Adonis</p>
+  <p class="role">Public Health Medicine Specialist</p>
+  <hr>
+  <div class="contact">
+    <div class="row">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-mail-sage.png" alt="Email">
+      <a href="mailto:leegale@alientomd.com">leegale@alientomd.com</a>
+    </div>
+    <div class="row">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/icon-phone-sage.png" alt="Phone">
+      <a href="tel:+27762367921">076 236 7921</a>
+    </div>
+  </div>
+</div>
+
+<div class="howto">
+  <h2>How to save either card as a PNG</h2>
+  <ol>
+    <li>Open this file in Chrome: <code>file:///root/aliento-nextjs/email-signature/aliento-canvas.html</code></li>
+    <li>Right-click the card you want &rarr; <strong>Inspect</strong>.</li>
+    <li>In the Elements panel, right-click the <code>.sig</code> element &rarr; <strong>Capture node screenshot</strong>.</li>
+    <li>The PNG lands in Downloads at 1x. For print, zoom the page to 200% and capture again.</li>
+  </ol>
+  <p style="margin:12px 0 0;color:var(--muted);">A picture signature cannot be selected or copied, and readers
+  with images switched off see only the alt text. Use the email-safe HTML for everyday mail.</p>
+</div>
+
+</body>
+</html>
