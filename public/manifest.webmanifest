@@ -1,0 +1,35 @@
+{
+  "name": "Aliento — Preventive Care & Virtual Consultations",
+  "short_name": "Aliento",
+  "description": "Preventive care and virtual consultations with a registered South African doctor, from R500. Sick notes, prescriptions and second opinions reviewed by Dr Leegale Adonis.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fefcf8",
+  "theme_color": "#fefcf8",
+  "lang": "en-ZA",
+  "dir": "ltr",
+  "categories": ["health", "medical", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

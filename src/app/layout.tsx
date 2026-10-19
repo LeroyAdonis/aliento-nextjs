@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Layout } from '@/components/layout/Layout'
 import { headers } from 'next/headers'
@@ -16,9 +16,21 @@ export const metadata: Metadata = {
     'South Africa', 'preventive care', 'wellness', 'medical advice',
     'Dr Leegale Adonis', 'telemedicine',
   ],
+  applicationName: 'Aliento',
+  // The tab icon used to be Next's shipped default — the Vercel triangle — because `src/app/favicon.ico` was
+  // never replaced. It is now the brand leaf, generated from `public/logo-icon.svg` by
+  // `scripts/build-favicons.py`, and the apple/manifest icons are declared so iOS and Android do not fall back.
   icons: {
-    icon: [{ url: '/logo-icon.svg', type: 'image/svg+xml' }],
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48 64x64 128x128 256x256' },
+      { url: '/logo-icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: ['/favicon.ico'],
   },
+  manifest: '/manifest.webmanifest',
   openGraph: {
     type: "website",
     locale: "en_ZA",
@@ -41,6 +53,17 @@ export const metadata: Metadata = {
     description: "Expert-backed health education and virtual consultations with Dr. Leegale Adonis.",
     images: ["/og-image.png"],
   },
+}
+
+// themeColor lives on the viewport export in Next 16 — putting it in `metadata` is ignored without a warning.
+// cream-50 is the site's own page background, so the mobile browser chrome matches the page instead of going
+// black above a paper-coloured site.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fefcf8' },
+    { media: '(prefers-color-scheme: dark)', color: '#1e2e24' },
+  ],
+  colorScheme: 'light',
 }
 
 export default async function RootLayout({
