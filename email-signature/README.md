@@ -175,46 +175,35 @@ Live for review: `https://zahra.digitalwavetech.dev/email/aliento/aliento-signat
 
 ---
 
-## Narrow screens — the descriptor wraps, it does not squeeze
+## Narrow screens — the descriptor gets its own line
 
-Leroy, 2026-10-19: *"can we get the text after the logo to wrap on smaller screens."* It could not, and the reason
-was structural rather than a missing wrap rule: the wordmark and the descriptor were **two cells in one table
-row**, and two `<td>`s can only stack as blocks — so on a narrow screen the descriptor was either crushed into a
-narrow column beside the name or pushed past the card edge.
+Leroy, 2026-10-19: *"can we get the text after the logo to wrap on smaller screens"*, then his clarification:
+*"The text that I want on a new line for smaller screens is 'Preventive Care & Virtual Consultations'."*
 
-The fix moves the mark **inline with the wordmark** (inside the same cell, `display:inline-block`,
-`vertical-align:middle`, 10px right margin). Desktop geometry is unchanged — the mark is still 20px wide with a
-10px gap, so the wordmark starts 30px in, measured identical before and after. What it buys is that the row now
-has only two cells, so the descriptor can become a block of its own and wrap as a normal line.
+The first attempt moved that line below the wordmark **inside a `@media (max-width: 480px)` block**. It measured
+correctly in a browser and it was still the wrong answer, because of where a signature actually lives: a mail
+client's **signature editor strips `<style>` blocks and class names** — Gmail's does — so a breakpoint-only layout
+fires in a preview and reverts to the cramped desktop one once pasted. A rule that disappears on paste is not a
+rule.
 
-```css
-@media (max-width: 480px) {
-  .sig-card { width: 100% !important; }
-  .sig-brand-cell { display: block !important; width: 100% !important; }
-  .sig-descriptor { display: block !important; width: 100% !important; text-align: left !important;
-                    padding: 8px 0 0 0 !important; }
-  .sig-descriptor br { display: none !important; }   /* the hard break is for the two-line desktop column only */
-}
-```
+So the descriptor is stacked with **inline styles at every width**:
 
-Measured at five widths, `document.scrollWidth` against the viewport in every case — **no sideways scroll at 640,
-600, 470, 380 or 320px**:
+| Width | Card | "Preventive Care & Virtual Consultations" |
+|---|---|---|
+| 600px | 600 | own line, 1 line of text |
+| 480px | 480 | own line, 1 line |
+| 390px | 390 | own line, 1 line, 69px of room to spare |
+| 320px | 320 | own line, **wraps to 2 lines** |
 
-| Width | Card | Descriptor | Lines |
-|---|---|---|---|
-| 600px | 600 | beside the wordmark, right-aligned, left edge 230px | 2 (forced) |
-| 470px | 470 | below the wordmark, left, 27px | 1, wrapping |
-| 380px | 380 | below, 27px | 1, wrapping |
-| 320px | 320 | below, 27px, width 266px | **2, wrapping** |
+The mark moved **inline with the wordmark** in the same cell (20px, 10px right margin — desktop geometry
+identical, wordmark still starts 30px in), which is what lets the descriptor be a plain block of its own rather
+than a second column that can only stack as a cell.
 
-Two consequences worth knowing:
+Measured at 600/480/390/375/320: `td.scrollWidth` never exceeds `td.clientWidth`, the text's right edge stays
+inside the padding box everywhere, and `document.scrollWidth` matches the viewport — no clipping, no sideways
+scroll. A vision pass claimed "CONSULTATIONS is cut off" at 390; a 3x crop proved the full string present with 69px
+of headroom. Measurement over description.
 
-- **An inline image cannot be revealed with `display:block`.** The dark-mode rule that shows the white mark would
-  have dropped it onto its own line, so the mark carries `data-display="inline-block"` and the dark rules use
-  `.sig-dark-img.sig-inline-img { display:inline-block !important }`. The preview's switch reads `data-display`
-  for the same reason, and the test-email generator restores `inline-block` for the mark rather than `block`.
-- **The compact card needed the same treatment** — a fixed 420px card does not shrink on a 320px viewport, it
-  overflows. It takes the full width below 480px and steps the serif name down to 19px so it can wrap.
-
-The preview page reproduces both ranges (below 660px the card fits the page; below 480px the descriptor drops),
-because a review page that does not wrap is reviewing a layout that never ships.
+Consequence worth knowing: **dark mode and the remaining breakpoints only apply in clients that honour `<style>`**
+(Apple Mail, and the Gmail apps rendering a sent HTML message). Pasted into a Gmail signature the card falls back
+to the light inline design — which is now the complete design, not a subset missing its layout.

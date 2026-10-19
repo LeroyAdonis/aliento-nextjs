@@ -35,7 +35,7 @@ SCOPES = [
 ]
 
 TO = "leroyadonis3@gmail.com"
-SUBJECT = "Aliento signature v2 — light and dark, and the small print now wraps on a phone"
+SUBJECT = "Aliento signature v3 — the small print sits on its own line beneath the wordmark"
 SIG = Path("/root/aliento-nextjs/email-signature/aliento-signature-full.html")
 PREVIEW_URL = "https://zahra.digitalwavetech.dev/email/aliento/aliento-signature-preview.html"
 
@@ -58,7 +58,11 @@ def fragment() -> str:
     end = html.find("<!-- to here")
     assert start != -1 and end != -1, "paste markers missing"
     frag = html[start:end]
-    assert "<style" not in frag, "a <style> block escaped into the paste region"
+    # Strip comments before looking: the region's comments legitimately mention <style> (that is where the
+    # Gmail-strips-style-blocks note lives), and a bare substring check fires on the prose.
+    assert not re.search(r"<style[\s>]", re.sub(r"<!--.*?-->", "", frag, flags=re.S), re.I), (
+        "a <style> element escaped into the paste region"
+    )
     assert "sig-card" in frag and "leegale-signature.png" in frag, "the card did not extract as expected"
     return frag.replace("<!-- paste from here ------------------------------------------------------->", "")
 
@@ -125,9 +129,12 @@ card can flip under you.</p>
 <p style="{NOTE}">The interactive preview flips between auto, light and dark with one button, and follows your
 phone's setting when set to auto: <a href="{PREVIEW_URL}" style="color:#3A5746;font-weight:600;">{PREVIEW_URL}</a></p>
 
-<p style="{NOTE}">This second version fixes one thing: the small uppercase line beside the wordmark now drops
-beneath it and wraps on a phone instead of being squeezed into a narrow column. Below 480px wide the card takes the
-full width and that line becomes a normal wrapping line. Worth checking on your phone.</p>
+<p style="{NOTE}">This third version fixes the small print properly. "Preventive Care &amp; Virtual
+Consultations" now sits on its own line beneath the Aliento wordmark at every width, left-aligned with it, and wraps
+further when the screen is narrow enough. It is stacked with inline styles rather than only below a screen-width
+breakpoint, because a signature gets pasted into a mail client's signature editor and those editors strip style
+blocks and class names - Gmail's does - so a breakpoint-only version silently reverts to the cramped desktop layout
+for most people. Worth checking on your phone.</p>
 
 <p style="{NOTE}" >A few honest notes. The name is set in Instrument Serif on the site; a mail client will not load
 that font, so it hands over to Georgia, which is what you see here. The handwritten signature and the mark are
@@ -141,8 +148,10 @@ confirm both before this goes to her.</p>
 
 PLAIN = f"""Hi Leroy,
 
-Updated version: on a phone the small uppercase line beside the wordmark now drops beneath it and wraps, instead
-of squeezing into a narrow column.
+Updated version: "Preventive Care & Virtual Consultations" now sits on its own line beneath the Aliento wordmark at
+every width, and wraps further on a narrow screen. It is stacked inline rather than behind a screen-width
+breakpoint because Gmail's signature editor strips style blocks and class names, so a breakpoint-only version would
+revert to the old cramped layout once pasted in.
 
 Here is the Aliento signature in both of its states. This plain-text part is what a reader sees if their client
 refuses HTML, so it is deliberately the text of the signature rather than the design.

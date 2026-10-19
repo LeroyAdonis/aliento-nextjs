@@ -154,8 +154,13 @@ def extract(path: Path) -> str:
     end = html.find("<!-- to here")
     assert start != -1 and end != -1, f"{path.name}: paste markers missing"
     fragment = html[start:end]
-    # drop the file's own <style> (the preview drives colour through custom properties) and its comments
-    assert "<style" not in fragment, f"{path.name}: <style> is inside the paste region — cannot be previewed safely"
+    # A real <style> ELEMENT must not be inside the paste region (the preview drives colour through custom
+    # properties), but the region's own comments legitimately talk about <style> — so strip comments first, or the
+    # check fires on prose. It did: a comment explaining that Gmail strips <style> failed this assertion.
+    without_comments = re.sub(r"<!--.*?-->", "", fragment, flags=re.S)
+    assert not re.search(r"<style[\s>]", without_comments, re.I), (
+        f"{path.name}: a <style> element is inside the paste region — the preview cannot safely re-style it"
+    )
     return fragment.replace("<!-- paste from here ------------------------------------------------------->", "")
 
 

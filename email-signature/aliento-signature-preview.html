@@ -104,31 +104,27 @@
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="sig-card"
        style="width:600px;border-collapse:collapse;background:#FDF8F0;border:1px solid #E5E1DB;">
 
-  <!-- wordmark row: mark, two-tone name, descriptor.
-       The mark is INLINE with the wordmark rather than in its own cell, which is what makes the descriptor able
-       to wrap underneath on a narrow screen: two cells can only stack as blocks, an inline image inside the first
-       cell does not force a line of its own. Desktop geometry is unchanged - the mark is 20px wide with a 10px
-       right margin, so the wordmark still starts 30px in. -->
+  <!-- brand row: the mark and the wordmark, then the descriptor on its OWN LINE beneath.
+       It is stacked at every width rather than only below a breakpoint, because a signature gets pasted into a
+       mail client's signature editor and those editors strip <style> blocks and classes - Gmail's does - so a
+       media-query-only layout silently reverts to the cramped desktop one for most recipients. Stacked inline
+       styles are the only version that behaves the same everywhere: one line at 600px, wrapping to two on a
+       phone, with no rule to lose. -->
   <tr>
-    <td style="padding:26px 26px 0 26px;">
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse;">
-        <tr>
-          <td class="sig-brand-cell" valign="middle"
-              style="font-family:'Instrument Serif', Georgia, 'Times New Roman', serif;font-size:19px;line-height:1.2;font-weight:400;color:#2E2A26;letter-spacing:0.2px;">
-            <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark.png" class="sig-light-img sig-inline-img"
-                 width="20" height="24" alt="Aliento" border="0" data-display="inline-block"
-                 style="display:inline-block;width:20px;height:24px;border:0;vertical-align:middle;margin:0 10px 0 0;">
-            <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark-white.png" class="sig-dark-img sig-inline-img"
-                 width="20" height="24" alt="" border="0" aria-hidden="true" data-display="inline-block"
-                 style="display:none;width:20px;height:24px;border:0;vertical-align:middle;margin:0 10px 0 0;">
-            <span style="vertical-align:middle;">Aliento<span class="sig-dot" style="color:#9E4A38;font-size:1.15em;">&middot;</span></span>
-          </td>
-          <td class="sig-descriptor" valign="middle" align="right"
-              style="font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:9px;line-height:1.45;font-weight:600;color:#635B4E;letter-spacing:1.4px;text-transform:uppercase;padding-left:12px;">
-            Preventive Care<br>&amp; Virtual Consultations
-          </td>
-        </tr>
-      </table>
+    <td style="padding:26px 26px 0 26px;font-family:'Instrument Serif', Georgia, 'Times New Roman', serif;font-size:19px;line-height:1.2;font-weight:400;color:#2E2A26;letter-spacing:0.2px;">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark.png" class="sig-light-img sig-inline-img"
+           width="20" height="24" alt="Aliento" border="0" data-display="inline-block"
+           style="display:inline-block;width:20px;height:24px;border:0;vertical-align:middle;margin:0 10px 0 0;">
+      <img src="https://zahra.digitalwavetech.dev/email/aliento/aliento-mark-white.png" class="sig-dark-img sig-inline-img"
+           width="20" height="24" alt="" border="0" aria-hidden="true" data-display="inline-block"
+           style="display:none;width:20px;height:24px;border:0;vertical-align:middle;margin:0 10px 0 0;">
+      <span style="vertical-align:middle;">Aliento<span class="sig-dot" style="color:#9E4A38;font-size:1.15em;">&middot;</span></span>
+    </td>
+  </tr>
+  <tr>
+    <td class="sig-descriptor"
+        style="padding:8px 26px 0 26px;font-family:-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:9px;line-height:1.5;font-weight:600;color:#635B4E;letter-spacing:1.4px;text-transform:uppercase;">
+      Preventive Care &amp; Virtual Consultations
     </td>
   </tr>
 
