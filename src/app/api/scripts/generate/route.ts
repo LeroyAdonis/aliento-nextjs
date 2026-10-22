@@ -44,6 +44,11 @@ export async function POST(req: Request) {
       id: existing.id,
       patientName: existing.patientName,
       patientIdNumber: existing.patientIdNumber,
+      // patientCell and patientEmail were omitted here, so generateScriptHtml fell back to its
+      // '—' default and EVERY generated script silently lost the patient's cell and email even
+      // though both were stored on the row. Found 2026-10-22 on a real script (SCR-1792674051041).
+      patientCell: existing.patientCell,
+      patientEmail: existing.patientEmail,
       patientAddress: existing.patientAddress,
       medications: body.medications,
       specialInstructions: body.specialInstructions ?? null,
@@ -76,6 +81,8 @@ export async function POST(req: Request) {
           id: existing.id,
           patientName: existing.patientName,
           patientIdNumber: existing.patientIdNumber,
+          patientCell: existing.patientCell,
+          patientEmail: existing.patientEmail,
           patientAddress: existing.patientAddress,
           medications: body.medications,
           specialInstructions: body.specialInstructions ?? null,
