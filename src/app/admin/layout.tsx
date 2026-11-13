@@ -8,8 +8,6 @@ export const metadata: Metadata = {
 }
 
 const navLinks = [
-  { href: '/admin/scripts', label: 'Scripts' },
-  { href: '/admin/scripts/new', label: 'New Script' },
   { href: '/admin/structure', label: 'Blog' },
 ]
 
