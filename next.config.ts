@@ -42,6 +42,19 @@ source: '/services',
 destination: '/',
 permanent: false,
 },
+// The prescription offering is withdrawn (client request, 2026-11-13): the pages are gone, so old
+// links — in emails already sent, in CMS articles, in search results — land on the consult page that
+// can still help the person, rather than a 404. Temporary on purpose: it may come back.
+{
+source: '/prescription',
+destination: '/consult',
+permanent: false,
+},
+{
+source: '/prescription/:path*',
+destination: '/consult',
+permanent: false,
+},
 // Sanity slug cleanups (2026-08-24): old URLs had raw spaces/commas/capitals
 {
 source: '/health-topics/Explanation%20of%20Autoimmune%20Diseases',

@@ -40,8 +40,8 @@ export default function HowWeUseAiPage() {
             </h2>
             <p className="text-warm-600 leading-relaxed text-sm">
               When you complete a questionnaire, AI helps Dr Adonis by preparing
-              a first draft of your documents — such as sick notes,
-              prescriptions or our blog articles — based on what you tell us.
+              a first draft of your documents — such as sick notes or our blog
+              articles — based on what you tell us.
               Think of it as a helpful assistant that saves time on typing, so
               your doctor can focus on you.
             </p>

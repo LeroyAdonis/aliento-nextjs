@@ -18,7 +18,6 @@ const mainNav: NavItem[] = [
 
 const serviceItems: NavItem[] = [
   { label: 'Virtual Consult', href: '/consult' },
-  { label: 'Get a Prescription', href: '/prescription' },
   { label: 'Sick Leave Assessment', href: '/sick-note' },
   { label: 'Second Opinion', href: '/second-opinion' },
 ]

@@ -4,7 +4,6 @@ import { motion, type Variants } from 'framer-motion'
 import Link from 'next/link'
 import {
   Video,
-  Pill,
   FileText,
   ClipboardCheck,
 } from 'lucide-react'
@@ -25,21 +24,6 @@ const streams = [
     priceBg: 'bg-sage-200/60',
     priceText: 'text-sage-800',
     hoverBorder: 'group-hover:border-sage-300',
-  },
-  {
-    icon: Pill,
-    title: 'Request a Prescription',
-    description:
-      'A medical doctor will review your request and get in touch with you.',
-    price: 'R500',
-    href: '/prescription',
-    cardBg: 'bg-blush-50/70',
-    cardBorder: 'border-blush-200',
-    iconBg: 'bg-blush-100',
-    iconColor: 'text-blush-600',
-    priceBg: 'bg-blush-200/60',
-    priceText: 'text-blush-800',
-    hoverBorder: 'group-hover:border-blush-300',
   },
   {
     icon: FileText,
@@ -132,7 +116,7 @@ export function StreamServices() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-80px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         >
           {streams.map((stream) => {
             const Icon = stream.icon

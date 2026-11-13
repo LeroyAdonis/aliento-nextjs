@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: '%s | Aliento',
   },
   description:
-    'Preventive care and virtual consultations with a registered South African doctor — from R500 (20 min) or R700 (35 min). Sick notes and prescriptions R500, second opinions R250, all reviewed by Dr Leegale Adonis within 24 hours.',
+    'Preventive care and virtual consultations with a registered South African doctor — from R500 (20 min) or R700 (35 min). Sick notes R500, second opinions R250, all reviewed by Dr Leegale Adonis within 24 hours.',
   keywords: [
     'health promotion', 'health education', 'virtual consultation',
     'South Africa', 'preventive care', 'wellness', 'medical advice',

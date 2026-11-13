@@ -21,8 +21,7 @@ const isAuthenticated = (request: NextRequest): boolean => {
 const NOINDEX_PATTERNS = [
   /^\/consult\/(book|bookings|reschedule|cancel|confirmed)/,
   /^\/questionnaire/,
-  /^\/(sick-note|prescription|second-opinion)\/questionnaire/,
-  /^\/prescription\/[^/]+$/, // /prescription/[scriptId]
+  /^\/(sick-note|second-opinion)\/questionnaire/,
 ]
 
 export function proxy(request: NextRequest) {
@@ -75,7 +74,6 @@ export const config = {
     '/consult/:path*',
     '/questionnaire/:path*',
     '/sick-note/questionnaire/:path*',
-    '/prescription/:path*',
     '/second-opinion/questionnaire/:path*',
   ],
 }

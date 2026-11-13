@@ -11,7 +11,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     '',
     '/consult',
-    '/prescription',
     '/sick-note',
     '/second-opinion',
     '/about',
@@ -27,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:
       p === ''
         ? 1
-        : ['/prescription', '/sick-note', '/second-opinion'].includes(p)
+        : ['/sick-note', '/second-opinion'].includes(p)
           ? 0.9
           : 0.6,
   }))
