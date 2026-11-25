@@ -1,13 +1,15 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { Lock, Mail, AlertCircle } from 'lucide-react'
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/admin/scripts'
+  // The script platform was withdrawn on 2026-11-13, so /admin/scripts no longer exists.
+  // This default used to point there and left every fresh login on the Studio's
+  // "Tool not found: scripts" screen — a dead end with no way to reach the blog.
+  const redirectTo = searchParams.get('redirect') || '/admin/structure'
   const emailRef = useRef<HTMLInputElement>(null)
   const secretRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
@@ -39,7 +41,12 @@ export default function AdminLoginPage() {
       })
 
       if (res.ok) {
-        router.push(redirectTo)
+        // Full page load, deliberately. The admin layout renders <Link>s to /admin/structure,
+        // which Next prefetches while we are still unauthenticated — the proxy answers those
+        // with a 307 back to /admin/login and the client router caches that redirect. A
+        // router.push() after login then replays the cached bounce and drops the user back on
+        // this form with a valid cookie. Hard navigation sends the new cookie with the request.
+        window.location.assign(redirectTo)
       } else {
         const data = await res.json().catch(() => ({ error: 'Login failed' }))
         setError(data.error || 'Invalid credentials. Please try again.')
@@ -59,7 +66,7 @@ export default function AdminLoginPage() {
             <Lock size={22} className="text-sage-600" />
           </div>
           <h1 className="font-display font-bold text-warm-900 text-xl">Aliento Admin</h1>
-          <p className="text-sm text-warm-400 mt-1">Sign in to manage consultations</p>
+          <p className="text-sm text-warm-400 mt-1">Sign in to manage the blog</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">

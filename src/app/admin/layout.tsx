@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 
 const navLinks = [
   { href: '/admin/structure', label: 'Blog' },
+  { href: '/admin/intent/create/type=post', label: 'Write article' },
 ]
 
 export default function AdminLayout({

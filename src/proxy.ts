@@ -37,6 +37,25 @@ export function proxy(request: NextRequest) {
       const loginUrl = new URL('/admin/login', request.url)
       return NextResponse.redirect(loginUrl)
     }
+
+    // Admin URLs from the pre-Sanity / script-platform era. The Studio catches every
+    // unknown /admin path and renders "Tool not found: <name>" — a dead end with no
+    // route back to the blog. Bare /admin renders an empty Studio for the same reason.
+    // Redirect them at the edge, after auth, so bookmarks and the old login default
+    // still land somewhere that works.
+    const legacyAdminRedirects: Array<[RegExp, string]> = [
+      [/^\/admin\/?$/, '/admin/structure'],
+      [/^\/admin\/scripts(\/.*)?$/, '/admin/structure'],
+      [/^\/admin\/posts\/?$/, '/admin/structure'],
+      [/^\/admin\/posts\/new\/?$/, '/admin/intent/create/type=post'],
+      [/^\/admin\/posts\/edit(\/.*)?$/, '/admin/structure'],
+    ]
+
+    for (const [pattern, target] of legacyAdminRedirects) {
+      if (pattern.test(pathname)) {
+        return NextResponse.redirect(new URL(target, request.url), 307)
+      }
+    }
   }
 
   // Protect write API routes
@@ -68,6 +87,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/admin',
     '/admin/:path*',
     '/api/posts/:path*',
     '/api/upload',
