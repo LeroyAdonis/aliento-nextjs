@@ -6,10 +6,9 @@ import { Lock, Mail, AlertCircle } from 'lucide-react'
 
 export default function AdminLoginPage() {
   const searchParams = useSearchParams()
-  // The script platform was withdrawn on 2026-11-13, so /admin/scripts no longer exists.
-  // This default used to point there and left every fresh login on the Studio's
-  // "Tool not found: scripts" screen — a dead end with no way to reach the blog.
-  const redirectTo = searchParams.get('redirect') || '/admin/structure'
+  // Sign-in lands on the admin home, the scripts desk. The Studio lives at /admin/structure and the
+  // old /admin/posts URLs are redirected to it in src/proxy.ts.
+  const redirectTo = searchParams.get('redirect') || '/admin/scripts'
   const emailRef = useRef<HTMLInputElement>(null)
   const secretRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')

@@ -22,6 +22,8 @@ const NOINDEX_PATTERNS = [
   /^\/consult\/(book|bookings|reschedule|cancel|confirmed)/,
   /^\/questionnaire/,
   /^\/(sick-note|second-opinion)\/questionnaire/,
+  // Unlisted patient-facing document view, keyed by script id and gated by SA ID number.
+  /^\/prescription\//,
 ]
 
 export function proxy(request: NextRequest) {
@@ -38,21 +40,18 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
 
-    // Admin URLs from the pre-Sanity / script-platform era. The Studio catches every
-    // unknown /admin path and renders "Tool not found: <name>" — a dead end with no
-    // route back to the blog. Bare /admin renders an empty Studio for the same reason.
-    // Redirect them at the edge, after auth, so bookmarks and the old login default
-    // still land somewhere that works.
+    // Admin URLs from the pre-Sanity era. The Studio catches every unknown /admin path and
+    // renders "Tool not found: <name>" — a dead end with no route back to the work. Bare /admin
+    // rendered an empty Studio for the same reason. Redirect them at the edge, after auth.
     const legacyAdminRedirects: Array<[RegExp, string]> = [
-      [/^\/admin\/?$/, '/admin/structure'],
-      [/^\/admin\/scripts(\/.*)?$/, '/admin/structure'],
+      [/^\/admin\/?$/, '/admin/scripts'],
       [/^\/admin\/posts\/?$/, '/admin/structure'],
       [/^\/admin\/posts\/new\/?$/, '/admin/intent/create/type=post'],
       [/^\/admin\/posts\/edit(\/.*)?$/, '/admin/structure'],
     ]
 
     for (const [pattern, target] of legacyAdminRedirects) {
-      if (pattern.test(pathname)) {
+      if (pattern.test(pathname) && pathname !== target) {
         return NextResponse.redirect(new URL(target, request.url), 307)
       }
     }
@@ -63,7 +62,13 @@ export function proxy(request: NextRequest) {
     (pathname.startsWith('/api/posts') && request.method !== 'GET') ||
     pathname.startsWith('/api/upload')
 
-  if (isWriteApiRoute) {
+  // The script desk is admin-only: it lists and writes the practice's records, emails patients and
+  // pharmacies, and generates PDFs. /api/scripts/verify is the one exception — the patient view calls
+  // it with the script id plus the patient's SA ID number, so it is the lock, not something behind one.
+  const isScriptApiRoute =
+    pathname.startsWith('/api/scripts/') && pathname !== '/api/scripts/verify'
+
+  if (isWriteApiRoute || isScriptApiRoute) {
     if (!isAuthenticated(request)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -91,9 +96,11 @@ export const config = {
     '/admin/:path*',
     '/api/posts/:path*',
     '/api/upload',
+    '/api/scripts/:path*',
     '/consult/:path*',
     '/questionnaire/:path*',
     '/sick-note/questionnaire/:path*',
     '/second-opinion/questionnaire/:path*',
+    '/prescription/:path*',
   ],
 }

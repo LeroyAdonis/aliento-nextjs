@@ -42,16 +42,26 @@ source: '/services',
 destination: '/',
 permanent: false,
 },
-// The prescription offering is withdrawn (client request, 2026-11-13): the pages are gone, so old
-// links — in emails already sent, in CMS articles, in search results — land on the consult page that
-// can still help the person, rather than a 404. Temporary on purpose: it may come back.
+// The prescription offering is withdrawn (client request, 2026-11-13): the marketing page, the
+// questionnaire and the confirmation step are gone, so old links — in emails already sent, in CMS
+// articles, in search results — land on the consult page that can still help the person, rather than
+// a 404. Temporary on purpose: it may come back.
+//
+// Exception: /prescription/:scriptId is the per-script patient view. It is not part of the public
+// offering — it is unlisted, noindex, and requires the patient's SA ID number — but the script emails
+// link to it, so it must keep resolving. Only the withdrawn marketing paths are redirected.
 {
 source: '/prescription',
 destination: '/consult',
 permanent: false,
 },
 {
-source: '/prescription/:path*',
+source: '/prescription/questionnaire',
+destination: '/consult',
+permanent: false,
+},
+{
+source: '/prescription/confirmed',
 destination: '/consult',
 permanent: false,
 },
